@@ -11,12 +11,11 @@ namespace XRL.World.Parts {
 		private static readonly string ItemListCommand = "Plaidman_AnEyeForValue_Command_LightenMyLoad";
 		[NonSerialized]
 		private static readonly string AbilityOption = "Plaidman_AnEyeForValue_Option_UseAbilities";
-
 		[NonSerialized]
 		private readonly InventoryPopup ItemPopup = new();
 
-		private Guid AbilityGuid;
-		private SortType CurrentSortType = PopupUtils.DefaultSortType();
+		public Guid AbilityGuid;
+		public SortType CurrentSortType = PopupUtils.DefaultSortType();
 
 		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);

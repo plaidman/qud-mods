@@ -9,6 +9,7 @@ namespace Plaidman.AnEyeForValue.Handlers
 		[CallAfterGameLoaded]
 		public static void AfterLoaded() {
 			if (The.Player == null) return;
+
 			The.Player.RequirePart<AEFV_ItemKnowledge>();
 			The.Player.RequirePart<AEFV_LoadLightener>();
 			The.Player.RequirePart<AEFV_LootFinder>();
@@ -25,8 +26,8 @@ namespace Plaidman.AnEyeForValue.Handlers
 			player.RequirePart<AEFV_LoadLightener>();
 			player.RequirePart<AEFV_LootFinder>();
 
-			The.Player.GetPart<AEFV_LoadLightener>().ToggleAbility();
-			The.Player.GetPart<AEFV_LootFinder>().ToggleAbility();
+			player.GetPart<AEFV_LoadLightener>().ToggleAbility();
+			player.GetPart<AEFV_LootFinder>().ToggleAbility();
 		}
 	}
 

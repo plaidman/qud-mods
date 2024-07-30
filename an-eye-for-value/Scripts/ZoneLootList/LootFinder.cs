@@ -80,6 +80,12 @@ namespace XRL.World.Parts {
 					initialSelections.Add(i);
 				}
 			}
+			
+			var list = "";
+			foreach (var item in gettableItems) {
+				list += item.BaseDisplayName + "\n";
+			}
+			Popup.Show(list);
 
 			// var toggledItemsEnumerator = Menus.ItemList.ShowPopup(
 			// 	options: gettableItems.Select(go => GetOptionLabel(go)).ToArray(),

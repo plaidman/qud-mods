@@ -6,7 +6,6 @@ using ConsoleLib.Console;
 using Plaidman.AnEyeForValue.Utils;
 
 namespace Plaidman.AnEyeForValue.Menus {
-		
 	public class InventoryPopup {
 		public SortType CurrentSortType;
 		private Dictionary<SortType, InventoryItem[]> ItemListCache;

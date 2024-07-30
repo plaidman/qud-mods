@@ -18,7 +18,7 @@ namespace XRL.World.Parts {
 		[NonSerialized]
 		private static readonly string AnEyeForValueSkill = "AEFV_AnEyeForValue";
 		
-		private readonly HashSet<string> KnownItems = new(50);
+		public HashSet<string> KnownItems = new(50);
 
 		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);
