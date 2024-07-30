@@ -18,11 +18,8 @@ namespace Plaidman.AnEyeForValue.Utils {
 
 			return value * multiple;
 		}
-
-		public static double? GetValueRatio(GameObject go) {
-			var weight = go.Weight;
-			var value = GetValue(go);
-			
+		
+		public static double? GetValueRatio(double? value, double weight) {
 			if (value == null || value <= 0) {
 				// not sellable (includes fresh water containers)
 				return null;

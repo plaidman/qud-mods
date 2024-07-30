@@ -1,9 +1,9 @@
-using XRL.World;
+using Plaidman.AnEyeForValue.Menus;
 
 namespace Plaidman.AnEyeForValue.Utils {
 	public class LabelUtils {
-		public static string GetValueLabel(GameObject go, bool known) {
-			var ratio = ValueUtils.GetValueRatio(go);
+		public static string GetValueLabel(InventoryItem item) {
+			var ratio = item.Ratio;
 			
 			if (ratio == null) {
 				// not sellable: grey
@@ -15,9 +15,9 @@ namespace Plaidman.AnEyeForValue.Utils {
 				return "{{b||0#|}}";
 			}
 
-			if (!known) {
+			if (!item.Known) {
 				// not known: beige, display weight
-				return GetWeightLabel(go);
+				return GetWeightLabel(item.Weight);
 			}
 			
 			if (ratio < 1) {
@@ -44,9 +44,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 			return "{{G||$$$|}}";
 		}
 		
-		public static string GetWeightLabel(GameObject go) {
-			var weight = go.Weight;
-			
+		public static string GetWeightLabel(double weight) {
 			if (weight > 999) {
 				return "{{w||999+|}}";
 			}
@@ -56,6 +54,14 @@ namespace Plaidman.AnEyeForValue.Utils {
 			}
 
 			return "{{w||" + weight + "#|}}";
+		}
+
+		public static string GetSelectionLabel(bool selected) {
+			if (selected) {
+				return "{{W|[þ]}}";
+			}
+
+			return "{{y|[ ]}}";
 		}
 	}
 }
