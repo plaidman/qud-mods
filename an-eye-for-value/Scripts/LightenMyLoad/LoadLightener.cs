@@ -1,6 +1,8 @@
 using System;
 using XRL.UI;
 using System.Linq;
+using Plaidman.AnEyeForValue.Menus;
+using Plaidman.AnEyeForValue.Utils;
 
 namespace XRL.World.Parts {
 	[Serializable]
@@ -8,22 +10,13 @@ namespace XRL.World.Parts {
 		[NonSerialized]
 		private static readonly string ItemListCommand = "Plaidman_AnEyeForValue_Command_LightenMyLoad";
 		[NonSerialized]
-		private static readonly string PreferredSortOption = "Plaidman_AnEyeForValue_Option_PreferredSort";
-		[NonSerialized]
 		private static readonly string AbilityOption = "Plaidman_AnEyeForValue_Option_UseAbilities";
 
 		[NonSerialized]
-		private readonly ItemListPopup ItemPopup = new();
+		private readonly InventoryPopup ItemPopup = new();
 
 		private Guid AbilityGuid;
-		private ItemListPopup.SortType CurrentSortType = DefaultSortType();
-
-
-		private static ItemListPopup.SortType DefaultSortType() {
-			return Options.GetOption(PreferredSortOption) == "Value"
-				? ItemListPopup.SortType.Value
-				: ItemListPopup.SortType.Weight;		
-		}
+		private SortType CurrentSortType = PopupUtils.DefaultSortType();
 
 		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);

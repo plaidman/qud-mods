@@ -3,6 +3,8 @@ using Plaidman.AnEyeForValue.Utils;
 using XRL.World;
 
 namespace Plaidman.AnEyeForValue.Menus {
+	public enum SortType { Weight, Value };
+
 	public class InventoryItem {
 		public int Index { get; }
 		public string DisplayName { get; }

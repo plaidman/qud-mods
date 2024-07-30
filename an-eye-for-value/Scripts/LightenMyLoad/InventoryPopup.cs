@@ -6,30 +6,11 @@ using ConsoleLib.Console;
 using Plaidman.AnEyeForValue.Utils;
 
 namespace Plaidman.AnEyeForValue.Menus {
+		
 	public class InventoryPopup {
-		public enum SortType { Weight, Value };
-
 		public SortType CurrentSortType;
 		private Dictionary<SortType, InventoryItem[]> ItemListCache;
-		private readonly Dictionary<SortType, IComparer<InventoryItem>> Comparers;
-		private readonly Dictionary<SortType, string> SortStrings;
-		private readonly Dictionary<SortType, SortType> NextSortType;
 		
-		public InventoryPopup() {
-			Comparers = new() {
-				{ SortType.Value, new ValueComparer() },
-				{ SortType.Weight, new WeightComparer() },
-			};
-			SortStrings = new() {
-				{ SortType.Value, "value" },
-				{ SortType.Weight, "weight" },
-			};
-			NextSortType = new() {
-				{ SortType.Value, SortType.Weight },
-				{ SortType.Weight, SortType.Value },
-			};
-		}
-
 		private void ResetCache() {
 			ItemListCache = new() {
 				{ SortType.Value, null },
@@ -37,48 +18,29 @@ namespace Plaidman.AnEyeForValue.Menus {
 			};
 		}
 		
-		private InventoryItem[] ChangeSort(InventoryItem[] items, SortType sortType) {
-			var cache = ItemListCache.GetValue(sortType);
+		private InventoryItem[] SortItems(InventoryItem[] items) {
+			var cache = ItemListCache.GetValue(CurrentSortType);
 			
 			if (cache == null) {
-				cache = items.OrderBy(item => item, Comparers.GetValue(sortType)).ToArray();
-				ItemListCache.Set(sortType, cache);
+				var comparer = PopupUtils.Comparers.GetValue(CurrentSortType);
+				cache = items.OrderBy(item => item, comparer).ToArray();
+				ItemListCache.Set(CurrentSortType, cache);
 			}
 			
 			return cache;
 		}
 
-		private string GetItemLabel(bool selected, InventoryItem item) {
-			var label = LabelUtils.GetSelectionLabel(selected) + " ";
-			
-			switch (CurrentSortType) {
-				case SortType.Value:
-					label += LabelUtils.GetValueLabel(item) + " ";
-					break;
-
-				case SortType.Weight:
-					label += LabelUtils.GetWeightLabel(item.Weight) + " ";
-					break;
-			}
-
-			return label + item.DisplayName;
-		}
-		
-		private string GetSortLabel() {
-			return "{{W|[Tab]}} {{y|Sort Mode: " + SortStrings.GetValue(CurrentSortType) + "}}";
-		}
-		
 		public int[] ShowPopup(InventoryItem[] options) {
 			var defaultSelected = 0;
 			var weightSelected = 0;
 			var selectedItems = new HashSet<int>();
 			
 			ResetCache();
-			var sortedOptions = ChangeSort(options, CurrentSortType);
+			var sortedOptions = SortItems(options);
 			IRenderable[] itemIcons = sortedOptions.Select((item) => { return item.Icon; }).ToArray();
 			string[] itemLabels = sortedOptions.Select((item) => {
 				var selected = selectedItems.Contains(item.Index);
-				return GetItemLabel(selected, item);
+				return PopupUtils.GetItemLabel(selected, item, CurrentSortType);
 			}).ToArray();
 
 			QudMenuItem[] menuCommands = new QudMenuItem[2]
@@ -89,7 +51,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 					hotkey = "D"
 				},
 				new() {
-					text = GetSortLabel(),
+					text = PopupUtils.GetSortLabel(CurrentSortType),
 					command = "option:-3",
 					hotkey = "Tab"
 				},
@@ -123,14 +85,14 @@ namespace Plaidman.AnEyeForValue.Menus {
 				}
 				
 				if (selectedIndex == -3) {
-					CurrentSortType = NextSortType.GetValue(CurrentSortType);
+					CurrentSortType = PopupUtils.NextSortType.GetValue(CurrentSortType);
 
-					menuCommands[1].text = GetSortLabel();
-					sortedOptions = ChangeSort(options, CurrentSortType);
+					menuCommands[1].text = PopupUtils.GetSortLabel(CurrentSortType);
+					sortedOptions = SortItems(options);
 					itemIcons = sortedOptions.Select((item) => { return item.Icon; }).ToArray();
 					itemLabels = sortedOptions.Select((item) => {
 						var selected = selectedItems.Contains(item.Index);
-						return GetItemLabel(selected, item);
+						return PopupUtils.GetItemLabel(selected, item, CurrentSortType);
 					}).ToArray();
 					
 					continue;
@@ -140,11 +102,11 @@ namespace Plaidman.AnEyeForValue.Menus {
 				if (selectedItems.Contains(mappedItem.Index)) {
 					selectedItems.Remove(mappedItem.Index);
 					weightSelected -= mappedItem.Weight;
-					itemLabels[selectedIndex] = GetItemLabel(false, mappedItem);
+					itemLabels[selectedIndex] = PopupUtils.GetItemLabel(false, mappedItem, CurrentSortType);
 				} else {
 					selectedItems.Add(mappedItem.Index);
 					weightSelected += mappedItem.Weight;
-					itemLabels[selectedIndex] = GetItemLabel(true, mappedItem);
+					itemLabels[selectedIndex] = PopupUtils.GetItemLabel(true, mappedItem, CurrentSortType);
 				}
 
 				defaultSelected = selectedIndex;
