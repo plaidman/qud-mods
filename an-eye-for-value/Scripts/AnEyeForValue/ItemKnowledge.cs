@@ -2,17 +2,21 @@ using System;
 using System.Collections.Generic;
 using XRL.UI;
 
+// TODO
+// can we store reference to ItemKnowledge part in ZoneLootFinder and LoadLightener?
+// delete lighten-my-load and zone-loot-list folder to make sure there are no bad references
+
 namespace XRL.World.Parts {
 	[Serializable]
 	public class AEFV_ItemKnowledge : IPlayerPart {
 		[NonSerialized]
-		private readonly string UninstallCommand = "Plaidman_AnEyeForValue_Command_Uninstall";
+		private static readonly string UninstallCommand = "Plaidman_AnEyeForValue_Command_Uninstall";
 		[NonSerialized]
-		private readonly string OmnicientOption = "Plaidman_AnEyeForValue_Option_Omnicient";
+		private static readonly string OmnicientOption = "Plaidman_AnEyeForValue_Option_Omnicient";
 		[NonSerialized]
-		private readonly string PKAppraisalSkill = "PKAPP_Price";
+		private static readonly string PKAppraisalSkill = "PKAPP_Price";
 		[NonSerialized]
-		private readonly string AnEyeForValueSkill = "AEFV_AnEyeForValue";
+		private static readonly string AnEyeForValueSkill = "AEFV_AnEyeForValue";
 		
 		private readonly HashSet<string> KnownItems = new(50);
 
@@ -46,14 +50,12 @@ namespace XRL.World.Parts {
 
 			if (ParentObject.HasSkill(AnEyeForValueSkill)) {
 				ParentObject.RemoveSkill(AnEyeForValueSkill);
-				Messages.MessageQueue.AddPlayerMessage("{{W|An Eye For Value}}: removed skill");
 			}
 
 			ParentObject.GetPart<AEFV_LoadLightener>().UninstallParts();
 			ParentObject.GetPart<AEFV_LootFinder>().UninstallParts();
 
 			ParentObject.RemovePart<AEFV_ItemKnowledge>();
-			Messages.MessageQueue.AddPlayerMessage("{{W|An Eye For Value}}: removed player part");
 			
 			Popup.Show("Finished removing {{W|An Eye For Value}}. Please save and quit, then you can remove this mod.");
 		}
