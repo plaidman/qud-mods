@@ -1,16 +1,23 @@
 using System;
 using System.Collections.Generic;
+using Plaidman.AnEyeForValue.Utils;
 using XRL.UI;
 
 namespace XRL.World.Parts {
 	[Serializable]
 	public class AEFV_ItemKnowledge : IPlayerPart {
-		public static readonly string ShowKnownCommand = "Plaidman_AnEyeForValue_Command_ShowKnown";
-		public static readonly string UninstallCommand = "Plaidman_AnEyeForValue_Command_Uninstall";
-		public static readonly string OmnicientOption = "Plaidman_AnEyeForValue_Option_Omnicient";
-		public static readonly string PKAppraisalSkill = "PKAPP_Price";
-		public static readonly string AnEyeForValueSkill = "Plaidman_AnEyeForValue_Skill";
-		public HashSet<string> KnownItems = new(50);
+		[NonSerialized]
+		private readonly string ShowKnownCommand = "Plaidman_AnEyeForValue_Command_ShowKnown";
+		[NonSerialized]
+		private readonly string UninstallCommand = "Plaidman_AnEyeForValue_Command_Uninstall";
+		[NonSerialized]
+		private readonly string OmnicientOption = "Plaidman_AnEyeForValue_Option_Omnicient";
+		[NonSerialized]
+		private readonly string PKAppraisalSkill = "PKAPP_Price";
+		[NonSerialized]
+		private readonly string AnEyeForValueSkill = "Plaidman_AnEyeForValue_Skill";
+		
+		private readonly HashSet<string> KnownItems = new(50);
 
 		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);
@@ -63,7 +70,9 @@ namespace XRL.World.Parts {
 			return base.HandleEvent(e);
 		}
 		
-		public bool ItemIsKnown(GameObject go) {
+		public string GetValueLabel
+		
+		public bool IsItemKnown(GameObject go) {
 			if (Options.GetOption(OmnicientOption) == "Yes") {
 				return true;
 			}
@@ -80,12 +89,17 @@ namespace XRL.World.Parts {
 		}
 		
 		private void ListItems() {
-			var list = "";
-			foreach (var item in KnownItems) {
-				list += item + "\n";
+			var list = "known items\n\n";
+
+			if (ParentObject.HasSkill(AnEyeForValueSkill) || ParentObject.HasSkill(PKAppraisalSkill)) {
+				list += "player has skill\n\n";
 			}
 			
-			Popup.Show(list, "Known Items");
+			foreach (var item in ParentObject.Inventory.GetObjects()) {
+				list += IsItemKnown(item) ? "[þ] " : "[ ] " + item.BaseDisplayName + "\n";
+			}
+			
+			Popup.Show(list);
 		}
 	}
 }

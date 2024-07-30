@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Plaidman.ZoneLootList.Events;
-using Plaidman.ZoneLootList.Handlers;
 using XRL;
 using XRL.UI;
 using XRL.World;
@@ -47,7 +46,12 @@ namespace Plaidman.ZoneLootList.Parts {
 		}
 
 		public override bool HandleEvent(AfterPlayerBodyChangeEvent e) {
-			ToggleAbility();
+			if (ParentObject.ID == ThePlayer.ID) {
+				ToggleAbility();
+			} else {
+				RemoveAbility();
+			}
+
             return base.HandleEvent(e);
         }
 	
@@ -122,7 +126,28 @@ namespace Plaidman.ZoneLootList.Parts {
 				return label;
 			}
 			
-			return ValueUtils.GetValueLabel(go) + " " + label;
+			if (go.GetWeight() <= 0.0) {  // 0 weight is cyan
+				return label += "   [{{c|$}}]";
+			}
+			
+			var value = go.Value / go.GetWeight();
+			if (value < 1) {  // <1 is red
+				return label += "   [{{R|$}}]";
+			}
+
+			if (value < 4) {  // 1-4 is yellow
+				return label += "   [{{W|$}}]";
+			}
+
+			if (value < 10) {  // 4-10 is green
+				return label += "   [{{G|$}}]";
+			}
+
+			if (value < 25) {  // 10-25 is double green
+				return label += "   [{{G|$$}}]";
+			}
+
+			return label += "   [{{G|$$$}}]";  // >25 is triple green
 		} 
 		
 		private bool FilterOptions(GameObject go) {

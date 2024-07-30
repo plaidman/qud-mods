@@ -2,7 +2,7 @@ using XRL;
 using XRL.World;
 
 namespace Plaidman.AnEyeForValue.Utils {
-	class ValueUtils {
+	public class ValueUtils {
 		public static double? GetValue(GameObject go) {
 			if (go.ContainsFreshWater()) {
 				return null;

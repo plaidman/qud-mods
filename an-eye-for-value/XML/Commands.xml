@@ -1,4 +1,3 @@
 <commands>
-	<command ID="Plaidman_AnEyeForValue_Command_ShowKnown" DisplayText="Show Known Items" Category="Mod: An Eye For Value" Layer="Adventure" Auto="Down"></command>
 	<command ID="Plaidman_AnEyeForValue_Command_Uninstall" DisplayText="Uninstall Mod" Category="Mod: An Eye For Value" Layer="Adventure" Auto="Down"></command>
 </commands>

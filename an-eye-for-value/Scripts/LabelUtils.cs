@@ -1,7 +1,7 @@
 using XRL.World;
 
 namespace Plaidman.AnEyeForValue.Utils {
-	class LabelUtils {
+	public class LabelUtils {
 		public static string GetValueLabel(GameObject go, bool known) {
 			var ratio = ValueUtils.GetValueRatio(go);
 			

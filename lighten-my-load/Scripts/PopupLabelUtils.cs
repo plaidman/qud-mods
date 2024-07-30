@@ -22,6 +22,7 @@ namespace Plaidman.LightenMyLoad.Menus {
 			if (ratio < 1) {
 				// super low ratio: red
 				return "{{R||$|}}";
+
 			}
 
 			if (ratio < 4) {
