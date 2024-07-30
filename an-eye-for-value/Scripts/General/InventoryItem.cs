@@ -4,6 +4,16 @@ using XRL.World;
 
 namespace Plaidman.AnEyeForValue.Menus {
 	public enum SortType { Weight, Value };
+	
+	public class ToggledItem {
+		public int Index { get; }
+		public bool Value { get; }
+
+		public ToggledItem(int index, bool value) {
+			Index = index;
+			Value = value;
+		}
+	}
 
 	public class InventoryItem {
 		public int Index { get; }

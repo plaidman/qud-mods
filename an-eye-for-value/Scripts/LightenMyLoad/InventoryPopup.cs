@@ -6,29 +6,7 @@ using ConsoleLib.Console;
 using Plaidman.AnEyeForValue.Utils;
 
 namespace Plaidman.AnEyeForValue.Menus {
-	public class InventoryPopup {
-		public SortType CurrentSortType;
-		private Dictionary<SortType, InventoryItem[]> ItemListCache;
-		
-		private void ResetCache() {
-			ItemListCache = new() {
-				{ SortType.Value, null },
-				{ SortType.Weight, null },
-			};
-		}
-		
-		private InventoryItem[] SortItems(InventoryItem[] items) {
-			var cache = ItemListCache.GetValue(CurrentSortType);
-			
-			if (cache == null) {
-				var comparer = PopupUtils.Comparers.GetValue(CurrentSortType);
-				cache = items.OrderBy(item => item, comparer).ToArray();
-				ItemListCache.Set(CurrentSortType, cache);
-			}
-			
-			return cache;
-		}
-
+	public class InventoryPopup : BasePopup {
 		public int[] ShowPopup(InventoryItem[] options) {
 			var defaultSelected = 0;
 			var weightSelected = 0;
@@ -36,7 +14,9 @@ namespace Plaidman.AnEyeForValue.Menus {
 			
 			ResetCache();
 			var sortedOptions = SortItems(options);
-			IRenderable[] itemIcons = sortedOptions.Select((item) => { return item.Icon; }).ToArray();
+			IRenderable[] itemIcons = sortedOptions.Select(
+				(item) => { return item.Icon; }
+			).ToArray();
 			string[] itemLabels = sortedOptions.Select((item) => {
 				var selected = selectedItems.Contains(item.Index);
 				return PopupUtils.GetItemLabel(selected, item, CurrentSortType);
@@ -73,30 +53,29 @@ namespace Plaidman.AnEyeForValue.Menus {
 				);
 
 				switch (selectedIndex) {
-					case -1:  // Esc / Cancelled
+					case -1:  // Esc cancelled
 						return null;
 
 					case -2: // D drop items
 						return selectedItems.ToArray();
 
+					case -3: // Tab sort items
+						CurrentSortType = PopupUtils.NextSortType.GetValue(CurrentSortType);
+
+						menuCommands[1].text = PopupUtils.GetSortLabel(CurrentSortType);
+						sortedOptions = SortItems(options);
+						itemIcons = sortedOptions.Select((item) => { return item.Icon; }).ToArray();
+						itemLabels = sortedOptions.Select((item) => {
+							var selected = selectedItems.Contains(item.Index);
+							return PopupUtils.GetItemLabel(selected, item, CurrentSortType);
+						}).ToArray();
+
+						continue;
+
 					default:
 						break;
 				}
-				
-				if (selectedIndex == -3) {
-					CurrentSortType = PopupUtils.NextSortType.GetValue(CurrentSortType);
-
-					menuCommands[1].text = PopupUtils.GetSortLabel(CurrentSortType);
-					sortedOptions = SortItems(options);
-					itemIcons = sortedOptions.Select((item) => { return item.Icon; }).ToArray();
-					itemLabels = sortedOptions.Select((item) => {
-						var selected = selectedItems.Contains(item.Index);
-						return PopupUtils.GetItemLabel(selected, item, CurrentSortType);
-					}).ToArray();
-					
-					continue;
-				}
-
+	
 				var mappedItem = sortedOptions[selectedIndex];
 				if (selectedItems.Contains(mappedItem.Index)) {
 					selectedItems.Remove(mappedItem.Index);
