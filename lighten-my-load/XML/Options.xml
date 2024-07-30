@@ -1,0 +1,5 @@
+<options>
+	<option ID="Plaidman_LightenMyLoad_Option_UseAbility" DisplayText="Use Activated Ability" Category="Mod: Lighten My Load" Type="Checkbox" Default="No"></option>
+	<option ID="Plaidman_LightenMyLoad_Option_PreferredSort" DisplayText="Preferred Sort Mode" Category="Mod: Lighten My Load" Type="Combo" Values="Value,Weight" Default="Value"></option>
+	<option ID="Plaidman_LightenMyLoad_Option_AlwaysShowValue" DisplayText="Always Show Value (cheat)" Category="Mod: Lighten My Load" Type="Checkbox" Default="No"></option>
+</options>

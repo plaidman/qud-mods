@@ -1,0 +1,9 @@
+{
+	"id": "Plaidman_LightenMyLoad",
+	"title": "Lighten My Load",
+	"description": "Show a list of inventory items, and pick items to drop based on weight or value/weight ratio.",
+	"version": "1.0",
+	"author": "Plaidman",
+    "tags": "UI/UX,Script,Skill",
+	"previewImage": "preview.png"
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<skills>
+  <skill Name="Customs and Folklore" Load="Merge">
+    <power Name="An Eye For Value" Cost="50" Attribute="Intelligence" Minimum="19" Class="Plaidman_LightenMyLoad_Skill_AnEyeForValue" Snippet="estimate item values" Description="You can quickly assess the value of items in your inventory."></power>
+  </skill>
+</skills>
