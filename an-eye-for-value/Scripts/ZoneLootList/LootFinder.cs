@@ -17,9 +17,11 @@ namespace XRL.World.Parts {
 		private static readonly string CorpsesOption = "Plaidman_AnEyeForValue_Option_ZoneCorpses";
 		[NonSerialized]
 		private static readonly string AbilityOption = "Plaidman_AnEyeForValue_Option_UseAbilities";
+		[NonSerialized]
+		private readonly ZonePopup ItemPopup = new();
 
-		private Guid AbilityGuid;
-		private SortType CurrentSortType = PopupUtils.DefaultSortType();
+		public Guid AbilityGuid;
+		public SortType CurrentSortType = PopupUtils.DefaultSortType();
 
         public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);
@@ -80,28 +82,31 @@ namespace XRL.World.Parts {
 					initialSelections.Add(i);
 				}
 			}
-			
-			var list = "";
-			foreach (var item in gettableItems) {
-				list += item.BaseDisplayName + "\n";
+
+			var itemKnowledge = ParentObject.GetPart<AEFV_ItemKnowledge>();
+			var itemList = gettableItems.Select((go, i) => {
+				return new InventoryItem(i, go, itemKnowledge.IsItemKnown(go));
+			}).ToArray();
+
+			ItemPopup.CurrentSortType = CurrentSortType;
+			var toggledItemsEnumerator = ItemPopup.ShowPopup(
+				options: itemList,
+				initialSelections: initialSelections.ToArray()
+			);
+
+			foreach (ToggledItem result in toggledItemsEnumerator) {
+				if (result.Index == -3) {
+					CurrentSortType = ItemPopup.CurrentSortType;
+					continue;
+				}
+
+				var item = gettableItems[result.Index];
+				if (result.Value) {
+					item.RequirePart<AEFV_AutoGetBeacon>();
+				} else {
+					item.RemovePart<AEFV_AutoGetBeacon>();
+				}
 			}
-			Popup.Show(list);
-
-			// var toggledItemsEnumerator = Menus.ItemList.ShowPopup(
-			// 	options: gettableItems.Select(go => GetOptionLabel(go)).ToArray(),
-			// 	icons: gettableItems.Select(go => go.Render).ToArray(),
-			// 	initialSelections: initialSelections.ToArray()
-			// );
-
-			// foreach (Menus.ItemList.ToggledItem result in toggledItemsEnumerator) {
-			// 	var item = gettableItems[result.Index];
-
-			// 	if (result.Value) {
-			// 		item.RequirePart<AEFV_AutoGetBeacon>();
-			// 	} else {
-			// 		item.RemovePart<AEFV_AutoGetBeacon>();
-			// 	}
-			// }
 		}
 
 		private bool FilterOptions(GameObject go) {

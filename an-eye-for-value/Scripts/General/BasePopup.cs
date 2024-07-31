@@ -13,6 +13,18 @@ namespace Plaidman.AnEyeForValue.Menus {
 				{ SortType.Weight, null },
 			};
 		}
+
+		protected InventoryItem[] SortItemsDescending(InventoryItem[] items) {
+			var cache = ItemListCache.GetValue(CurrentSortType);
+			
+			if (cache == null) {
+				var comparer = PopupUtils.Comparers.GetValue(CurrentSortType);
+				cache = items.OrderByDescending(item => item, comparer).ToArray();
+				ItemListCache.Set(CurrentSortType, cache);
+			}
+			
+			return cache;
+		}
 		
 		protected InventoryItem[] SortItems(InventoryItem[] items) {
 			var cache = ItemListCache.GetValue(CurrentSortType);
