@@ -61,22 +61,25 @@ namespace Plaidman.AnEyeForValue.Menus {
 						yield break;
 
 					case -2:  // G
-						// var tempList = new List<int>(selectedItems);
-						// if (selectedItems.Count < options.Length) {
-						// 	selectedItems.Clear();
-						// 	selectedItems.AddRange(Enumerable.Range(0, itemLabels.Length));
+						var tempList = new List<int>(selectedItems);
 
-						// 	// Yield options that changed
-						// 	foreach (var n in selectedItems.Except(tempList)) {
-						// 		yield return new ToggledItem(n, true);
-						// 	}
-						// } else {
-						// 	selectedItems.Clear();
-						// 	// Yield options that changed
-						// 	foreach (var n in tempList) {
-						// 		yield return new ToggledItem(n, false);
-						// 	}
-						// }
+						if (selectedItems.Count < options.Length) {
+							for (var i = 0; i < sortedOptions.Length; i++) {
+								var item = sortedOptions[i];
+								if (selectedItems.Contains(item.Index)) continue;
+								selectedItems.Add(item.Index);
+								itemLabels[i] = PopupUtils.GetItemLabel(true, item, CurrentSortType);
+								yield return new ToggledItem(item.Index, true);
+							}
+						} else {
+							for (var i = 0; i < sortedOptions.Length; i++) {
+								var item = sortedOptions[i];
+								if (!selectedItems.Contains(item.Index)) continue;
+								selectedItems.Remove(item.Index);
+								itemLabels[i] = PopupUtils.GetItemLabel(false, item, CurrentSortType);
+								yield return new ToggledItem(item.Index, false);
+							}
+						}
 						continue;
 						
 					case -3: // Tab
