@@ -32,17 +32,19 @@ namespace Plaidman.AnEyeForValue.Menus {
 			{
 				new() {
 					command = "option:-2",
-					hotkey = "G"
+					hotkey = "Plaidman_AnEyeForValue_Popup_Toggle"
 				},
 				new() {
 					text = PopupUtils.GetSortLabel(CurrentSortType),
 					command = "option:-3",
-					hotkey = "Tab"
+					hotkey = "Plaidman_AnEyeForValue_Popup_Sort"
 				},
 			};
 
 			while (true) {
-				menuCommands[0].text = "{{W|[G]}} {{y|" + (selectedItems.Count < options.Length ? "S" : "Des") + "elect All}}";
+				var toggleKey = ControlManager.getCommandInputFormatted("Plaidman_AnEyeForValue_Popup_Toggle");
+				var selectPrefix = selectedItems.Count < options.Length ? "S" : "Des";
+				menuCommands[0].text = "{{W|[" + toggleKey + "]}} {{y|" + selectPrefix + "elect All}}";
 
 				int selectedIndex = Popup.PickOption(
 					Title: "Lootable Items",
@@ -57,10 +59,10 @@ namespace Plaidman.AnEyeForValue.Menus {
 				);
 
 				switch (selectedIndex) {
-					case -1:  // Cancelled
+					case -1:  // cancel
 						yield break;
 
-					case -2:  // G
+					case -2:  // toggle all
 						var tempList = new List<int>(selectedItems);
 
 						if (selectedItems.Count < options.Length) {
@@ -82,7 +84,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 						}
 						continue;
 						
-					case -3: // Tab
+					case -3: // sort
 						CurrentSortType = PopupUtils.NextSortType.GetValue(CurrentSortType);
 
 						menuCommands[1].text = PopupUtils.GetSortLabel(CurrentSortType);

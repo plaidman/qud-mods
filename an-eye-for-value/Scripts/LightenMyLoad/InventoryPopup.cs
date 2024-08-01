@@ -21,18 +21,19 @@ namespace Plaidman.AnEyeForValue.Menus {
 				var selected = selectedItems.Contains(item.Index);
 				return PopupUtils.GetItemLabel(selected, item, CurrentSortType);
 			}).ToArray();
+			var dropKey = ControlManager.getCommandInputFormatted("Plaidman_AnEyeForValue_Popup_Drop");
 
 			QudMenuItem[] menuCommands = new QudMenuItem[2]
 			{
 				new() {
-					text = "{{W|[D]}} {{y|Drop Items}}",
+					text = "{{W|[" + dropKey + "]}} {{y|Drop Items}}",
 					command = "option:-2",
-					hotkey = "D"
+					hotkey = "Plaidman_AnEyeForValue_Popup_Drop"
 				},
 				new() {
 					text = PopupUtils.GetSortLabel(CurrentSortType),
 					command = "option:-3",
-					hotkey = "Tab"
+					hotkey = "Plaidman_AnEyeForValue_Popup_Sort"
 				},
 			};
 
@@ -53,13 +54,13 @@ namespace Plaidman.AnEyeForValue.Menus {
 				);
 
 				switch (selectedIndex) {
-					case -1:  // Esc cancelled
+					case -1:  // cancel
 						return null;
 
-					case -2: // D drop items
+					case -2: // drop items
 						return selectedItems.ToArray();
 
-					case -3: // Tab sort items
+					case -3: // sort items
 						CurrentSortType = PopupUtils.NextSortType.GetValue(CurrentSortType);
 
 						menuCommands[1].text = PopupUtils.GetSortLabel(CurrentSortType);
