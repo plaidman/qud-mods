@@ -21,8 +21,8 @@ namespace Plaidman.AnEyeForValue.Menus {
 				var selected = selectedItems.Contains(item.Index);
 				return PopupUtils.GetItemLabel(selected, item, CurrentSortType);
 			}).ToArray();
-			var dropKey = ControlManager.getCommandInputFormatted("Plaidman_AnEyeForValue_Popup_Drop");
 
+			var dropKey = ControlManager.getCommandInputFormatted("Plaidman_AnEyeForValue_Popup_Drop");
 			QudMenuItem[] menuCommands = new QudMenuItem[2]
 			{
 				new() {

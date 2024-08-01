@@ -3,4 +3,10 @@
 		<keyboardBind Modifier="ctrl" Key="d"/>
 	</command>
 	<command ID="Plaidman_LightenMyLoad_Command_Uninstall" DisplayText="Uninstall Mod" Category="Mod: Lighten My Load" Layer="Adventure" Auto="Down"></command>
+	<command ID="Plaidman_LightenMyLoad_Popup_Sort" DisplayText="List: Sort Items" Category="Mod: Lighten My Load" Layer="Menus" Auto="DownPass">
+		<keyboardBind Key="tab"/>
+	</command>
+	<command ID="Plaidman_LightenMyLoad_Popup_Drop" DisplayText="List: Drop Items" Category="Mod: Lighten My Load" Layer="Menus" Auto="DownPass">
+		<keyboardBind Key="d"/>
+	</command>
 </commands>

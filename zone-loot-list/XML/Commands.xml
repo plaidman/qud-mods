@@ -3,4 +3,7 @@
 		<keyboardBind Modifier="ctrl" Key="f"/>
 	</command>
 	<command ID="Plaidman_ZoneLootList_Command_Uninstall" DisplayText="Uninstall Mod" Category="Mod: Zone Loot List" Layer="Adventure" Auto="Down"></command>
+	<command ID="Plaidman_ZoneLootList_Popup_Toggle" DisplayText="List: Select All" Category="Mod: Zone Loot List" Layer="Menus" Auto="DownPass">
+		<keyboardBind Key="tab"/>
+	</command>
 </commands>

@@ -64,7 +64,9 @@ namespace Plaidman.LightenMyLoad.Menus {
 		}
 		
 		private string GetSortLabel() {
-			return "{{W|[Tab]}} {{y|Sort Mode: " + SortStrings.GetValue(CurrentSortType) + "}}";
+			var sortString = SortStrings.GetValue(CurrentSortType);
+			var sortKey = ControlManager.getCommandInputFormatted("Plaidman_LightenMyLoad_Popup_Sort");
+			return "{{W|[" + sortKey + "]}} {{y|Sort Mode: " + sortString + "}}";
 		}
 		
 		public int[] ShowPopup(InventoryItem[] options) {
@@ -80,17 +82,18 @@ namespace Plaidman.LightenMyLoad.Menus {
 				return GetItemLabel(selected, item);
 			}).ToArray();
 
+			var dropKey = ControlManager.getCommandInputFormatted("Plaidman_LightenMyLoad_Popup_Drop");
 			QudMenuItem[] menuCommands = new QudMenuItem[2]
 			{
 				new() {
-					text = "{{W|[D]}} {{y|Drop Items}}",
+					text = "{{W|[" + dropKey + "]}} {{y|Drop Items}}",
 					command = "option:-2",
-					hotkey = "D"
+					hotkey = "Plaidman_LightenMyLoad_Popup_Drop"
 				},
 				new() {
 					text = GetSortLabel(),
 					command = "option:-3",
-					hotkey = "Tab"
+					hotkey = "Plaidman_LightenMyLoad_Popup_Sort"
 				},
 			};
 

@@ -30,12 +30,15 @@ namespace Plaidman.ZoneLootList.Menus {
 			{
 				new() {
 					command = "option:-3",
-					hotkey = "Tab"
+					hotkey = "Plaidman_ZoneLootList_Popup_Toggle"
 				}
 			};
 
 			while (true) {
-				menuCommands[0].text = "{{W|[Tab]}} {{y|" + (selectedItems.Count < numOptions ? "S" : "Des") + "elect All}}";
+				var toggleKey = ControlManager.getCommandInputFormatted("Plaidman_ZoneLootList_Popup_Toggle");
+				var selectPrefix = selectedItems.Count < options.Length ? "S" : "Des";
+				menuCommands[0].text = "{{W|[" + toggleKey + "]}} {{y|" + selectPrefix + "elect All}}";
+
 				for (int i = 0; i < itemLabels.Length; i++) {
 					itemLabels[i] = (selectedItems.Contains(i) ? "{{W|[þ]}} " : "{{y|[ ]}} ") + options[i];
 				}
