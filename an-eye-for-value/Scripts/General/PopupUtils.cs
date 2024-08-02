@@ -12,7 +12,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 		};
 
 		public static readonly Dictionary<SortType, string> SortStrings = new() {
-			{ SortType.Value, "value" },
+			{ SortType.Value, "\xffvalue" },
 			{ SortType.Weight, "weight" },
 		};
 
