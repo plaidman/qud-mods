@@ -48,7 +48,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 
 				int selectedIndex = Popup.PickOption(
 					Title: "Lootable Items",
-					Intro: "Mark items here, then autoexplore to pick them up.",
+					Intro: "Mark items here, then autoexplore to pick them up./n/n",
 					IntroIcon: null,
 					Options: itemLabels,
 					RespectOptionNewlines: false,
