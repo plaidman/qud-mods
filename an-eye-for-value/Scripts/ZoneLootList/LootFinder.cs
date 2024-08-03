@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ConsoleLib.Console;
 using Plaidman.AnEyeForValue.Events;
 using Plaidman.AnEyeForValue.Menus;
 using Plaidman.AnEyeForValue.Utils;
@@ -41,7 +42,12 @@ namespace XRL.World.Parts {
 
 		private void RequireAbility() {
 			if (AbilityGuid == Guid.Empty) {
-				AbilityGuid = ParentObject.AddActivatedAbility("Zone Loot List", ItemListCommand, "Skill", Silent: true);
+				AbilityGuid = ParentObject.AddActivatedAbility(
+					Name: "Zone Loot List",
+					Command: ItemListCommand,
+					Class: "Skill",
+					UITileDefault: Renderable.UITile("an_eye_for_value.png", 'y', 'r'),
+					Silent: true);
 			}
 		}
 	

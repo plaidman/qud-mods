@@ -3,6 +3,7 @@ using XRL.UI;
 using System.Linq;
 using Plaidman.AnEyeForValue.Menus;
 using Plaidman.AnEyeForValue.Utils;
+using ConsoleLib.Console;
 
 namespace XRL.World.Parts {
 	[Serializable]
@@ -35,7 +36,12 @@ namespace XRL.World.Parts {
 
 		private void RequireAbility() {
 			if (AbilityGuid == Guid.Empty) {
-				AbilityGuid = ParentObject.AddActivatedAbility("Lighten My Load", ItemListCommand, "Skill", Silent: true);
+				AbilityGuid = ParentObject.AddActivatedAbility(
+					Name: "Lighten My Load",
+					Command: ItemListCommand,
+					Class: "Skill",
+					UITileDefault: Renderable.UITile("an_eye_for_value.png", 'y', 'm'),
+					Silent: true);
 			}
 		}
 	
