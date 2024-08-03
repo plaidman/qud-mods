@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Plaidman.AnEyeForValue.Events;
@@ -19,6 +19,8 @@ namespace XRL.World.Parts {
 		private static readonly string AbilityOption = "Plaidman_AnEyeForValue_Option_UseAbilities";
 		[NonSerialized]
 		private readonly ZonePopup ItemPopup = new();
+		[NonSerialized]
+		private AEFV_ItemKnowledge ItemKnowledge = null;
 
 		public Guid AbilityGuid;
 		public SortType CurrentSortType = PopupUtils.DefaultSortType();
@@ -67,7 +69,12 @@ namespace XRL.World.Parts {
 			RemoveAbility();
 			ParentObject.RemovePart<AEFV_LootFinder>();
 		}
-		
+
+		private AEFV_ItemKnowledge GetItemKnowledge() {
+			ItemKnowledge ??= ParentObject.GetPart<AEFV_ItemKnowledge>();
+			return ItemKnowledge;
+		}
+
 		private void ListItems() {
 			var gettableItems = ParentObject.CurrentZone.GetObjects(FilterOptions);
 			
@@ -83,9 +90,8 @@ namespace XRL.World.Parts {
 				}
 			}
 
-			var itemKnowledge = ParentObject.GetPart<AEFV_ItemKnowledge>();
 			var itemList = gettableItems.Select((go, i) => {
-				return new InventoryItem(i, go, itemKnowledge.IsItemKnown(go));
+				return new InventoryItem(i, go, GetItemKnowledge().IsItemKnown(go));
 			}).ToArray();
 
 			ItemPopup.CurrentSortType = CurrentSortType;

@@ -13,6 +13,8 @@ namespace XRL.World.Parts {
 		private static readonly string AbilityOption = "Plaidman_AnEyeForValue_Option_UseAbilities";
 		[NonSerialized]
 		private readonly InventoryPopup ItemPopup = new();
+		[NonSerialized]
+		private AEFV_ItemKnowledge ItemKnowledge = null;
 
 		public Guid AbilityGuid;
 		public SortType CurrentSortType = PopupUtils.DefaultSortType();
@@ -61,11 +63,15 @@ namespace XRL.World.Parts {
 			return base.HandleEvent(e);
 		}
 		
+		private AEFV_ItemKnowledge GetItemKnowledge() {
+			ItemKnowledge ??= ParentObject.GetPart<AEFV_ItemKnowledge>();
+			return ItemKnowledge;
+		}
+		
 		private void ListItems() {
 			var objects = ParentObject.Inventory.GetObjects();
-			var itemKnowledge = ParentObject.GetPart<AEFV_ItemKnowledge>();
 			var itemList = objects.Select((go, i) => {
-				return new InventoryItem(i, go, itemKnowledge.IsItemKnown(go));
+				return new InventoryItem(i, go, GetItemKnowledge().IsItemKnown(go));
 			}).ToArray();
 
 			ItemPopup.CurrentSortType = CurrentSortType;
