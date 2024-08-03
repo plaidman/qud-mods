@@ -9,8 +9,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 	public class ZonePopup : BasePopup {
 		public IEnumerable<ToggledItem> ShowPopup(
 			InventoryItem[] options,
-			int[] initialSelections,
-			int carryCapacity
+			int[] initialSelections
 		) {
 			var defaultSelected = 0;
 			var weightSelected = 0;
@@ -18,6 +17,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			var selectedItems = new HashSet<int>();
 			foreach (var item in initialSelections) {
 				selectedItems.Add(item);
+				weightSelected += options[item].Weight;
 			}
 
 			ResetCache();
@@ -48,10 +48,8 @@ namespace Plaidman.AnEyeForValue.Menus {
 				var selectPrefix = selectedItems.Count < options.Length ? "S" : "Des";
 				menuCommands[0].text = "{{W|[" + toggleKey + "]}} {{y|" + selectPrefix + "elect All}}";
 
-				var intro = "Mark items here, then autoexplore to pick them up.\n'"
-				    + "Selected/Capacity: {{w|"
-					+ weightSelected + "#/"
-					+ carryCapacity + "#}}\n\n";
+				var intro = "Mark items here, then autoexplore to pick them up.\n"
+				    + "Selected item weight: {{w|" + weightSelected + "#}}\n\n";
 
 				int selectedIndex = Popup.PickOption(
 					Title: "Lootable Items",

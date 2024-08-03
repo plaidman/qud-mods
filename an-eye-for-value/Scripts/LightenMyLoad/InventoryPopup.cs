@@ -7,7 +7,7 @@ using Plaidman.AnEyeForValue.Utils;
 
 namespace Plaidman.AnEyeForValue.Menus {
 	public class InventoryPopup : BasePopup {
-		public int[] ShowPopup(InventoryItem[] options, int carriedWeight) {
+		public int[] ShowPopup(InventoryItem[] options) {
 			var defaultSelected = 0;
 			var weightSelected = 0;
 			var selectedItems = new HashSet<int>();
@@ -38,11 +38,8 @@ namespace Plaidman.AnEyeForValue.Menus {
 			};
 
 			while (true) {
-				var intro = "Mark items here, then press {{W|["
-					+ dropKey + "]}} to drop them.\n"
-				    + "Selected/Carried: {{w|"
-					+ weightSelected + "#/"
-					+ carriedWeight + "#}}\n\n";
+				var intro = "Mark items here, then press {{W|[" + dropKey + "]}} to drop them.\n"
+				    + "Selected/Carried: {{w|" + weightSelected + "#}}\n\n";
 				
 				int selectedIndex = Popup.PickOption(
 					Title: "Inventory Items",

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Plaidman.AnEyeForValue.Events;
@@ -91,8 +91,7 @@ namespace XRL.World.Parts {
 			ItemPopup.CurrentSortType = CurrentSortType;
 			var toggledItemsEnumerator = ItemPopup.ShowPopup(
 				itemList,
-				initialSelections.ToArray(),
-				ParentObject.GetMaxCarriedWeight() - ParentObject.GetCarriedWeight()
+				initialSelections.ToArray()
 			);
 
 			foreach (ToggledItem result in toggledItemsEnumerator) {

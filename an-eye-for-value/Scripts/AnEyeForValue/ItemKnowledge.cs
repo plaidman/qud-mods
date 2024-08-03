@@ -2,10 +2,6 @@ using System;
 using System.Collections.Generic;
 using XRL.UI;
 
-// TODO
-// can we store reference to ItemKnowledge part in ZoneLootFinder and LoadLightener?
-// delete lighten-my-load and zone-loot-list folder to make sure there are no bad references
-
 namespace XRL.World.Parts {
 	[Serializable]
 	public class AEFV_ItemKnowledge : IPlayerPart {
