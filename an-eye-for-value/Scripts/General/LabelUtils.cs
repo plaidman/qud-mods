@@ -7,11 +7,12 @@ namespace Plaidman.AnEyeForValue.Utils {
 			
 			if (ratio == null) {
 				// not sellable: grey
-				return "{{K||\xff\xffX|}}";
+				return "{{K||-X-|}}";
 			}
 
 			if (double.IsPositiveInfinity((double)ratio)) {
-				return GetWeightLabel(item.Weight);
+				// zero weight: blue
+				return "{{B||$$$|}}";
 			}
 
 			if (!item.Known) {
@@ -21,22 +22,22 @@ namespace Plaidman.AnEyeForValue.Utils {
 			
 			if (ratio < 1) {
 				// super low ratio: red
-				return "{{R||\xff\xff$|}}";
+				return "{{R||-$-|}}";
 			}
 
 			if (ratio < 4) {
 				// less than water: yellow
-				return "{{W||\xff\xff$|}}";
+				return "{{W||=$=|}}";
 			}
 
 			if (ratio < 10) {
 				// less than copper nugget: 1x green
-				return "{{G||\xff\xff$|}}";
+				return "{{G||\xf0$\xf0|}}";
 			}
 
 			if (ratio <= 50) {
 				// less than silver nugget 2x green
-				return "{{G||\xff$$|}}";
+				return "{{G||$\xf0$|}}";
 			}
 
 			// more than silver nugget: 3x green

@@ -39,7 +39,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 
 			while (true) {
 				var intro = "Mark items here, then press {{W|[" + dropKey + "]}} to drop them.\n"
-				    + "Selected/Carried: {{w|" + weightSelected + "#}}\n\n";
+				    + "Selected weight: {{w|" + weightSelected + "#}}\n\n";
 				
 				int selectedIndex = Popup.PickOption(
 					Title: "Inventory Items",
