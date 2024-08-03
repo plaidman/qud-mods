@@ -69,7 +69,7 @@ namespace XRL.World.Parts {
 			}).ToArray();
 
 			ItemPopup.CurrentSortType = CurrentSortType;
-			var selected = ItemPopup.ShowPopup(itemList);
+			var selected = ItemPopup.ShowPopup(itemList, ParentObject.GetCarriedWeight());
 			CurrentSortType = ItemPopup.CurrentSortType;
 			if (selected == null || selected.Length == 0) {
 				Messages.MessageQueue.AddPlayerMessage("no items selected");
