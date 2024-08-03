@@ -8,10 +8,12 @@ using Plaidman.AnEyeForValue.Utils;
 namespace Plaidman.AnEyeForValue.Menus {
 	public class ZonePopup : BasePopup {
 		public IEnumerable<ToggledItem> ShowPopup(
-			InventoryItem[] options = null,
-			int[] initialSelections = null
+			InventoryItem[] options,
+			int[] initialSelections,
+			int carryCapacity
 		) {
 			var defaultSelected = 0;
+			var weightSelected = 0;
 
 			var selectedItems = new HashSet<int>();
 			foreach (var item in initialSelections) {
@@ -46,9 +48,14 @@ namespace Plaidman.AnEyeForValue.Menus {
 				var selectPrefix = selectedItems.Count < options.Length ? "S" : "Des";
 				menuCommands[0].text = "{{W|[" + toggleKey + "]}} {{y|" + selectPrefix + "elect All}}";
 
+				var intro = "Mark items here, then autoexplore to pick them up.\n'"
+				    + "Selected/Capacity: {{w|"
+					+ weightSelected + "#/"
+					+ carryCapacity + "#}}\n\n";
+
 				int selectedIndex = Popup.PickOption(
 					Title: "Lootable Items",
-					Intro: "Mark items here, then autoexplore to pick them up./n/n",
+					Intro: intro,
 					IntroIcon: null,
 					Options: itemLabels,
 					RespectOptionNewlines: false,
@@ -71,6 +78,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 								if (selectedItems.Contains(item.Index)) continue;
 								selectedItems.Add(item.Index);
 								itemLabels[i] = PopupUtils.GetItemLabel(true, item, CurrentSortType);
+								weightSelected += item.Weight;
 								yield return new ToggledItem(item.Index, true);
 							}
 						} else {
@@ -79,6 +87,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 								if (!selectedItems.Contains(item.Index)) continue;
 								selectedItems.Remove(item.Index);
 								itemLabels[i] = PopupUtils.GetItemLabel(false, item, CurrentSortType);
+								weightSelected -= item.Weight;
 								yield return new ToggledItem(item.Index, false);
 							}
 						}
@@ -106,10 +115,12 @@ namespace Plaidman.AnEyeForValue.Menus {
 				if (selectedItems.Contains(mappedItem.Index)) {
 					selectedItems.Remove(mappedItem.Index);
 					itemLabels[selectedIndex] = PopupUtils.GetItemLabel(false, mappedItem, CurrentSortType);
+					weightSelected -= mappedItem.Weight;
 					yield return new ToggledItem(mappedItem.Index, false);
 				} else {
 					selectedItems.Add(mappedItem.Index);
 					itemLabels[selectedIndex] = PopupUtils.GetItemLabel(true, mappedItem, CurrentSortType);
+					weightSelected += mappedItem.Weight;
 					yield return new ToggledItem(mappedItem.Index, true);
 				}
 

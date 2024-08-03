@@ -90,8 +90,9 @@ namespace XRL.World.Parts {
 
 			ItemPopup.CurrentSortType = CurrentSortType;
 			var toggledItemsEnumerator = ItemPopup.ShowPopup(
-				options: itemList,
-				initialSelections: initialSelections.ToArray()
+				itemList,
+				initialSelections.ToArray(),
+				ParentObject.GetMaxCarriedWeight() - ParentObject.GetCarriedWeight()
 			);
 
 			foreach (ToggledItem result in toggledItemsEnumerator) {
