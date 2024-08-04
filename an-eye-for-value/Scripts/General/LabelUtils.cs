@@ -50,7 +50,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 			}
 
 			if (weight < -99) {
-				return "{{w||-99+|}}";
+				return "{{w||<-99|}}";
 			}
 
 			return "{{w||" + weight.ToString().PadLeft(2, '\xff') + "#|}}";

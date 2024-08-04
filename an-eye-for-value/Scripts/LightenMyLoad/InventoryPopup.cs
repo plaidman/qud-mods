@@ -44,7 +44,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 				int selectedIndex = Popup.PickOption(
 					Title: "Inventory Items",
 					Intro: intro,
-					IntroIcon: null,
+					// IntroIcon: Renderable.UITile("an_eye_for_value.png", 'y', 'm'),
 					Options: itemLabels,
 					RespectOptionNewlines: false,
 					Icons: itemIcons,
