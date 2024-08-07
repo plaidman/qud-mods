@@ -3,19 +3,6 @@ using Plaidman.AnEyeForValue.Utils;
 using XRL.World;
 
 namespace Plaidman.AnEyeForValue.Menus {
-	public enum SortType { Weight, Value };
-	public enum ActionType { TurnOn, TurnOff, Sort, Travel };
-	
-	public class PopupAction {
-		public int Index { get; }
-		public ActionType Action { get; }
-
-		public PopupAction(int index, ActionType action) {
-			Index = index;
-			Action = action;
-		}
-	}
-
 	public class InventoryItem {
 		public int Index { get; }
 		public string DisplayName { get; }

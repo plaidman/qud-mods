@@ -3,6 +3,8 @@ using Plaidman.AnEyeForValue.Menus;
 using XRL.UI;
 
 namespace Plaidman.AnEyeForValue.Utils {
+	public enum SortType { Weight, Value };
+
 	public class PopupUtils {
 		private static readonly string PreferredSortOption = "Plaidman_AnEyeForValue_Option_PreferredSort";
 
