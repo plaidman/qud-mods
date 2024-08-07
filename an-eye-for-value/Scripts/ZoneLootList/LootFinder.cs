@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using ConsoleLib.Console;
@@ -82,8 +82,10 @@ namespace XRL.World.Parts {
 		}
 
 		private void ListItems() {
-			var gettableItems = ParentObject.CurrentZone.GetObjects(FilterOptions);
-			
+			var items = ZoneLootUtils.FilterZoneItems(ParentObject.CurrentZone.YieldObjects());
+			var gettableItems = items.TakeableItems;
+			gettableItems.AddRange(items.Liquids);
+
 			if (gettableItems.Count == 0) {
 				Popup.Show("You haven't seen any new loot in this area.");
 				return;
@@ -123,30 +125,6 @@ namespace XRL.World.Parts {
 						break;
 				}
 			}
-		}
-
-		private bool FilterOptions(GameObject go) {
-			var autogetByDefault = go.ShouldAutoget()
-				&& !go.HasPart<AEFV_AutoGetBeacon>();
-			var isCorpse = go.GetInventoryCategory() == "Corpses"
-				&& Options.GetOption(CorpsesOption) != "Yes";
-			var isTrash = go.HasPart<Garbage>()
-				&& Options.GetOption(TrashOption) != "Yes";
-
-			var armedMine = false;
-			if (go.HasPart<Tinkering_Mine>()) {
-				armedMine = go.GetPart<Tinkering_Mine>().Armed;
-			}
-
-			return go.Physics.Takeable
-				&& go.Physics.CurrentCell.IsExplored()
-				&& !go.HasPropertyOrTag("NoAutoget")
-				&& !go.IsOwned()
-				&& !go.IsHidden
-				&& !armedMine
-				&& !autogetByDefault
-				&& !isCorpse
-				&& !isTrash;
 		}
 	}
 }
