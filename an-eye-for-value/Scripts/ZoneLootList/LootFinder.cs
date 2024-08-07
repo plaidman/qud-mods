@@ -106,7 +106,7 @@ namespace XRL.World.Parts {
 				initialSelections.ToArray()
 			);
 			
-			foreach (ZoneAction result in toggledItemsEnumerator) {
+			foreach (ZonePopupAction result in toggledItemsEnumerator) {
 				switch (result.Action) {
 					case ActionType.TurnOn:
 						var item = gettableItems[result.Index];

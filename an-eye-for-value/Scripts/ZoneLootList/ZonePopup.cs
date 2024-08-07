@@ -10,7 +10,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 		private static readonly string ToggleCommand = "Plaidman_AnEyeForValue_Popup_Toggle";
 		private static readonly string SortCommand = "Plaidman_AnEyeForValue_Popup_ZoneSort";
 
-		public IEnumerable<ZoneAction> ShowPopup(
+		public IEnumerable<ZonePopupAction> ShowPopup(
 			InventoryItem[] options,
 			int[] initialSelections
 		) {
@@ -81,7 +81,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 								selectedItems.Add(item.Index);
 								itemLabels[i] = PopupUtils.GetItemLabel(true, item, CurrentSortType);
 								weightSelected += item.Weight;
-								yield return new ZoneAction(item.Index, ActionType.TurnOn);
+								yield return new ZonePopupAction(item.Index, ActionType.TurnOn);
 							}
 						} else {
 							for (var i = 0; i < sortedOptions.Length; i++) {
@@ -90,7 +90,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 								selectedItems.Remove(item.Index);
 								itemLabels[i] = PopupUtils.GetItemLabel(false, item, CurrentSortType);
 								weightSelected -= item.Weight;
-								yield return new ZoneAction(item.Index, ActionType.TurnOff);
+								yield return new ZonePopupAction(item.Index, ActionType.TurnOff);
 							}
 						}
 						continue;
@@ -106,7 +106,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 							return PopupUtils.GetItemLabel(selected, item, CurrentSortType);
 						}).ToArray();
 
-						yield return new ZoneAction(0, ActionType.Sort);
+						yield return new ZonePopupAction(0, ActionType.Sort);
 						continue;
 
 					default:
@@ -118,12 +118,12 @@ namespace Plaidman.AnEyeForValue.Menus {
 					selectedItems.Remove(mappedItem.Index);
 					itemLabels[selectedIndex] = PopupUtils.GetItemLabel(false, mappedItem, CurrentSortType);
 					weightSelected -= mappedItem.Weight;
-					yield return new ZoneAction(mappedItem.Index, ActionType.TurnOff);
+					yield return new ZonePopupAction(mappedItem.Index, ActionType.TurnOff);
 				} else {
 					selectedItems.Add(mappedItem.Index);
 					itemLabels[selectedIndex] = PopupUtils.GetItemLabel(true, mappedItem, CurrentSortType);
 					weightSelected += mappedItem.Weight;
-					yield return new ZoneAction(mappedItem.Index, ActionType.TurnOn);
+					yield return new ZonePopupAction(mappedItem.Index, ActionType.TurnOn);
 				}
 
 				defaultSelected = selectedIndex;
