@@ -105,18 +105,20 @@ namespace XRL.World.Parts {
 				itemList,
 				initialSelections.ToArray()
 			);
+			
+			foreach (PopupAction result in toggledItemsEnumerator) {
+				switch (result.Action) {
+					case ActionType.TurnOn:
+						gettableItems[result.Index].RequirePart<AEFV_AutoGetBeacon>();
+						break;
 
-			foreach (ToggledItem result in toggledItemsEnumerator) {
-				if (result.Index == -3) {
-					CurrentSortType = ItemPopup.CurrentSortType;
-					continue;
-				}
+					case ActionType.TurnOff:
+						gettableItems[result.Index].RemovePart<AEFV_AutoGetBeacon>();
+						break;
 
-				var item = gettableItems[result.Index];
-				if (result.Value) {
-					item.RequirePart<AEFV_AutoGetBeacon>();
-				} else {
-					item.RemovePart<AEFV_AutoGetBeacon>();
+					case ActionType.Sort:
+						CurrentSortType = ItemPopup.CurrentSortType;
+						break;
 				}
 			}
 		}

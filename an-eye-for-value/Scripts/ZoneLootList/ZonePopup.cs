@@ -7,7 +7,7 @@ using Plaidman.AnEyeForValue.Utils;
 
 namespace Plaidman.AnEyeForValue.Menus {
 	public class ZonePopup : BasePopup {
-		public IEnumerable<ToggledItem> ShowPopup(
+		public IEnumerable<PopupAction> ShowPopup(
 			InventoryItem[] options,
 			int[] initialSelections
 		) {
@@ -77,7 +77,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 								selectedItems.Add(item.Index);
 								itemLabels[i] = PopupUtils.GetItemLabel(true, item, CurrentSortType);
 								weightSelected += item.Weight;
-								yield return new ToggledItem(item.Index, true);
+								yield return new PopupAction(item.Index, ActionType.TurnOn);
 							}
 						} else {
 							for (var i = 0; i < sortedOptions.Length; i++) {
@@ -86,7 +86,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 								selectedItems.Remove(item.Index);
 								itemLabels[i] = PopupUtils.GetItemLabel(false, item, CurrentSortType);
 								weightSelected -= item.Weight;
-								yield return new ToggledItem(item.Index, false);
+								yield return new PopupAction(item.Index, ActionType.TurnOff);
 							}
 						}
 						continue;
@@ -102,7 +102,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 							return PopupUtils.GetItemLabel(selected, item, CurrentSortType);
 						}).ToArray();
 
-						yield return new ToggledItem(-3, false);
+						yield return new PopupAction(0, ActionType.Sort);
 						continue;
 
 					default:
@@ -114,12 +114,12 @@ namespace Plaidman.AnEyeForValue.Menus {
 					selectedItems.Remove(mappedItem.Index);
 					itemLabels[selectedIndex] = PopupUtils.GetItemLabel(false, mappedItem, CurrentSortType);
 					weightSelected -= mappedItem.Weight;
-					yield return new ToggledItem(mappedItem.Index, false);
+					yield return new PopupAction(mappedItem.Index, ActionType.TurnOff);
 				} else {
 					selectedItems.Add(mappedItem.Index);
 					itemLabels[selectedIndex] = PopupUtils.GetItemLabel(true, mappedItem, CurrentSortType);
 					weightSelected += mappedItem.Weight;
-					yield return new ToggledItem(mappedItem.Index, true);
+					yield return new PopupAction(mappedItem.Index, ActionType.TurnOn);
 				}
 
 				defaultSelected = selectedIndex;
