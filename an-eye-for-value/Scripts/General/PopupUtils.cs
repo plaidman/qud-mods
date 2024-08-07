@@ -43,9 +43,8 @@ namespace Plaidman.AnEyeForValue.Utils {
 			return label + item.DisplayName;
 		}
 
-		public static string GetSortLabel(SortType sortType) {
+		public static string GetSortLabel(SortType sortType, string sortKey) {
 			var sortString = SortStrings.GetValue(sortType);
-			var sortKey = ControlManager.getCommandInputFormatted("Plaidman_AnEyeForValue_Popup_Sort");
 			return "{{W|[" + sortKey + "]}} {{y|Sort Mode: " + sortString + "}}";
 		}
 	}

@@ -7,6 +7,9 @@ using Plaidman.AnEyeForValue.Utils;
 
 namespace Plaidman.AnEyeForValue.Menus {
 	public class ZonePopup : BasePopup {
+		private static readonly string ToggleCommand = "Plaidman_AnEyeForValue_Popup_Toggle";
+		private static readonly string SortCommand = "Plaidman_AnEyeForValue_Popup_ZoneSort";
+
 		public IEnumerable<PopupAction> ShowPopup(
 			InventoryItem[] options,
 			int[] initialSelections
@@ -30,21 +33,22 @@ namespace Plaidman.AnEyeForValue.Menus {
 				return PopupUtils.GetItemLabel(selected, item, CurrentSortType);
 			}).ToArray();
 
+			var toggleKey = ControlManager.getCommandInputFormatted(ToggleCommand);
+			var sortKey = ControlManager.getCommandInputFormatted(SortCommand);
 			QudMenuItem[] menuCommands = new QudMenuItem[2]
 			{
 				new() {
 					command = "option:-2",
-					hotkey = "Plaidman_AnEyeForValue_Popup_Toggle"
+					hotkey = ToggleCommand
 				},
 				new() {
-					text = PopupUtils.GetSortLabel(CurrentSortType),
+					text = PopupUtils.GetSortLabel(CurrentSortType, sortKey),
 					command = "option:-3",
-					hotkey = "Plaidman_AnEyeForValue_Popup_Sort"
+					hotkey = SortCommand
 				},
 			};
 
 			while (true) {
-				var toggleKey = ControlManager.getCommandInputFormatted("Plaidman_AnEyeForValue_Popup_Toggle");
 				var selectPrefix = selectedItems.Count < options.Length ? "S" : "Des";
 				menuCommands[0].text = "{{W|[" + toggleKey + "]}} {{y|" + selectPrefix + "elect All}}";
 
@@ -94,7 +98,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 					case -3: // sort
 						CurrentSortType = PopupUtils.NextSortType.GetValue(CurrentSortType);
 
-						menuCommands[1].text = PopupUtils.GetSortLabel(CurrentSortType);
+						menuCommands[1].text = PopupUtils.GetSortLabel(CurrentSortType, sortKey);
 						sortedOptions = SortItemsDescending(options);
 						itemIcons = sortedOptions.Select((item) => { return item.Icon; }).ToArray();
 						itemLabels = sortedOptions.Select((item) => {

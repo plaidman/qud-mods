@@ -7,6 +7,9 @@ using Plaidman.AnEyeForValue.Utils;
 
 namespace Plaidman.AnEyeForValue.Menus {
 	public class InventoryPopup : BasePopup {
+		private static readonly string SortCommand = "Plaidman_AnEyeForValue_Popup_InvSort";
+		private static readonly string DropCommand = "Plaidman_AnEyeForValue_Popup_Drop";
+
 		public int[] ShowPopup(InventoryItem[] options) {
 			var defaultSelected = 0;
 			var weightSelected = 0;
@@ -22,18 +25,19 @@ namespace Plaidman.AnEyeForValue.Menus {
 				return PopupUtils.GetItemLabel(selected, item, CurrentSortType);
 			}).ToArray();
 
-			var dropKey = ControlManager.getCommandInputFormatted("Plaidman_AnEyeForValue_Popup_Drop");
+			var dropKey = ControlManager.getCommandInputFormatted(DropCommand);
+			var sortKey = ControlManager.getCommandInputFormatted(SortCommand);
 			QudMenuItem[] menuCommands = new QudMenuItem[2]
 			{
 				new() {
 					text = "{{W|[" + dropKey + "]}} {{y|Drop Items}}",
 					command = "option:-2",
-					hotkey = "Plaidman_AnEyeForValue_Popup_Drop"
+					hotkey = DropCommand,
 				},
 				new() {
-					text = PopupUtils.GetSortLabel(CurrentSortType),
+					text = PopupUtils.GetSortLabel(CurrentSortType, sortKey),
 					command = "option:-3",
-					hotkey = "Plaidman_AnEyeForValue_Popup_Sort"
+					hotkey = SortCommand,
 				},
 			};
 
@@ -63,7 +67,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 					case -3: // sort items
 						CurrentSortType = PopupUtils.NextSortType.GetValue(CurrentSortType);
 
-						menuCommands[1].text = PopupUtils.GetSortLabel(CurrentSortType);
+						menuCommands[1].text = PopupUtils.GetSortLabel(CurrentSortType, sortKey);
 						sortedOptions = SortItems(options);
 						itemIcons = sortedOptions.Select((item) => { return item.Icon; }).ToArray();
 						itemLabels = sortedOptions.Select((item) => {

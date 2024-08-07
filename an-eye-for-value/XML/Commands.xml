@@ -6,7 +6,7 @@
 		<keyboardBind Modifier="ctrl" Key="f"/>
 	</command>
 	<command ID="Plaidman_AnEyeForValue_Command_Uninstall" DisplayText="Uninstall Mod" Category="Mod: An Eye For Value" Layer="Adventure" Auto="Down"></command>
-	<command ID="Plaidman_AnEyeForValue_Popup_Sort" DisplayText="List: Sort Items" Category="Mod: An Eye For Value" Layer="Menus" Auto="DownPass">
+	<command ID="Plaidman_AnEyeForValue_Popup_InvSort" DisplayText="Inv: Sort Items" Category="Mod: An Eye For Value" Layer="Menus" Auto="DownPass">
 		<keyboardBind Modifier="ctrl" Key="tab"/>
 		<gamepadBind Button="select"/>
 	</command>
@@ -15,6 +15,10 @@
 		<keyboardBind Key="backspace"/>
 		<gamepadBind Alt="true" Button="buttonWest"/>
 		<keyboardBind Key="[" Set="hjkl"/>
+	</command>
+	<command ID="Plaidman_AnEyeForValue_Popup_ZoneSort" DisplayText="Zone: Sort Items" Category="Mod: An Eye For Value" Layer="Menus" Auto="DownPass">
+		<keyboardBind Modifier="ctrl" Key="tab"/>
+		<gamepadBind Button="select"/>
 	</command>
 	<command ID="Plaidman_AnEyeForValue_Popup_Toggle" DisplayText="Zone: Select All" Category="Mod: An Eye For Value" Layer="Menus" Auto="DownPass">
 		<keyboardBind Key="tab"/>
