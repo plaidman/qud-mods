@@ -3,6 +3,8 @@ using System.Linq;
 using Plaidman.AnEyeForValue.Utils;
 
 namespace Plaidman.AnEyeForValue.Menus {
+	public enum SortType { Weight, Value };
+
 	public class BasePopup {
 		public SortType CurrentSortType;
 		private Dictionary<SortType, InventoryItem[]> ItemListCache;

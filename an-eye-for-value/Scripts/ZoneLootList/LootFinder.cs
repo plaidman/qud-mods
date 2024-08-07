@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ConsoleLib.Console;
@@ -106,10 +106,12 @@ namespace XRL.World.Parts {
 				initialSelections.ToArray()
 			);
 			
-			foreach (PopupAction result in toggledItemsEnumerator) {
+			foreach (ZoneAction result in toggledItemsEnumerator) {
 				switch (result.Action) {
 					case ActionType.TurnOn:
-						gettableItems[result.Index].RequirePart<AEFV_AutoGetBeacon>();
+						var item = gettableItems[result.Index];
+						item.RemoveIntProperty("AutoexploreActionAutoget");
+						item.RequirePart<AEFV_AutoGetBeacon>();
 						break;
 
 					case ActionType.TurnOff:
@@ -138,7 +140,6 @@ namespace XRL.World.Parts {
 
 			return go.Physics.Takeable
 				&& go.Physics.CurrentCell.IsExplored()
-				&& !go.HasPropertyOrTag("DroppedByPlayer")
 				&& !go.HasPropertyOrTag("NoAutoget")
 				&& !go.IsOwned()
 				&& !go.IsHidden
