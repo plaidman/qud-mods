@@ -115,7 +115,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 				}
 				
 				var mappedItem = sortedOptions[selectedIndex];
-				if (mappedItem.Liquids) {
+				if (mappedItem.IsPool) {
 					yield return new ZonePopupAction(mappedItem.Index, ActionType.Travel);
 					yield break;
 				} else if (selectedItems.Contains(mappedItem.Index)) {

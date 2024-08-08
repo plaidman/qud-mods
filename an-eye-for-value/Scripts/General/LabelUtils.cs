@@ -15,7 +15,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 				return "{{B||$$$|}}";
 			}
 
-			if (!item.Known) {
+			if (!item.IsKnown) {
 				// not known: beige, display weight
 				return GetWeightLabel(item.Weight);
 			}

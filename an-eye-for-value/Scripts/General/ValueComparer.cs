@@ -39,7 +39,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 				return 3;
 			}
 
-			if (!item.Known) {
+			if (!item.IsKnown) {
 				return 2;
 			}
 			

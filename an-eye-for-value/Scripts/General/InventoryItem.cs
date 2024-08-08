@@ -10,14 +10,14 @@ namespace Plaidman.AnEyeForValue.Menus {
 		public int Weight { get; }
 		public double? Value { get; }
 		public double? Ratio { get; }
-		public bool Known { get; }
-		public bool Liquids { get; }
+		public bool IsKnown { get; }
+		public bool IsPool { get; }
 
 		public InventoryItem(
 			int index,
 			GameObject go,
-			bool known,
-			bool liquids = false
+			bool isKnown,
+			bool isPool = false
 		) {
 			Index = index;
 			DisplayName = go.DisplayName;
@@ -25,8 +25,8 @@ namespace Plaidman.AnEyeForValue.Menus {
 			Weight = go.Weight;
 			Value = ValueUtils.GetValue(go);
 			Ratio = ValueUtils.GetValueRatio(Value, Weight);
-			Known = known;
-			Liquids = liquids;
+			IsKnown = isKnown;
+			IsPool = isPool;
 		}
 	}
 }
