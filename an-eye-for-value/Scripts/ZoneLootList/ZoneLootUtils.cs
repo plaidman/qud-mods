@@ -36,6 +36,9 @@ namespace Plaidman.AnEyeForValue.Utils {
 					continue;
 				}
 				
+				// if an item has a LiquidVolume and is not takeable,
+				// or if an item has the Pool Tag
+				// I'm not sure what will be excluded if I use tag
 				if (item.LiquidVolume != null) {
 					var b = Liquids.GetValue(item.ShortDisplayNameStripped);
 					var closest = ClosestToPlayer(item, b);

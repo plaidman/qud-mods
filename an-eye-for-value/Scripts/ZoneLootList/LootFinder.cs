@@ -9,8 +9,14 @@ using XRL.World.Capabilities;
 
 // TODO:
 // make a different comparer for zone loot and inventory list
-// show quantity of matching pools in inventory list
-// show liquids as nonselectable in inventory list
+// show total quantity of drams in inventory list
+// track which liquids you've seen in AEFV
+// tiny puddles show as 0 weight (wrong)
+// item value is known if you know the container item (if any) AND the primary liquid inside it (if any)
+// squelch errors with deserialization
+// pool weight should be shown as ~~~
+// pool weight value ratio can be calculated
+// takeable containers should work as normal
 
 namespace XRL.World.Parts {
 	[Serializable]
@@ -27,11 +33,11 @@ namespace XRL.World.Parts {
 		public Guid AbilityGuid;
 		public SortType CurrentSortType = PopupUtils.DefaultSortType();
 
-        public override void Register(GameObject go, IEventRegistrar registrar) {
+		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);
 			registrar.Register(AfterPlayerBodyChangeEvent.ID);
-            base.Register(go, registrar);
-        }
+			base.Register(go, registrar);
+		}
 
 		public void ToggleAbility() {
 			if (Options.GetOption(AbilityOption) == "Yes") {
@@ -60,8 +66,8 @@ namespace XRL.World.Parts {
 
 		public override bool HandleEvent(AfterPlayerBodyChangeEvent e) {
 			ToggleAbility();
-            return base.HandleEvent(e);
-        }
+			return base.HandleEvent(e);
+		}
 	
 		public override bool HandleEvent(CommandEvent e) {
 			if (e.Command == ItemListCommand) {
@@ -107,7 +113,7 @@ namespace XRL.World.Parts {
 			}
 			for (var i = 0; i < liquids.Count; i++) {
 				var go = liquids[i];
-				var inv = new InventoryItem(i, go, GetItemKnowledge().IsItemKnown(go), true);
+				var inv = new InventoryItem(i, go, GetItemKnowledge().IsLiquidKnown(go.LiquidVolume), true);
 				itemList[i + takeableItems.Count] = inv;
 			}
 			

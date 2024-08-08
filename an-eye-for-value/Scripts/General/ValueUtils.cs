@@ -12,7 +12,8 @@ namespace Plaidman.AnEyeForValue.Utils {
 			var multiple = 1.0;
 			
 			if (!go.IsCurrency) {
-				// subtract 0.21 (3 * 0.07) because the player's reputation with themself is uncommonly high
+				// subtract 0.21 (3 * 0.07) because the player's reputation
+				//   with themself grants 3 bonus ego
 				multiple = GetTradePerformanceEvent.GetFor(The.Player, The.Player) - 0.21;
 			}
 

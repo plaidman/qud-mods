@@ -10,14 +10,14 @@ namespace Plaidman.AnEyeForValue.Menus {
 				return xCat - yCat;
 			}
 
-            return xCat switch
-            {
-                1 => CompareDouble(x.Ratio ?? double.PositiveInfinity, y.Ratio ?? double.PositiveInfinity),
-                3 => CompareDouble(x.Value ?? double.PositiveInfinity, y.Value ?? double.PositiveInfinity),
-                2 or 4 => y.Weight - x.Weight,
-                _ => 0,
-            };
-        }
+			return xCat switch
+			{
+				1 => CompareDouble(x.Ratio ?? double.PositiveInfinity, y.Ratio ?? double.PositiveInfinity),
+				3 => CompareDouble(x.Value ?? double.PositiveInfinity, y.Value ?? double.PositiveInfinity),
+				2 or 4 => y.Weight - x.Weight,
+				_ => 0,
+			};
+		}
 		
 		private int CompareDouble(double x, double y) {
 			if (x > y) { return 1; }

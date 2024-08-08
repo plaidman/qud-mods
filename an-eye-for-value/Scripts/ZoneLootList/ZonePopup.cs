@@ -53,7 +53,8 @@ namespace Plaidman.AnEyeForValue.Menus {
 				menuCommands[0].text = "{{W|[" + toggleKey + "]}} {{y|" + selectPrefix + "elect All}}";
 
 				var intro = "Mark items here, then autoexplore to pick them up.\n"
-				    + "Selected weight: {{w|" + weightSelected + "#}}\n\n";
+					+ "Selecting a liquid item ({{c|[\xf7]}}) will auto-travel to that liquid.\n"
+					+ "Selected weight: {{w|" + weightSelected + "#}}\n\n";
 
 				int selectedIndex = Popup.PickOption(
 					Title: "Lootable Items",
