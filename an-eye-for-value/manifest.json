@@ -2,7 +2,7 @@
 	"id": "Plaidman_AnEyeForValue",
 	"title": "An Eye For Value",
 	"description": "Keep track of which items are known to the player through experience or skill.",
-	"version": "1.0",
+	"version": "2.0",
 	"author": "Plaidman",
 	"tags": "UI/UX,Script,Skill",
 	"previewImage": "preview.png"

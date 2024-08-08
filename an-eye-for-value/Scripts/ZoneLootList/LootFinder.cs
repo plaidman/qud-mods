@@ -17,6 +17,7 @@ using XRL.World.Capabilities;
 // pool weight should be shown as ~~~
 // pool weight value ratio can be calculated
 // takeable containers should work as normal
+// test a save from the steam workshop version moving over to the new version
 
 namespace XRL.World.Parts {
 	[Serializable]
@@ -32,6 +33,19 @@ namespace XRL.World.Parts {
 
 		public Guid AbilityGuid;
 		public SortType CurrentSortType = PopupUtils.DefaultSortType();
+
+        public override void Write(GameObject basis, SerializationWriter writer) {
+        	writer.WriteNamedFields(this, GetType());
+        }
+
+        public override void Read(GameObject basis, SerializationReader reader) {
+        	if (reader.ModVersions["Plaidman_AnEyeForValue"] == new Version("1.0.0")) {
+				base.Read(basis, reader);
+				return;
+        	}
+
+        	reader.ReadNamedFields(this, GetType());
+        }
 
 		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);

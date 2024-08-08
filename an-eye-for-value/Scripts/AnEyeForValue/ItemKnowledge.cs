@@ -23,7 +23,20 @@ namespace XRL.World.Parts {
 			base.Register(go, registrar);
 		}
 
-		public override bool HandleEvent(StartTradeEvent e) {
+        public override void Write(GameObject basis, SerializationWriter writer) {
+        	writer.WriteNamedFields(this, GetType());
+        }
+
+        public override void Read(GameObject basis, SerializationReader reader) {
+        	if (reader.ModVersions["Plaidman_AnEyeForValue"] == new Version("1.0.0")) {
+        		KnownItems = (HashSet<string>)reader.ReadObject();
+        		return;
+        	}
+
+        	reader.ReadNamedFields(this, GetType());
+        }
+
+        public override bool HandleEvent(StartTradeEvent e) {
 			if (!e.Trader.IsCreature) {
 				return base.HandleEvent(e);
 			}
