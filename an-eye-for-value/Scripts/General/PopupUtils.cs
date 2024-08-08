@@ -36,7 +36,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 					break;
 
 				case SortType.Weight:
-					label += LabelUtils.GetWeightLabel(item.Weight) + " ";
+					label += LabelUtils.GetWeightLabel(item) + " ";
 					break;
 			}
 

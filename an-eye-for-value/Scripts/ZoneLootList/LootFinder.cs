@@ -7,17 +7,15 @@ using Plaidman.AnEyeForValue.Utils;
 using XRL.UI;
 using XRL.World.Capabilities;
 
+// TOTEST:
+// item value is known if you know the container item (if any) AND the primary liquid inside it (if any)
+// takeable containers should display weight/ratio as normal
+// test a save from the steam workshop version moving over to the new version
+//
 // TODO:
 // make a different comparer for zone loot and inventory list
-// show total quantity of drams in inventory list
-// track which liquids you've seen in AEFV
-// tiny puddles show as 0 weight (wrong)
-// item value is known if you know the container item (if any) AND the primary liquid inside it (if any)
-// squelch errors with deserialization
-// pool weight should be shown as ~~~
+// fix tiny puddles showing as 0 weight
 // pool weight value ratio can be calculated
-// takeable containers should work as normal
-// test a save from the steam workshop version moving over to the new version
 
 namespace XRL.World.Parts {
 	[Serializable]

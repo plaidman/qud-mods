@@ -17,7 +17,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 
 			if (!item.IsKnown) {
 				// not known: beige, display weight
-				return GetWeightLabel(item.Weight);
+				return GetWeightLabel(item);
 			}
 
 			if (ratio < 1) {
@@ -44,20 +44,24 @@ namespace Plaidman.AnEyeForValue.Utils {
 			return "{{G||$$$|}}";
 		}
 
-		public static string GetWeightLabel(double weight) {
-			if (weight > 99) {
+		public static string GetWeightLabel(InventoryItem item) {
+			if (item.IsPool) {
+				return "{{c||~\xf7~|}}";
+			}
+
+			if (item.Weight > 99) {
 				return "{{w||99+|}}";
 			}
 
-			if (weight < -99) {
+			if (item.Weight < -99) {
 				return "{{w||<-99|}}";
 			}
 
-			return "{{w||" + weight.ToString().PadLeft(2, '\xff') + "#|}}";
+			return "{{w||" + item.Weight.ToString().PadLeft(2, '\xff') + "#|}}";
 		}
 
-		public static string GetSelectionLabel(bool selected, bool liquids) {
-			if (liquids) {
+		public static string GetSelectionLabel(bool selected, bool isPool) {
+			if (isPool) {
 				return "{{c|[\xf7]}}";
 			}
 

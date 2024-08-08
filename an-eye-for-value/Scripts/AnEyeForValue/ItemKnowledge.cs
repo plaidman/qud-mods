@@ -121,7 +121,7 @@ namespace XRL.World.Parts {
 				return true;
 			}
 
-			// there is no liquid, treat it as known
+			// dunno why a pool wouldn't have a primary liquid
 			if (liquids?.Primary == null) {
 				return false;
 			}
