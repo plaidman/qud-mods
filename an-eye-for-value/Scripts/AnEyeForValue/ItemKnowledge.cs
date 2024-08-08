@@ -15,6 +15,7 @@ namespace XRL.World.Parts {
 		private static readonly string AnEyeForValueSkill = "AEFV_AnEyeForValue";
 		
 		public HashSet<string> KnownItems = new(50);
+		public HashSet<string> KnownLiquids = new(20);
 
 		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);
@@ -29,10 +30,18 @@ namespace XRL.World.Parts {
 			
 			foreach (var item in e.Actor.Inventory.GetObjects()) {
 				KnownItems.Add(item.BaseDisplayName);
+
+				if (item.LiquidVolume?.Primary != null) {
+					KnownLiquids.Add(item.LiquidVolume.Primary);
+				}
 			}
 
 			foreach (var item in e.Trader.Inventory.GetObjects()) {
 				KnownItems.Add(item.BaseDisplayName);
+
+				if (item.LiquidVolume?.Primary != null) {
+					KnownLiquids.Add(item.LiquidVolume.Primary);
+				}
 			}
 
 			return base.HandleEvent(e);
@@ -76,8 +85,35 @@ namespace XRL.World.Parts {
 			if (ParentObject.HasSkill(AnEyeForValueSkill)) {
 				return true;
 			}
+			
+			var itemKnown = KnownItems.Contains(go.BaseDisplayName);
+			var liquidKnown = true;
+			if (go.LiquidVolume?.Primary != null) {
+				liquidKnown = KnownLiquids.Contains(go.LiquidVolume.Primary);
+			}
 
-			return KnownItems.Contains(go.BaseDisplayName);
+			return itemKnown && liquidKnown;
+		}
+
+		public bool IsLiquidKnown(LiquidVolume liquids) {
+			if (Options.GetOption(OmnicientOption) == "Yes") {
+				return true;
+			}
+			
+			if (ParentObject.HasSkill(PKAppraisalSkill)) {
+				return true;
+			}
+
+			if (ParentObject.HasSkill(AnEyeForValueSkill)) {
+				return true;
+			}
+			
+			// there is no liquid, treat it as known
+			if (liquids?.Primary == null) {
+				return false;
+			}
+
+			return KnownLiquids.Contains(liquids.Primary);
 		}
 	}
 }
