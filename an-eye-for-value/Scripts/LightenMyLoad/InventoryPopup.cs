@@ -12,7 +12,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 
 		public int[] ShowPopup(InventoryItem[] options) {
 			var defaultSelected = 0;
-			var weightSelected = 0;
+			var weightSelected = 0.0;
 			var selectedItems = new HashSet<int>();
 
 			ResetCache();
@@ -43,7 +43,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 
 			while (true) {
 				var intro = "Mark items here, then press {{W|[" + dropKey + "]}} to drop them.\n"
-					+ "Selected weight: {{w|" + weightSelected + "#}}\n\n";
+					+ "Selected weight: {{w|" + (int)weightSelected + "#}}\n\n";
 
 				int selectedIndex = Popup.PickOption(
 					Title: "Inventory Items",

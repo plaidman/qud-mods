@@ -14,7 +14,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			{
 				1 => CompareDouble(x.Ratio ?? double.PositiveInfinity, y.Ratio ?? double.PositiveInfinity),
 				3 => CompareDouble(x.Value ?? double.PositiveInfinity, y.Value ?? double.PositiveInfinity),
-				2 or 4 => y.Weight - x.Weight,
+				2 or 4 => CompareDouble(y.Weight, x.Weight),
 				_ => 0,
 			};
 		}

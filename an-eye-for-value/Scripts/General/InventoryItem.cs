@@ -7,7 +7,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 		public int Index { get; }
 		public string DisplayName { get; }
 		public IRenderable Icon { get; }
-		public int Weight { get; }
+		public double Weight { get; }
 		public double? Value { get; }
 		public double? Ratio { get; }
 		public bool IsKnown { get; }
@@ -16,17 +16,25 @@ namespace Plaidman.AnEyeForValue.Menus {
 		public InventoryItem(
 			int index,
 			GameObject go,
+			double valueMult,
 			bool isKnown,
-			bool isPool = false
+			bool isPool
 		) {
 			Index = index;
 			DisplayName = go.DisplayName;
 			Icon = go.Render;
-			Weight = go.Weight;
-			Value = ValueUtils.GetValue(go);
-			Ratio = ValueUtils.GetValueRatio(Value, Weight);
 			IsKnown = isKnown;
+
 			IsPool = isPool;
+			if (isPool) {
+				Value = ValueUtils.GetLiquidValue(go, valueMult);
+				Weight = ValueUtils.GetLiquidWeight(go);
+			} else {
+				Value = ValueUtils.GetValue(go, valueMult);
+				Weight = go.Weight;
+			}
+
+			Ratio = ValueUtils.GetValueRatio(Value, Weight);
 		}
 	}
 }

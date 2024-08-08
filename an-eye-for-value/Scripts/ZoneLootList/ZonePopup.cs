@@ -15,7 +15,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			int[] initialSelections
 		) {
 			var defaultSelected = 0;
-			var weightSelected = 0;
+			var weightSelected = 0.0;
 
 			var selectedItems = new HashSet<int>();
 			foreach (var item in initialSelections) {
@@ -54,7 +54,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 
 				var intro = "Mark items here, then autoexplore to pick them up.\n"
 					+ "Selecting a liquid item ({{c|[\xf7]}}) will auto-travel to that liquid.\n"
-					+ "Selected weight: {{w|" + weightSelected + "#}}\n\n";
+					+ "Selected weight: {{w|" + (int)weightSelected + "#}}\n\n";
 
 				int selectedIndex = Popup.PickOption(
 					Title: "Lootable Items",

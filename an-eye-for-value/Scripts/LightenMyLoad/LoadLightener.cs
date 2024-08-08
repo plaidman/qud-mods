@@ -89,8 +89,10 @@ namespace XRL.World.Parts {
 
 		private void ListItems() {
 			var objects = ParentObject.Inventory.GetObjects();
+			var valueMult = ValueUtils.GetValueMultiplier();
 			var itemList = objects.Select((go, i) => {
-				return new InventoryItem(i, go, GetItemKnowledge().IsItemKnown(go));
+				var known = GetItemKnowledge().IsItemKnown(go);
+				return new InventoryItem(i, go, valueMult, known, false);
 			}).ToArray();
 
 			ItemPopup.CurrentSortType = CurrentSortType;

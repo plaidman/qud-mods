@@ -118,14 +118,17 @@ namespace XRL.World.Parts {
 			}
 
 			var itemList = new InventoryItem[takeableItems.Count + liquids.Count];
+			var valueMult = ValueUtils.GetValueMultiplier();
 			for (var i = 0; i < takeableItems.Count; i++) {
 				var go = takeableItems[i];
-				var inv = new InventoryItem(i, go, GetItemKnowledge().IsItemKnown(go));
+				var known = GetItemKnowledge().IsItemKnown(go);
+				var inv = new InventoryItem(i, go, valueMult, known, false);
 				itemList[i] = inv;
 			}
 			for (var i = 0; i < liquids.Count; i++) {
 				var go = liquids[i];
-				var inv = new InventoryItem(i, go, GetItemKnowledge().IsLiquidKnown(go.LiquidVolume), true);
+				var known = GetItemKnowledge().IsLiquidKnown(go.LiquidVolume);
+				var inv = new InventoryItem(i, go, valueMult, known, true);
 				itemList[i + takeableItems.Count] = inv;
 			}
 
