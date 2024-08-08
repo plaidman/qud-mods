@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using ConsoleLib.Console;
 using Plaidman.AnEyeForValue.Events;
 using Plaidman.AnEyeForValue.Menus;
 using Plaidman.AnEyeForValue.Utils;
 using XRL.UI;
+using XRL.World.Capabilities;
 
 // TODO:
 // make a different comparer for zone loot and inventory list
@@ -117,20 +117,28 @@ namespace XRL.World.Parts {
 				initialSelections.ToArray()
 			);
 			
+			GameObject item;
 			foreach (ZonePopupAction result in toggledItemsEnumerator) {
 				switch (result.Action) {
 					case ActionType.TurnOn:
-						var item = takeableItems[result.Index];
+						item = takeableItems[result.Index];
 						item.RemoveIntProperty("AutoexploreActionAutoget");
 						item.RequirePart<AEFV_AutoGetBeacon>();
 						break;
 
 					case ActionType.TurnOff:
-						takeableItems[result.Index].RemovePart<AEFV_AutoGetBeacon>();
+						item = takeableItems[result.Index];
+						item.RemovePart<AEFV_AutoGetBeacon>();
 						break;
 
 					case ActionType.Sort:
 						CurrentSortType = ItemPopup.CurrentSortType;
+						break;
+						
+					case ActionType.Travel:
+						var coord = liquids[result.Index].CurrentCell;
+						AutoAct.Setting = "M" + coord.X.ToString() + "," + coord.Y.ToString();
+						The.ActionManager.SkipPlayerTurn = true;
 						break;
 				}
 			}

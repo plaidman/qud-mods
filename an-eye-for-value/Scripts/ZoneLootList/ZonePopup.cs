@@ -114,7 +114,10 @@ namespace Plaidman.AnEyeForValue.Menus {
 				}
 				
 				var mappedItem = sortedOptions[selectedIndex];
-				if (selectedItems.Contains(mappedItem.Index)) {
+				if (mappedItem.Liquids) {
+					yield return new ZonePopupAction(mappedItem.Index, ActionType.Travel);
+					yield break;
+				} else if (selectedItems.Contains(mappedItem.Index)) {
 					selectedItems.Remove(mappedItem.Index);
 					itemLabels[selectedIndex] = PopupUtils.GetItemLabel(false, mappedItem, CurrentSortType);
 					weightSelected -= mappedItem.Weight;
