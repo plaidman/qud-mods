@@ -37,9 +37,9 @@ namespace Plaidman.AnEyeForValue.Utils {
 				}
 				
 				if (item.LiquidVolume != null) {
-					var b = Liquids.GetValue(item.BaseDisplayName);
+					var b = Liquids.GetValue(item.ShortDisplayNameStripped);
 					var closest = ClosestToPlayer(item, b);
-					Liquids.SetValue(item.BaseDisplayName, closest);
+					Liquids.SetValue(item.ShortDisplayNameStripped, closest);
 				}
 			}
 			

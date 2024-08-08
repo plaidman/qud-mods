@@ -7,15 +7,16 @@ using Plaidman.AnEyeForValue.Menus;
 using Plaidman.AnEyeForValue.Utils;
 using XRL.UI;
 
+// TODO:
+// make a different comparer for zone loot and inventory list
+// show quantity of matching pools in inventory list
+// show liquids as nonselectable in inventory list
+
 namespace XRL.World.Parts {
 	[Serializable]
 	public class AEFV_LootFinder : IPlayerPart {
 		[NonSerialized]
 		private static readonly string ItemListCommand = "Plaidman_AnEyeForValue_Command_ZoneLootList";
-		[NonSerialized]
-		private static readonly string TrashOption = "Plaidman_AnEyeForValue_Option_ZoneTrash";
-		[NonSerialized]
-		private static readonly string CorpsesOption = "Plaidman_AnEyeForValue_Option_ZoneCorpses";
 		[NonSerialized]
 		private static readonly string AbilityOption = "Plaidman_AnEyeForValue_Option_UseAbilities";
 		[NonSerialized]
@@ -82,26 +83,34 @@ namespace XRL.World.Parts {
 		}
 
 		private void ListItems() {
-			var items = ZoneLootUtils.FilterZoneItems(ParentObject.CurrentZone.YieldObjects());
-			var gettableItems = items.TakeableItems;
-			gettableItems.AddRange(items.Liquids);
+			var filteredItems = ZoneLootUtils.FilterZoneItems(ParentObject.CurrentZone.YieldObjects());
+			var takeableItems = filteredItems.TakeableItems;
+			var liquids = filteredItems.Liquids;
 
-			if (gettableItems.Count == 0) {
+			if (liquids.Count == 0 && takeableItems.Count == 0) {
 				Popup.Show("You haven't seen any new loot in this area.");
 				return;
 			}
 
 			var initialSelections = new List<int>();
-			for (int i = 0; i < gettableItems.Count; i++) {
-				if (gettableItems[i].HasPart<AEFV_AutoGetBeacon>()) {
+			for (int i = 0; i < takeableItems.Count; i++) {
+				if (takeableItems[i].HasPart<AEFV_AutoGetBeacon>()) {
 					initialSelections.Add(i);
 				}
 			}
 
-			var itemList = gettableItems.Select((go, i) => {
-				return new InventoryItem(i, go, GetItemKnowledge().IsItemKnown(go));
-			}).ToArray();
-
+			var itemList = new InventoryItem[takeableItems.Count + liquids.Count];
+			for (var i = 0; i < takeableItems.Count; i++) {
+				var go = takeableItems[i];
+				var inv = new InventoryItem(i, go, GetItemKnowledge().IsItemKnown(go));
+				itemList[i] = inv;
+			}
+			for (var i = 0; i < liquids.Count; i++) {
+				var go = liquids[i];
+				var inv = new InventoryItem(i, go, GetItemKnowledge().IsItemKnown(go), true);
+				itemList[i + takeableItems.Count] = inv;
+			}
+			
 			ItemPopup.CurrentSortType = CurrentSortType;
 			var toggledItemsEnumerator = ItemPopup.ShowPopup(
 				itemList,
@@ -111,13 +120,13 @@ namespace XRL.World.Parts {
 			foreach (ZonePopupAction result in toggledItemsEnumerator) {
 				switch (result.Action) {
 					case ActionType.TurnOn:
-						var item = gettableItems[result.Index];
+						var item = takeableItems[result.Index];
 						item.RemoveIntProperty("AutoexploreActionAutoget");
 						item.RequirePart<AEFV_AutoGetBeacon>();
 						break;
 
 					case ActionType.TurnOff:
-						gettableItems[result.Index].RemovePart<AEFV_AutoGetBeacon>();
+						takeableItems[result.Index].RemovePart<AEFV_AutoGetBeacon>();
 						break;
 
 					case ActionType.Sort:

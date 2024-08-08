@@ -11,13 +11,13 @@ namespace Plaidman.AnEyeForValue.Menus {
 		public double? Value { get; }
 		public double? Ratio { get; }
 		public bool Known { get; }
-		public bool Takeable { get; }
+		public bool Liquids { get; }
 
 		public InventoryItem(
 			int index,
 			GameObject go,
 			bool known,
-			bool takeable = true
+			bool liquids = false
 		) {
 			Index = index;
 			DisplayName = go.DisplayName;
@@ -26,7 +26,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			Value = ValueUtils.GetValue(go);
 			Ratio = ValueUtils.GetValueRatio(Value, Weight);
 			Known = known;
-			Takeable = takeable;
+			Liquids = liquids;
 		}
 	}
 }

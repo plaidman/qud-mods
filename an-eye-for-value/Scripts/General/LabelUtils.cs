@@ -56,7 +56,11 @@ namespace Plaidman.AnEyeForValue.Utils {
 			return "{{w||" + weight.ToString().PadLeft(2, '\xff') + "#|}}";
 		}
 
-		public static string GetSelectionLabel(bool selected) {
+		public static string GetSelectionLabel(bool selected, bool liquids) {
+			if (liquids) {
+				return "{{c|[\xf7]}}";
+			}
+
 			if (selected) {
 				return "{{W|[þ]}}";
 			}

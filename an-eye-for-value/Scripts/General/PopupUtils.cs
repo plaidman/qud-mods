@@ -28,7 +28,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 		}
 
 		public static string GetItemLabel(bool selected, InventoryItem item, SortType sortType) {
-			var label = LabelUtils.GetSelectionLabel(selected) + " ";
+			var label = LabelUtils.GetSelectionLabel(selected, item.Liquids) + " ";
 			
 			switch (sortType) {
 				case SortType.Value:
