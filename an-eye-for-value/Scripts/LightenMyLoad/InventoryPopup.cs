@@ -10,6 +10,13 @@ namespace Plaidman.AnEyeForValue.Menus {
 		private static readonly string SortCommand = "Plaidman_AnEyeForValue_Popup_InvSort";
 		private static readonly string DropCommand = "Plaidman_AnEyeForValue_Popup_Drop";
 
+		public InventoryPopup() {
+			Comparers = new() {
+				{ SortType.Value, new InventoryValueComparer() },
+				{ SortType.Weight, new WeightComparer() },
+			};
+		}
+
 		public int[] ShowPopup(InventoryItem[] options) {
 			var defaultSelected = 0;
 			var weightSelected = 0.0;

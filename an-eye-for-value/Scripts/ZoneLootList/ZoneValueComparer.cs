@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 namespace Plaidman.AnEyeForValue.Menus {
-	public class ValueComparer : IComparer<InventoryItem> {
+	public class ZoneValueComparer : IComparer<InventoryItem> {
 		public int Compare(InventoryItem x, InventoryItem y) {
 			var xCat = Category(x);
 			var yCat = Category(y);

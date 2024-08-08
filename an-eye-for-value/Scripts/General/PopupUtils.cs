@@ -6,11 +6,6 @@ namespace Plaidman.AnEyeForValue.Utils {
 	public class PopupUtils {
 		private static readonly string PreferredSortOption = "Plaidman_AnEyeForValue_Option_PreferredSort";
 
-		public static readonly Dictionary<SortType, IComparer<InventoryItem>> Comparers = new() {
-			{ SortType.Value, new ValueComparer() },
-			{ SortType.Weight, new WeightComparer() },
-		};
-
 		public static readonly Dictionary<SortType, string> SortStrings = new() {
 			{ SortType.Value, "\xffvalue" },
 			{ SortType.Weight, "weight" },

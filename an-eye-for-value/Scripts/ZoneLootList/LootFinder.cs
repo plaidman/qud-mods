@@ -13,9 +13,7 @@ using XRL.World.Capabilities;
 // test a save from the steam workshop version moving over to the new version
 //
 // TODO:
-// make a different comparer for zone loot and inventory list
-// fix tiny puddles showing as 0 weight
-// pool weight value ratio can be calculated
+// implement new sorting logic that takes in pools
 
 namespace XRL.World.Parts {
 	[Serializable]

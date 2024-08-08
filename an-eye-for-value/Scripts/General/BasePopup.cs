@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Plaidman.AnEyeForValue.Utils;
 
 namespace Plaidman.AnEyeForValue.Menus {
 	public enum SortType { Weight, Value };
@@ -8,6 +7,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 	public class BasePopup {
 		public SortType CurrentSortType;
 		private Dictionary<SortType, InventoryItem[]> ItemListCache;
+		protected Dictionary<SortType, IComparer<InventoryItem>> Comparers;
 
 		protected void ResetCache() {
 			ItemListCache = new() {
@@ -20,7 +20,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			var cache = ItemListCache.GetValue(CurrentSortType);
 
 			if (cache == null) {
-				var comparer = PopupUtils.Comparers.GetValue(CurrentSortType);
+				var comparer = Comparers.GetValue(CurrentSortType);
 				cache = items.OrderByDescending(item => item, comparer).ToArray();
 				ItemListCache.Set(CurrentSortType, cache);
 			}
@@ -32,7 +32,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			var cache = ItemListCache.GetValue(CurrentSortType);
 
 			if (cache == null) {
-				var comparer = PopupUtils.Comparers.GetValue(CurrentSortType);
+				var comparer = Comparers.GetValue(CurrentSortType);
 				cache = items.OrderBy(item => item, comparer).ToArray();
 				ItemListCache.Set(CurrentSortType, cache);
 			}

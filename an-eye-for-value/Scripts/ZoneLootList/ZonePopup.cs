@@ -10,6 +10,13 @@ namespace Plaidman.AnEyeForValue.Menus {
 		private static readonly string ToggleCommand = "Plaidman_AnEyeForValue_Popup_Toggle";
 		private static readonly string SortCommand = "Plaidman_AnEyeForValue_Popup_ZoneSort";
 
+		public ZonePopup() {
+			Comparers = new() {
+				{ SortType.Value, new ZoneValueComparer() },
+				{ SortType.Weight, new WeightComparer() },
+			};
+		}
+
 		public IEnumerable<ZonePopupAction> ShowPopup(
 			InventoryItem[] options,
 			int[] initialSelections
