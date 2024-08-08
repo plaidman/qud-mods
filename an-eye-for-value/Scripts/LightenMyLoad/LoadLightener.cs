@@ -20,18 +20,18 @@ namespace XRL.World.Parts {
 		public Guid AbilityGuid;
 		public SortType CurrentSortType = PopupUtils.DefaultSortType();
 
-        public override void Write(GameObject basis, SerializationWriter writer) {
-        	writer.WriteNamedFields(this, GetType());
-        }
+		public override void Write(GameObject basis, SerializationWriter writer) {
+			writer.WriteNamedFields(this, GetType());
+		}
 
-        public override void Read(GameObject basis, SerializationReader reader) {
-        	if (reader.ModVersions["Plaidman_AnEyeForValue"] == new Version("1.0.0")) {
+		public override void Read(GameObject basis, SerializationReader reader) {
+			if (reader.ModVersions["Plaidman_AnEyeForValue"] == new Version("1.0.0")) {
 				base.Read(basis, reader);
 				return;
-        	}
+			}
 
-        	reader.ReadNamedFields(this, GetType());
-        }
+			reader.ReadNamedFields(this, GetType());
+		}
 
 		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);
@@ -57,7 +57,7 @@ namespace XRL.World.Parts {
 					Silent: true);
 			}
 		}
-	
+
 		private void RemoveAbility() {
 			if (AbilityGuid != Guid.Empty) {
 				ParentObject.RemoveActivatedAbility(ref AbilityGuid);
@@ -81,12 +81,12 @@ namespace XRL.World.Parts {
 
 			return base.HandleEvent(e);
 		}
-		
+
 		private AEFV_ItemKnowledge GetItemKnowledge() {
 			ItemKnowledge ??= ParentObject.GetPart<AEFV_ItemKnowledge>();
 			return ItemKnowledge;
 		}
-		
+
 		private void ListItems() {
 			var objects = ParentObject.Inventory.GetObjects();
 			var itemList = objects.Select((go, i) => {
@@ -100,7 +100,7 @@ namespace XRL.World.Parts {
 				Messages.MessageQueue.AddPlayerMessage("no items selected");
 				return;
 			}
-			
+
 			if (selected.Length == 1) {
 				var index = selected[0];
 				InventoryActionEvent.Check(ParentObject, ParentObject, objects[index], "CommandDropObject");

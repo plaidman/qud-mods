@@ -36,7 +36,7 @@ namespace Plaidman.AnEyeForValue.Handlers
 		[OptionFlagUpdate]
 		public static void FlagUpdate() {
 			if (The.Player == null) return;
-			
+
 			if (The.Player.HasPart<AEFV_LoadLightener>()) {
 				The.Player.GetPart<AEFV_LoadLightener>().ToggleAbility();
 			}

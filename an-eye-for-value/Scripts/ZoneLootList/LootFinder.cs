@@ -34,18 +34,18 @@ namespace XRL.World.Parts {
 		public Guid AbilityGuid;
 		public SortType CurrentSortType = PopupUtils.DefaultSortType();
 
-        public override void Write(GameObject basis, SerializationWriter writer) {
-        	writer.WriteNamedFields(this, GetType());
-        }
+		public override void Write(GameObject basis, SerializationWriter writer) {
+			writer.WriteNamedFields(this, GetType());
+		}
 
-        public override void Read(GameObject basis, SerializationReader reader) {
-        	if (reader.ModVersions["Plaidman_AnEyeForValue"] == new Version("1.0.0")) {
+		public override void Read(GameObject basis, SerializationReader reader) {
+			if (reader.ModVersions["Plaidman_AnEyeForValue"] == new Version("1.0.0")) {
 				base.Read(basis, reader);
 				return;
-        	}
+			}
 
-        	reader.ReadNamedFields(this, GetType());
-        }
+			reader.ReadNamedFields(this, GetType());
+		}
 
 		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);
@@ -71,7 +71,7 @@ namespace XRL.World.Parts {
 					Silent: true);
 			}
 		}
-	
+
 		private void RemoveAbility() {
 			if (AbilityGuid != Guid.Empty) {
 				ParentObject.RemoveActivatedAbility(ref AbilityGuid);
@@ -82,7 +82,7 @@ namespace XRL.World.Parts {
 			ToggleAbility();
 			return base.HandleEvent(e);
 		}
-	
+
 		public override bool HandleEvent(CommandEvent e) {
 			if (e.Command == ItemListCommand) {
 				ListItems();
@@ -130,13 +130,13 @@ namespace XRL.World.Parts {
 				var inv = new InventoryItem(i, go, GetItemKnowledge().IsLiquidKnown(go.LiquidVolume), true);
 				itemList[i + takeableItems.Count] = inv;
 			}
-			
+
 			ItemPopup.CurrentSortType = CurrentSortType;
 			var toggledItemsEnumerator = ItemPopup.ShowPopup(
 				itemList,
 				initialSelections.ToArray()
 			);
-			
+
 			GameObject item;
 			foreach (ZonePopupAction result in toggledItemsEnumerator) {
 				switch (result.Action) {
@@ -154,7 +154,7 @@ namespace XRL.World.Parts {
 					case ActionType.Sort:
 						CurrentSortType = ItemPopup.CurrentSortType;
 						break;
-						
+
 					case ActionType.Travel:
 						var coord = liquids[result.Index].CurrentCell;
 						AutoAct.Setting = "M" + coord.X.ToString() + "," + coord.Y.ToString();

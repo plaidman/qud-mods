@@ -29,7 +29,7 @@ namespace XRL.World.Parts {
 		public override bool HandleEvent(AutoexploreObjectEvent e) {
 			e.Command ??= "Autoget";
 			return base.HandleEvent(e);
-		} 
+		}
 
 		public override bool HandleEvent(AddedToInventoryEvent e) {
 			ParentObject.RemovePart<AEFV_AutoGetBeacon>();

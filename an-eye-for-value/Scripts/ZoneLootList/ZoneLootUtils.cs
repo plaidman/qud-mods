@@ -7,8 +7,8 @@ using XRL.World.Parts;
 
 namespace Plaidman.AnEyeForValue.Utils {
 	class FilteredZoneItems {
-		public List<GameObject> TakeableItems = null; 
-		public List<GameObject> Liquids = null; 
+		public List<GameObject> TakeableItems = null;
+		public List<GameObject> Liquids = null;
 	}
 
 	class ZoneLootUtils {
@@ -19,23 +19,23 @@ namespace Plaidman.AnEyeForValue.Utils {
 		public static FilteredZoneItems FilterZoneItems(IEnumerable<GameObject> items) {
 			List<GameObject> TakeableItems = new();
 			Dictionary<string, GameObject> Liquids = new();
-			
+
 			foreach (var item in items) {
 				if (NotSeen(item)) {
 					// skip unseen items
 					continue;
 				}
-				
+
 				if (IsTakeable(item)) {
 					TakeableItems.Add(item);
 					continue;
 				}
-				
+
 				if (Options.GetOption(LiquidsOption) != "Yes") {
-					// skip 
+					// skip
 					continue;
 				}
-				
+
 				// if an item has a LiquidVolume and is not takeable,
 				// or if an item has the Pool Tag
 				// I'm not sure what will be excluded if I use tag
@@ -45,13 +45,13 @@ namespace Plaidman.AnEyeForValue.Utils {
 					Liquids.SetValue(item.ShortDisplayNameStripped, closest);
 				}
 			}
-			
+
 			return new(){
 				Liquids = new List<GameObject>(Liquids.Values),
 				TakeableItems = TakeableItems,
 			};
 		}
-		
+
 		private static bool NotSeen(GameObject go) {
 			return !go.Physics.CurrentCell.IsExplored() || go.IsHidden;
 		}

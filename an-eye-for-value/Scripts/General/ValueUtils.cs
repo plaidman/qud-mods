@@ -10,7 +10,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 
 			var value = go.Value;
 			var multiple = 1.0;
-			
+
 			if (!go.IsCurrency) {
 				// subtract 0.21 (3 * 0.07) because the player's reputation
 				//   with themself grants 3 bonus ego
@@ -19,13 +19,13 @@ namespace Plaidman.AnEyeForValue.Utils {
 
 			return value * multiple;
 		}
-		
+
 		public static double? GetValueRatio(double? value, double weight) {
 			if (value == null || value <= 0) {
 				// not sellable (includes fresh water containers)
 				return null;
 			}
-			
+
 			if (weight <= 0) {
 				return double.PositiveInfinity;
 			}

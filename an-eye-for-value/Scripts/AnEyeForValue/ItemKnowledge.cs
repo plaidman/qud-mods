@@ -13,7 +13,7 @@ namespace XRL.World.Parts {
 		private static readonly string PKAppraisalSkill = "PKAPP_Price";
 		[NonSerialized]
 		private static readonly string AnEyeForValueSkill = "AEFV_AnEyeForValue";
-		
+
 		public HashSet<string> KnownItems = new(50);
 		public HashSet<string> KnownLiquids = new(20);
 
@@ -23,24 +23,24 @@ namespace XRL.World.Parts {
 			base.Register(go, registrar);
 		}
 
-        public override void Write(GameObject basis, SerializationWriter writer) {
-        	writer.WriteNamedFields(this, GetType());
-        }
+		public override void Write(GameObject basis, SerializationWriter writer) {
+			writer.WriteNamedFields(this, GetType());
+		}
 
-        public override void Read(GameObject basis, SerializationReader reader) {
-        	if (reader.ModVersions["Plaidman_AnEyeForValue"] == new Version("1.0.0")) {
-        		KnownItems = (HashSet<string>)reader.ReadObject();
-        		return;
-        	}
+		public override void Read(GameObject basis, SerializationReader reader) {
+			if (reader.ModVersions["Plaidman_AnEyeForValue"] == new Version("1.0.0")) {
+				KnownItems = (HashSet<string>)reader.ReadObject();
+				return;
+			}
 
-        	reader.ReadNamedFields(this, GetType());
-        }
+			reader.ReadNamedFields(this, GetType());
+		}
 
-        public override bool HandleEvent(StartTradeEvent e) {
+		public override bool HandleEvent(StartTradeEvent e) {
 			if (!e.Trader.IsCreature) {
 				return base.HandleEvent(e);
 			}
-			
+
 			foreach (var item in e.Actor.Inventory.GetObjects()) {
 				KnownItems.Add(item.BaseDisplayName);
 
@@ -74,7 +74,7 @@ namespace XRL.World.Parts {
 			ParentObject.GetPart<AEFV_LootFinder>().UninstallParts();
 
 			ParentObject.RemovePart<AEFV_ItemKnowledge>();
-			
+
 			Popup.Show("Finished removing {{W|An Eye For Value}}. Please save and quit, then you can remove this mod.");
 		}
 
@@ -85,12 +85,12 @@ namespace XRL.World.Parts {
 
 			return base.HandleEvent(e);
 		}
-		
+
 		public bool IsItemKnown(GameObject go) {
 			if (Options.GetOption(OmnicientOption) == "Yes") {
 				return true;
 			}
-			
+
 			if (ParentObject.HasSkill(PKAppraisalSkill)) {
 				return true;
 			}
@@ -98,7 +98,7 @@ namespace XRL.World.Parts {
 			if (ParentObject.HasSkill(AnEyeForValueSkill)) {
 				return true;
 			}
-			
+
 			var itemKnown = KnownItems.Contains(go.BaseDisplayName);
 			var liquidKnown = true;
 			if (go.LiquidVolume?.Primary != null) {
@@ -112,7 +112,7 @@ namespace XRL.World.Parts {
 			if (Options.GetOption(OmnicientOption) == "Yes") {
 				return true;
 			}
-			
+
 			if (ParentObject.HasSkill(PKAppraisalSkill)) {
 				return true;
 			}
@@ -120,7 +120,7 @@ namespace XRL.World.Parts {
 			if (ParentObject.HasSkill(AnEyeForValueSkill)) {
 				return true;
 			}
-			
+
 			// there is no liquid, treat it as known
 			if (liquids?.Primary == null) {
 				return false;

@@ -95,7 +95,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 							}
 						}
 						continue;
-						
+
 					case -3: // sort
 						CurrentSortType = PopupUtils.NextSortType.GetValue(CurrentSortType);
 
@@ -113,7 +113,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 					default:
 						break;
 				}
-				
+
 				var mappedItem = sortedOptions[selectedIndex];
 				if (mappedItem.IsPool) {
 					yield return new ZonePopupAction(mappedItem.Index, ActionType.Travel);

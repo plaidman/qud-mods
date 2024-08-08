@@ -18,13 +18,13 @@ namespace Plaidman.AnEyeForValue.Menus {
 				_ => 0,
 			};
 		}
-		
+
 		private int CompareDouble(double x, double y) {
 			if (x > y) { return 1; }
 			if (x < y) { return -1; }
 			return 0;
 		}
-		
+
 		private int Category(InventoryItem item) {
 			// 1: known items sort by ratio, lowest first
 			// 2: unknown items sort by weight, highest first
@@ -42,7 +42,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			if (!item.IsKnown) {
 				return 2;
 			}
-			
+
 			return 1;
 		}
 	}

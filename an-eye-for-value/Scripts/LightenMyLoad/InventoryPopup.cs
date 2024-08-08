@@ -14,7 +14,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			var defaultSelected = 0;
 			var weightSelected = 0;
 			var selectedItems = new HashSet<int>();
-			
+
 			ResetCache();
 			var sortedOptions = SortItems(options);
 			IRenderable[] itemIcons = sortedOptions.Select(
@@ -44,7 +44,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			while (true) {
 				var intro = "Mark items here, then press {{W|[" + dropKey + "]}} to drop them.\n"
 					+ "Selected weight: {{w|" + weightSelected + "#}}\n\n";
-				
+
 				int selectedIndex = Popup.PickOption(
 					Title: "Inventory Items",
 					Intro: intro,
@@ -80,7 +80,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 					default:
 						break;
 				}
-	
+
 				var mappedItem = sortedOptions[selectedIndex];
 				if (selectedItems.Contains(mappedItem.Index)) {
 					selectedItems.Remove(mappedItem.Index);

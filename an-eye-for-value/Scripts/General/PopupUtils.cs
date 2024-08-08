@@ -24,12 +24,12 @@ namespace Plaidman.AnEyeForValue.Utils {
 		public static SortType DefaultSortType() {
 			return Options.GetOption(PreferredSortOption) == "Value"
 				? SortType.Value
-				: SortType.Weight;		
+				: SortType.Weight;
 		}
 
 		public static string GetItemLabel(bool selected, InventoryItem item, SortType sortType) {
 			var label = LabelUtils.GetSelectionLabel(selected, item.IsPool) + " ";
-			
+
 			switch (sortType) {
 				case SortType.Value:
 					label += LabelUtils.GetValueLabel(item) + " ";

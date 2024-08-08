@@ -4,7 +4,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 	public class LabelUtils {
 		public static string GetValueLabel(InventoryItem item) {
 			var ratio = item.Ratio;
-			
+
 			if (ratio == null) {
 				// not sellable: grey
 				return "{{K||-X-|}}";
@@ -19,7 +19,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 				// not known: beige, display weight
 				return GetWeightLabel(item.Weight);
 			}
-			
+
 			if (ratio < 1) {
 				// super low ratio: red
 				return "{{R||-$-|}}";
@@ -43,7 +43,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 			// more than silver nugget: 3x green
 			return "{{G||$$$|}}";
 		}
-		
+
 		public static string GetWeightLabel(double weight) {
 			if (weight > 99) {
 				return "{{w||99+|}}";
