@@ -17,12 +17,6 @@ namespace XRL.World.Parts {
 		public HashSet<string> KnownItems = new(50);
 		public HashSet<string> KnownLiquids = new(20);
 
-		public override void Register(GameObject go, IEventRegistrar registrar) {
-			registrar.Register(CommandEvent.ID);
-			registrar.Register(StartTradeEvent.ID);
-			base.Register(go, registrar);
-		}
-
 		public override void Write(GameObject basis, SerializationWriter writer) {
 			writer.WriteNamedFields(this, GetType());
 		}
@@ -34,6 +28,12 @@ namespace XRL.World.Parts {
 			}
 
 			reader.ReadNamedFields(this, GetType());
+		}
+
+		public override void Register(GameObject go, IEventRegistrar registrar) {
+			registrar.Register(CommandEvent.ID);
+			registrar.Register(StartTradeEvent.ID);
+			base.Register(go, registrar);
 		}
 
 		public override bool HandleEvent(StartTradeEvent e) {

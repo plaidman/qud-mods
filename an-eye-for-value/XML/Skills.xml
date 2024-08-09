@@ -1,5 +1,5 @@
 <skills>
-	<skill Name="Customs and Folklore" Load="Merge">
+	<skill Name="Customs and Folklore">
 		<power Name="An Eye For Value" Cost="50" Attribute="Intelligence" Minimum="19" Class="AEFV_AnEyeForValue" Snippet="assess item values" Description="You can quickly assess the value of items in the world." Tile="an_eye_for_value.png" Foreground="y" Detail="B"></power>
 	</skill>
 </skills>
