@@ -91,9 +91,11 @@ namespace XRL.World.Parts {
 		}
 
 		private void ListItems() {
-			var filteredItems = ZoneLootUtils.FilterZoneItems(ParentObject.CurrentZone.YieldObjects());
-			var takeableItems = filteredItems.TakeableItems;
-			var liquids = filteredItems.Liquids;
+			ZoneLootUtils.FilterZoneItems(
+				ParentObject.CurrentZone.YieldObjects(),
+				out List<GameObject> takeableItems,
+				out List<GameObject> liquids
+			);
 
 			if (liquids.Count == 0 && takeableItems.Count == 0) {
 				Popup.Show("You haven't seen any new loot in this area.");

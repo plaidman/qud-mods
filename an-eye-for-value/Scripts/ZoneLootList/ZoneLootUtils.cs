@@ -6,18 +6,17 @@ using XRL.World;
 using XRL.World.Parts;
 
 namespace Plaidman.AnEyeForValue.Utils {
-	class FilteredZoneItems {
-		public List<GameObject> TakeableItems = null;
-		public List<GameObject> Liquids = null;
-	}
-
 	class ZoneLootUtils {
 		private static readonly string TrashOption = "Plaidman_AnEyeForValue_Option_ZoneTrash";
 		private static readonly string CorpsesOption = "Plaidman_AnEyeForValue_Option_ZoneCorpses";
 		private static readonly string LiquidsOption = "Plaidman_AnEyeForValue_Option_ZoneLiquids";
 
-		public static FilteredZoneItems FilterZoneItems(IEnumerable<GameObject> items) {
-			List<GameObject> TakeableItems = new();
+		public static void FilterZoneItems(
+			IEnumerable<GameObject> items,
+			out List<GameObject> TakeableItems,
+			out List<GameObject> LiquidItems
+		) {
+			TakeableItems = new();
 			Dictionary<string, GameObject> Liquids = new();
 
 			foreach (var item in items) {
@@ -45,11 +44,9 @@ namespace Plaidman.AnEyeForValue.Utils {
 					Liquids.SetValue(item.ShortDisplayNameStripped, closest);
 				}
 			}
-
-			return new(){
-				Liquids = new List<GameObject>(Liquids.Values),
-				TakeableItems = TakeableItems,
-			};
+			
+			LiquidItems = new List<GameObject>(Liquids.Values);
+			return;
 		}
 
 		private static bool NotSeen(GameObject go) {
