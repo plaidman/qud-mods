@@ -65,8 +65,8 @@ namespace Plaidman.AnEyeForValue.Utils {
 				&& Options.GetOption(TrashOption) != "Yes";
 
 			var armedMine = false;
-			if (go.HasPart<Tinkering_Mine>()) {
-				armedMine = go.GetPart<Tinkering_Mine>().Armed;
+			if (go.TryGetPart(out Tinkering_Mine minePart)) {
+				armedMine = minePart.Armed;
 			}
 
 			return go.Physics.Takeable
