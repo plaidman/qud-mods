@@ -7,14 +7,6 @@ using Plaidman.AnEyeForValue.Utils;
 using XRL.UI;
 using XRL.World.Capabilities;
 
-// TOTEST:
-// item value is known if you know the container item (if any) AND the primary liquid inside it (if any)
-// takeable containers should display weight/ratio as normal
-// test a save from the steam workshop version moving over to the new version
-//
-// TODO:
-// implement new sorting logic that takes in pools
-
 namespace XRL.World.Parts {
 	[Serializable]
 	public class AEFV_LootFinder : IPlayerPart {
