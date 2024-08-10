@@ -149,8 +149,10 @@ namespace XRL.World.Parts {
 						break;
 
 					case ActionType.Travel:
-						var coord = liquids[result.Index].CurrentCell;
-						AutoAct.Setting = "M" + coord.X.ToString() + "," + coord.Y.ToString();
+						var playerCell = ParentObject.GetCurrentCell();
+						var itemCell = liquids[result.Index].CurrentCell;
+						var landingCell = itemCell.GetCellFromDirectionOfCell(playerCell);
+						AutoAct.Setting = "M" + landingCell.X.ToString() + "," + landingCell.Y.ToString();
 						The.ActionManager.SkipPlayerTurn = true;
 						break;
 				}
