@@ -70,8 +70,13 @@ namespace XRL.World.Parts {
 				ParentObject.RemoveSkill(AnEyeForValueSkill);
 			}
 
-			ParentObject.GetPart<AEFV_LoadLightener>().UninstallParts();
-			ParentObject.GetPart<AEFV_LootFinder>().UninstallParts();
+			if (The.Player.TryGetPart(out AEFV_LoadLightener lmlPart)) {
+				lmlPart.UninstallParts();
+			}
+
+			if (The.Player.TryGetPart(out AEFV_LootFinder zllPart)) {
+				zllPart.UninstallParts();
+			}
 
 			ParentObject.RemovePart<AEFV_ItemKnowledge>();
 

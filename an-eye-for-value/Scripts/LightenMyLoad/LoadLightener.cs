@@ -33,9 +33,18 @@ namespace XRL.World.Parts {
 			reader.ReadNamedFields(this, GetType());
 		}
 
+		public override void Attach() {
+			ToggleAbility();
+			base.Attach();
+		}
+
+		public override void Remove() {
+			RemoveAbility();
+			base.Remove();
+		}
+
 		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);
-			registrar.Register(AfterPlayerBodyChangeEvent.ID);
 			base.Register(go, registrar);
 		}
 
@@ -62,11 +71,6 @@ namespace XRL.World.Parts {
 			if (AbilityGuid != Guid.Empty) {
 				ParentObject.RemoveActivatedAbility(ref AbilityGuid);
 			}
-		}
-
-		public override bool HandleEvent(AfterPlayerBodyChangeEvent e) {
-			ToggleAbility();
-			return base.HandleEvent(e);
 		}
 
 		public void UninstallParts() {

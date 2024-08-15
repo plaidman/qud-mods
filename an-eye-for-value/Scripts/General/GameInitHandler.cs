@@ -11,8 +11,8 @@ namespace Plaidman.AnEyeForValue.Handlers
 			if (The.Player == null) return;
 
 			The.Player.RequirePart<AEFV_ItemKnowledge>();
-			The.Player.RequirePart<AEFV_LoadLightener>().ToggleAbility();
-			The.Player.RequirePart<AEFV_LootFinder>().ToggleAbility();
+			The.Player.RequirePart<AEFV_LoadLightener>();
+			The.Player.RequirePart<AEFV_LootFinder>();
 		}
 	}
 
@@ -20,8 +20,8 @@ namespace Plaidman.AnEyeForValue.Handlers
 	public class NewCharacterHandler : IPlayerMutator {
 		public void mutate(GameObject player) {
 			player.RequirePart<AEFV_ItemKnowledge>();
-			player.RequirePart<AEFV_LoadLightener>().ToggleAbility();
-			player.RequirePart<AEFV_LootFinder>().ToggleAbility();
+			player.RequirePart<AEFV_LoadLightener>();
+			player.RequirePart<AEFV_LootFinder>();
 		}
 	}
 
@@ -31,11 +31,11 @@ namespace Plaidman.AnEyeForValue.Handlers
 		public static void FlagUpdate() {
 			if (The.Player == null) return;
 
-            if (The.Player.TryGetPart(out AEFV_LoadLightener lmlPart)) {
-                lmlPart.ToggleAbility();
-            }
+			if (The.Player.TryGetPart(out AEFV_LoadLightener lmlPart)) {
+				lmlPart.ToggleAbility();
+			}
 
-            if (The.Player.TryGetPart(out AEFV_LootFinder zllPart)) {
+			if (The.Player.TryGetPart(out AEFV_LootFinder zllPart)) {
 				zllPart.ToggleAbility();
 			}
 		}
