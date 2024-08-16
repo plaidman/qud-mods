@@ -4,5 +4,6 @@
 	<option ID="Plaidman_AnEyeForValue_Option_ZoneLiquids" DisplayText="Liquids in Zone Loot" Category="Mod: An Eye For Value" Type="Checkbox" Default="No"></option>
 	<option ID="Plaidman_AnEyeForValue_Option_UseAbilities" DisplayText="Use Activated Abilities" Category="Mod: An Eye For Value" Type="Checkbox" Default="No"></option>
 	<option ID="Plaidman_AnEyeForValue_Option_PreferredSort" DisplayText="Preferred Sort Mode" Category="Mod: An Eye For Value" Type="Combo" Values="Value,Weight" Default="Value"></option>
+	<option ID="Plaidman_AnEyeForValue_Option_PreferredPickup" DisplayText="Preferred Pickup Mode" Category="Mod: An Eye For Value" Type="Combo" Values="Single,Multi" Default="Multi"></option>
 	<option ID="Plaidman_AnEyeForValue_Option_Omnicient" DisplayText="Omnicient (cheat)" Category="Mod: An Eye For Value" Type="Checkbox" Default="No"></option>
 </options>

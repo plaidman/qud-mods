@@ -21,6 +21,7 @@ namespace XRL.World.Parts {
 
 		public Guid AbilityGuid;
 		public SortType CurrentSortType = PopupUtils.DefaultSortType();
+		public PickupType CurrentPickupType = PopupUtils.DefaultPickupType();
 
 		public override void Write(GameObject basis, SerializationWriter writer) {
 			writer.WriteNamedFields(this, GetType());
@@ -129,6 +130,7 @@ namespace XRL.World.Parts {
 			}
 
 			ItemPopup.CurrentSortType = CurrentSortType;
+			ItemPopup.CurrentPickupType = CurrentPickupType;
 			var toggledItemsEnumerator = ItemPopup.ShowPopup(
 				itemList,
 				initialSelections.ToArray()
@@ -150,6 +152,7 @@ namespace XRL.World.Parts {
 
 					case ActionType.Sort:
 						CurrentSortType = ItemPopup.CurrentSortType;
+						CurrentPickupType = ItemPopup.CurrentPickupType;
 						break;
 
 					case ActionType.Travel:

@@ -24,4 +24,7 @@
 		<keyboardBind Key="tab"/>
 		<gamepadBind Button="rightTrigger"/>
 	</command>
+	<command ID="Plaidman_AnEyeForValue_Popup_PickupMode" DisplayText="Zone: Pickup Mode" Category="Mod: An Eye For Value" Layer="Menus" Auto="DownPass">
+		<keyboardBind Key="w"/>
+	</command>
 </commands>

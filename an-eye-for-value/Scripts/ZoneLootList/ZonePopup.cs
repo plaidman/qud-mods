@@ -9,6 +9,9 @@ namespace Plaidman.AnEyeForValue.Menus {
 	public class ZonePopup : BasePopup {
 		private static readonly string ToggleCommand = "Plaidman_AnEyeForValue_Popup_Toggle";
 		private static readonly string SortCommand = "Plaidman_AnEyeForValue_Popup_ZoneSort";
+		private static readonly string PickupCommand = "Plaidman_AnEyeForValue_Popup_PickupMode";
+
+		public PickupType CurrentPickupType;
 
 		public ZonePopup() {
 			Comparers = new() {
@@ -42,16 +45,22 @@ namespace Plaidman.AnEyeForValue.Menus {
 
 			var toggleKey = ControlManager.getCommandInputFormatted(ToggleCommand);
 			var sortKey = ControlManager.getCommandInputFormatted(SortCommand);
-			QudMenuItem[] menuCommands = new QudMenuItem[2]
+			var pickupKey = ControlManager.getCommandInputFormatted(PickupCommand);
+			QudMenuItem[] menuCommands = new QudMenuItem[]
 			{
 				new() {
 					command = "option:-2",
-					hotkey = ToggleCommand
+					hotkey = ToggleCommand,
 				},
 				new() {
 					text = PopupUtils.GetSortLabel(CurrentSortType, sortKey),
 					command = "option:-3",
-					hotkey = SortCommand
+					hotkey = SortCommand,
+				},
+				new() {
+					text = PopupUtils.GetPickupLabel(CurrentPickupType, pickupKey),
+					command = "option:-4",
+					hotkey = PickupCommand,
 				},
 			};
 
@@ -115,6 +124,10 @@ namespace Plaidman.AnEyeForValue.Menus {
 						}).ToArray();
 
 						yield return new ZonePopupAction(0, ActionType.Sort);
+						continue;
+
+					case -4: // pickup mode
+						XRL.Messages.MessageQueue.AddPlayerMessage("pickup mode");
 						continue;
 
 					default:

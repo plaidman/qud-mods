@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Plaidman.AnEyeForValue.Menus {
 	public enum SortType { Weight, Value };
+	public enum PickupType { Single, Multi };
 
 	public class BasePopup {
 		public SortType CurrentSortType;
