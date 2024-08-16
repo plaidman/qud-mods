@@ -127,7 +127,9 @@ namespace Plaidman.AnEyeForValue.Menus {
 						continue;
 
 					case -4: // pickup mode
-						XRL.Messages.MessageQueue.AddPlayerMessage("pickup mode");
+						CurrentPickupType = PopupUtils.NextPickupType.GetValue(CurrentPickupType);
+						menuCommands[2].text = PopupUtils.GetPickupLabel(CurrentPickupType, sortKey);
+						yield return new ZonePopupAction(0, ActionType.Sort);
 						continue;
 
 					default:
@@ -135,7 +137,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 				}
 
 				var mappedItem = sortedOptions[selectedIndex];
-				if (mappedItem.IsPool) {
+				if (mappedItem.IsPool || CurrentPickupType == PickupType.Single) {
 					yield return new ZonePopupAction(mappedItem.Index, ActionType.Travel);
 					yield break;
 				} else if (selectedItems.Contains(mappedItem.Index)) {

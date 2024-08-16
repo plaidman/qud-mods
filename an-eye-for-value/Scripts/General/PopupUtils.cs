@@ -22,6 +22,11 @@ namespace Plaidman.AnEyeForValue.Utils {
 			{ SortType.Weight, SortType.Value },
 		};
 
+		public static readonly Dictionary<PickupType, PickupType> NextPickupType = new() {
+			{ PickupType.Multi, PickupType.Single },
+			{ PickupType.Single, PickupType.Multi },
+		};
+
 		public static SortType DefaultSortType() {
 			return Options.GetOption(PreferredSortOption) == "Value"
 				? SortType.Value

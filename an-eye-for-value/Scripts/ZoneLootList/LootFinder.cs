@@ -114,25 +114,34 @@ namespace XRL.World.Parts {
 				}
 			}
 
-			var itemList = new InventoryItem[takeableItems.Count + liquids.Count];
+			var itemCount = takeableItems.Count + liquids.Count;
+			var invList = new InventoryItem[itemCount];
+			var goList = new GameObject[itemCount];
 			var valueMult = ValueUtils.GetValueMultiplier();
+
 			for (var i = 0; i < takeableItems.Count; i++) {
 				var go = takeableItems[i];
 				var known = GetItemKnowledge().IsItemKnown(go);
 				var inv = new InventoryItem(i, go, valueMult, known, false);
-				itemList[i] = inv;
+
+				goList[i] = go;
+				invList[i] = inv;
 			}
+
 			for (var i = 0; i < liquids.Count; i++) {
+				var iAdj = i + takeableItems.Count;
 				var go = liquids[i];
 				var known = GetItemKnowledge().IsLiquidKnown(go.LiquidVolume);
-				var inv = new InventoryItem(i, go, valueMult, known, true);
-				itemList[i + takeableItems.Count] = inv;
+				var inv = new InventoryItem(iAdj, go, valueMult, known, true);
+
+				goList[iAdj] = go;
+				invList[iAdj] = inv;
 			}
 
 			ItemPopup.CurrentSortType = CurrentSortType;
 			ItemPopup.CurrentPickupType = CurrentPickupType;
 			var toggledItemsEnumerator = ItemPopup.ShowPopup(
-				itemList,
+				invList,
 				initialSelections.ToArray()
 			);
 
@@ -157,8 +166,9 @@ namespace XRL.World.Parts {
 
 					case ActionType.Travel:
 						var playerCell = ParentObject.GetCurrentCell();
-						var itemCell = liquids[result.Index].CurrentCell;
+						var itemCell = goList[result.Index].CurrentCell;
 						var landingCell = itemCell.GetCellFromDirectionOfCell(playerCell);
+
 						AutoAct.Setting = "M" + landingCell.X.ToString() + "," + landingCell.Y.ToString();
 						The.ActionManager.SkipPlayerTurn = true;
 						break;
