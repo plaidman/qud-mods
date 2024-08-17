@@ -124,7 +124,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 
 					case -4: // pickup mode
 						CurrentPickupType = PopupUtils.NextPickupType.GetValue(CurrentPickupType);
-						menuCommands[2].text = PopupUtils.GetPickupLabel(CurrentPickupType, sortKey);
+						menuCommands[2].text = PopupUtils.GetPickupLabel(CurrentPickupType, pickupKey);
 						yield return new ZonePopupAction(0, ActionType.Sort);
 						continue;
 
