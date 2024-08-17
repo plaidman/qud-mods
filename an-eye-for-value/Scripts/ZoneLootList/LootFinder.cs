@@ -20,7 +20,9 @@ namespace XRL.World.Parts {
 		public PickupType CurrentPickupType = PopupUtils.DefaultPickupType();
 
 		public override void Write(GameObject basis, SerializationWriter writer) {
-			writer.WriteNamedFields(this, GetType());
+			writer.Write(AbilityGuid);
+			writer.Write((int)CurrentSortType);
+			writer.Write((int)CurrentPickupType);
 		}
 
 		public override void Read(GameObject basis, SerializationReader reader) {
@@ -29,7 +31,14 @@ namespace XRL.World.Parts {
 				return;
 			}
 
-			reader.ReadNamedFields(this, GetType());
+			if (reader.ModVersions["Plaidman_AnEyeForValue"] == new Version("2.0.0")) {
+				reader.ReadNamedFields(this, GetType());
+				return;
+			}
+
+			AbilityGuid = reader.ReadGuid();
+			CurrentSortType = (SortType)reader.ReadInt32();
+			CurrentPickupType = (PickupType)reader.ReadInt32();
 		}
 
 		public override void Attach() {

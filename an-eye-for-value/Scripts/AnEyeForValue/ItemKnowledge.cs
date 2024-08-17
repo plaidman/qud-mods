@@ -10,7 +10,16 @@ namespace XRL.World.Parts {
 		public HashSet<string> KnownLiquids = new(20);
 
 		public override void Write(GameObject basis, SerializationWriter writer) {
-			writer.WriteNamedFields(this, GetType());
+			WriteStringHashSet(KnownItems, writer);
+			WriteStringHashSet(KnownLiquids, writer);
+		}
+		
+		private void WriteStringHashSet(HashSet<string> hs, SerializationWriter writer) {
+			writer.Write(hs.Count);
+
+			foreach (var item in hs) {
+				writer.WriteOptimized(item);
+			}
 		}
 
 		public override void Read(GameObject basis, SerializationReader reader) {
@@ -19,7 +28,21 @@ namespace XRL.World.Parts {
 				return;
 			}
 
-			reader.ReadNamedFields(this, GetType());
+			if (reader.ModVersions["Plaidman_AnEyeForValue"] == new Version("2.0.0")) {
+				reader.ReadNamedFields(this, GetType());
+				return;
+			}
+
+			ReadStringHashSet(KnownItems, reader);
+			ReadStringHashSet(KnownLiquids, reader);
+		}
+
+		private void ReadStringHashSet(HashSet<string> hs, SerializationReader reader) {
+			var count = reader.ReadInt32();
+
+			for (var i = 0; i < count; i++) {
+				hs.Add(reader.ReadOptimizedString());
+			}
 		}
 
 		public override void Register(GameObject go, IEventRegistrar registrar) {
