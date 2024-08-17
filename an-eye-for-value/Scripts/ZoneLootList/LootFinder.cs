@@ -11,10 +11,6 @@ namespace XRL.World.Parts {
 	[Serializable]
 	public class AEFV_LootFinder : IPlayerPart {
 		[NonSerialized]
-		private static readonly string ItemListCommand = "Plaidman_AnEyeForValue_Command_ZoneLootList";
-		[NonSerialized]
-		private static readonly string AbilityOption = "Plaidman_AnEyeForValue_Option_UseAbilities";
-		[NonSerialized]
 		private readonly ZonePopup ItemPopup = new();
 		[NonSerialized]
 		private AEFV_ItemKnowledge ItemKnowledge = null;
@@ -52,7 +48,7 @@ namespace XRL.World.Parts {
 		}
 
 		public void ToggleAbility() {
-			if (Options.GetOption(AbilityOption) == "Yes") {
+			if (Options.GetOption(XMLStrings.AbilityOption) == "Yes") {
 				RequireAbility();
 			} else {
 				RemoveAbility();
@@ -63,7 +59,7 @@ namespace XRL.World.Parts {
 			if (AbilityGuid == Guid.Empty) {
 				AbilityGuid = ParentObject.AddActivatedAbility(
 					Name: "Zone Loot List",
-					Command: ItemListCommand,
+					Command: XMLStrings.ZLLItemListCommand,
 					Class: "Skill",
 					UITileDefault: Renderable.UITile("an_eye_for_value.png", 'y', 'r'),
 					Silent: true);
@@ -77,7 +73,7 @@ namespace XRL.World.Parts {
 		}
 
 		public override bool HandleEvent(CommandEvent e) {
-			if (e.Command == ItemListCommand) {
+			if (e.Command == XMLStrings.ZLLItemListCommand) {
 				ListItems();
 			}
 

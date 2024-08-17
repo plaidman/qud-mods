@@ -1,19 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Plaidman.AnEyeForValue.Utils;
 using XRL.UI;
 
 namespace XRL.World.Parts {
 	[Serializable]
 	public class AEFV_ItemKnowledge : IPlayerPart {
-		[NonSerialized]
-		private static readonly string UninstallCommand = "Plaidman_AnEyeForValue_Command_Uninstall";
-		[NonSerialized]
-		private static readonly string OmnicientOption = "Plaidman_AnEyeForValue_Option_Omnicient";
-		[NonSerialized]
-		private static readonly string PKAppraisalSkill = "PKAPP_Price";
-		[NonSerialized]
-		private static readonly string AnEyeForValueSkill = "AEFV_AnEyeForValue";
-
 		public HashSet<string> KnownItems = new(50);
 		public HashSet<string> KnownLiquids = new(20);
 
@@ -66,8 +58,8 @@ namespace XRL.World.Parts {
 				return;
 			}
 
-			if (ParentObject.HasSkill(AnEyeForValueSkill)) {
-				ParentObject.RemoveSkill(AnEyeForValueSkill);
+			if (ParentObject.HasSkill(XMLStrings.AnEyeForValueSkill)) {
+				ParentObject.RemoveSkill(XMLStrings.AnEyeForValueSkill);
 			}
 
 			if (The.Player.TryGetPart(out AEFV_LoadLightener lmlPart)) {
@@ -84,7 +76,7 @@ namespace XRL.World.Parts {
 		}
 
 		public override bool HandleEvent(CommandEvent e) {
-			if (e.Command == UninstallCommand) {
+			if (e.Command == XMLStrings.UninstallCommand) {
 				UninstallParts();
 			}
 
@@ -92,15 +84,15 @@ namespace XRL.World.Parts {
 		}
 
 		public bool IsItemKnown(GameObject go) {
-			if (Options.GetOption(OmnicientOption) == "Yes") {
+			if (Options.GetOption(XMLStrings.OmnicientOption) == "Yes") {
 				return true;
 			}
 
-			if (ParentObject.HasSkill(PKAppraisalSkill)) {
+			if (ParentObject.HasSkill(XMLStrings.PKAppraisalSkill)) {
 				return true;
 			}
 
-			if (ParentObject.HasSkill(AnEyeForValueSkill)) {
+			if (ParentObject.HasSkill(XMLStrings.AnEyeForValueSkill)) {
 				return true;
 			}
 
@@ -114,15 +106,15 @@ namespace XRL.World.Parts {
 		}
 
 		public bool IsLiquidKnown(LiquidVolume liquids) {
-			if (Options.GetOption(OmnicientOption) == "Yes") {
+			if (Options.GetOption(XMLStrings.OmnicientOption) == "Yes") {
 				return true;
 			}
 
-			if (ParentObject.HasSkill(PKAppraisalSkill)) {
+			if (ParentObject.HasSkill(XMLStrings.PKAppraisalSkill)) {
 				return true;
 			}
 
-			if (ParentObject.HasSkill(AnEyeForValueSkill)) {
+			if (ParentObject.HasSkill(XMLStrings.AnEyeForValueSkill)) {
 				return true;
 			}
 

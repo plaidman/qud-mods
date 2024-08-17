@@ -7,10 +7,6 @@ using Plaidman.AnEyeForValue.Utils;
 
 namespace Plaidman.AnEyeForValue.Menus {
 	public class ZonePopup : BasePopup {
-		private static readonly string ToggleCommand = "Plaidman_AnEyeForValue_Popup_Toggle";
-		private static readonly string SortCommand = "Plaidman_AnEyeForValue_Popup_ZoneSort";
-		private static readonly string PickupCommand = "Plaidman_AnEyeForValue_Popup_PickupMode";
-
 		public PickupType CurrentPickupType;
 
 		public ZonePopup() {
@@ -43,24 +39,24 @@ namespace Plaidman.AnEyeForValue.Menus {
 				return PopupUtils.GetItemLabel(selected, item, CurrentSortType);
 			}).ToArray();
 
-			var toggleKey = ControlManager.getCommandInputFormatted(ToggleCommand);
-			var sortKey = ControlManager.getCommandInputFormatted(SortCommand);
-			var pickupKey = ControlManager.getCommandInputFormatted(PickupCommand);
+			var toggleKey = ControlManager.getCommandInputFormatted(XMLStrings.ToggleCommand);
+			var sortKey = ControlManager.getCommandInputFormatted(XMLStrings.ZoneSortCommand);
+			var pickupKey = ControlManager.getCommandInputFormatted(XMLStrings.PickupCommand);
 			QudMenuItem[] menuCommands = new QudMenuItem[]
 			{
 				new() {
 					command = "option:-2",
-					hotkey = ToggleCommand,
+					hotkey = XMLStrings.ToggleCommand,
 				},
 				new() {
 					text = PopupUtils.GetSortLabel(CurrentSortType, sortKey),
 					command = "option:-3",
-					hotkey = SortCommand,
+					hotkey = XMLStrings.ZoneSortCommand,
 				},
 				new() {
 					text = PopupUtils.GetPickupLabel(CurrentPickupType, pickupKey),
 					command = "option:-4",
-					hotkey = PickupCommand,
+					hotkey = XMLStrings.PickupCommand,
 				},
 			};
 

@@ -7,10 +7,6 @@ using XRL.World.Parts;
 
 namespace Plaidman.AnEyeForValue.Utils {
 	class ZoneLootUtils {
-		private static readonly string TrashOption = "Plaidman_AnEyeForValue_Option_ZoneTrash";
-		private static readonly string CorpsesOption = "Plaidman_AnEyeForValue_Option_ZoneCorpses";
-		private static readonly string LiquidsOption = "Plaidman_AnEyeForValue_Option_ZoneLiquids";
-
 		public static void FilterZoneItems(
 			IEnumerable<GameObject> items,
 			out List<GameObject> TakeableItems,
@@ -30,7 +26,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 					continue;
 				}
 
-				if (Options.GetOption(LiquidsOption) != "Yes") {
+				if (Options.GetOption(XMLStrings.LiquidsOption) != "Yes") {
 					// skip
 					continue;
 				}
@@ -57,9 +53,9 @@ namespace Plaidman.AnEyeForValue.Utils {
 			var autogetByDefault = go.ShouldAutoget()
 				&& !go.HasPart<AEFV_AutoGetBeacon>();
 			var isCorpse = go.GetInventoryCategory() == "Corpses"
-				&& Options.GetOption(CorpsesOption) != "Yes";
+				&& Options.GetOption(XMLStrings.CorpsesOption) != "Yes";
 			var isTrash = go.HasPart<Garbage>()
-				&& Options.GetOption(TrashOption) != "Yes";
+				&& Options.GetOption(XMLStrings.TrashOption) != "Yes";
 
 			var armedMine = false;
 			if (go.TryGetPart(out Tinkering_Mine minePart)) {

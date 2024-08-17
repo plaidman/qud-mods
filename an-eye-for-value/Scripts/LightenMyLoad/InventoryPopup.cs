@@ -7,9 +7,6 @@ using Plaidman.AnEyeForValue.Utils;
 
 namespace Plaidman.AnEyeForValue.Menus {
 	public class InventoryPopup : BasePopup {
-		private static readonly string SortCommand = "Plaidman_AnEyeForValue_Popup_InvSort";
-		private static readonly string DropCommand = "Plaidman_AnEyeForValue_Popup_Drop";
-
 		public InventoryPopup() {
 			Comparers = new() {
 				{ SortType.Value, new InventoryValueComparer() },
@@ -32,19 +29,19 @@ namespace Plaidman.AnEyeForValue.Menus {
 				return PopupUtils.GetItemLabel(selected, item, CurrentSortType);
 			}).ToArray();
 
-			var dropKey = ControlManager.getCommandInputFormatted(DropCommand);
-			var sortKey = ControlManager.getCommandInputFormatted(SortCommand);
+			var dropKey = ControlManager.getCommandInputFormatted(XMLStrings.DropCommand);
+			var sortKey = ControlManager.getCommandInputFormatted(XMLStrings.InvSortCommand);
 			QudMenuItem[] menuCommands = new QudMenuItem[]
 			{
 				new() {
 					text = "{{W|[" + dropKey + "]}} {{y|Drop Items}}",
 					command = "option:-2",
-					hotkey = DropCommand,
+					hotkey = XMLStrings.DropCommand,
 				},
 				new() {
 					text = PopupUtils.GetSortLabel(CurrentSortType, sortKey),
 					command = "option:-3",
-					hotkey = SortCommand,
+					hotkey = XMLStrings.InvSortCommand,
 				},
 			};
 

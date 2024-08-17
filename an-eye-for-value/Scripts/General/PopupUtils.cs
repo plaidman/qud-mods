@@ -4,9 +4,6 @@ using XRL.UI;
 
 namespace Plaidman.AnEyeForValue.Utils {
 	public class PopupUtils {
-		private static readonly string PreferredSortOption = "Plaidman_AnEyeForValue_Option_PreferredSort";
-		private static readonly string PreferredPickupOption = "Plaidman_AnEyeForValue_Option_PreferredPickup";
-
 		public static readonly Dictionary<SortType, string> SortStrings = new() {
 			{ SortType.Value, "\xffvalue" },
 			{ SortType.Weight, "weight" },
@@ -28,13 +25,13 @@ namespace Plaidman.AnEyeForValue.Utils {
 		};
 
 		public static SortType DefaultSortType() {
-			return Options.GetOption(PreferredSortOption) == "Value"
+			return Options.GetOption(XMLStrings.PreferredSortOption) == "Value"
 				? SortType.Value
 				: SortType.Weight;
 		}
 
 		public static PickupType DefaultPickupType() {
-			return Options.GetOption(PreferredPickupOption) == "Single"
+			return Options.GetOption(XMLStrings.PreferredPickupOption) == "Single"
 				? PickupType.Single
 				: PickupType.Multi;
 		}
