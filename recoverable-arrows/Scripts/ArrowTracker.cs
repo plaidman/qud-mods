@@ -1,5 +1,6 @@
 ﻿using System;
 using Plaidman.RecoverableArrows.Events;
+using Plaidman.RecoverableArrows.Utils;
 using XRL.UI;
 
 // todo
@@ -15,17 +16,15 @@ using XRL.UI;
 namespace XRL.World.Parts {
 	public class RA_ArrowTracker : IPlayerPart {
 		[NonSerialized]
-		private static readonly string UninstallCommand = "Plaidman_RecoverableArrows_Command_Uninstall";
-		[NonSerialized]
 		public RA_RecoverableProjectile ProjectilePart = null;
 
-	    public override void Register(GameObject go, IEventRegistrar registrar) {
+		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);
 			registrar.Register(ProjectileMovingEvent.ID);
-	        base.Register(go, registrar);
-	    }
+			base.Register(go, registrar);
+		}
 
-	    public override bool HandleEvent(ProjectileMovingEvent e) {
+		public override bool HandleEvent(ProjectileMovingEvent e) {
 			if (e.PathIndex <= 1) {
 				e.Projectile.TryGetPart(out ProjectilePart);
 			}
@@ -41,10 +40,10 @@ namespace XRL.World.Parts {
 			}
 
 			return base.HandleEvent(e);
-	    }
+		}
 
-	    public override bool HandleEvent(CommandEvent e) {
-			if (e.Command == UninstallCommand) {
+		public override bool HandleEvent(CommandEvent e) {
+			if (e.Command == XMLStrings.UninstallCommand) {
 				UninstallParts();
 			}
 
