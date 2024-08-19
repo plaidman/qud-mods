@@ -9,14 +9,14 @@ namespace Plaidman.RecoverableArrows.Handlers
 		[CallAfterGameLoaded]
 		public static void AfterLoaded() {
 			if (The.Player == null) return;
-			The.Player.RequirePart<RA_ArrowTracking>();
+			The.Player.RequirePart<RA_ArrowTracker>();
 		}
 	}
 
 	[PlayerMutator]
 	public class NewCharacterHandler : IPlayerMutator {
 		public void mutate(GameObject player) {
-			player.RequirePart<RA_ArrowTracking>();
+			player.RequirePart<RA_ArrowTracker>();
 		}
 	}
 }

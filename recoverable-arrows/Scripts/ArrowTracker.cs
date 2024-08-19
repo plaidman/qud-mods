@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Linq;
 using Plaidman.RecoverableArrows.Events;
 using XRL.UI;
 
 namespace XRL.World.Parts {
 	[Serializable]
-	public class RA_ArrowTracking : IPlayerPart {
+	public class RA_ArrowTracker : IPlayerPart {
 		[NonSerialized]
 		private static readonly string UninstallCommand = "Plaidman_RecoverableArrows_Command_Uninstall";
+		[NonSerialized]
+		public RA_RecoverableProjectile ProjectilePart = null;
 
         public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);
@@ -16,19 +17,20 @@ namespace XRL.World.Parts {
         }
 
         public override bool HandleEvent(ProjectileMovingEvent e) {
-			UnityEngine.Debug.Log(" ");
-			UnityEngine.Debug.Log("ProjectileMovingEvent player");
+			if (e.PathIndex <= 1) {
+				e.Projectile.TryGetPart(out ProjectilePart);
+			}
 
-			UnityEngine.Debug.Log("path index " + e.PathIndex + " of " + (e.Path.Count-1));
-			UnityEngine.Debug.Log("cell " + e.Cell.X + " " + e.Cell.Y);
-			UnityEngine.Debug.Log("projectile " + (e.Projectile?.DisplayName ?? "null"));
-			UnityEngine.Debug.Log("defender " + (e.Defender?.DisplayName ?? "null") + " " + (e.Defender?.CurrentCell?.X ?? -1) + " " + (e.Defender?.CurrentCell?.Y ?? -1));
-			UnityEngine.Debug.Log("hit override " + (e.HitOverride?.DisplayName ?? "null") + " " + (e.HitOverride?.CurrentCell?.X ?? -1) + " " + (e.HitOverride?.CurrentCell?.Y ?? -1));
+			if (ProjectilePart == null) {
+				return base.HandleEvent(e);
+			}
 			
-			// if projectile.TryGetPart
-			//   update projectile cell in part
-			// if final index in path
-			//   fire event that it missed
+			ProjectilePart.CurrentCell = e.Cell;
+			
+			if (e.PathIndex == e.Path.Count - 1) {
+				Messages.MessageQueue.AddPlayerMessage("arrow hit edge of map");
+				ProjectilePart.CheckSpawn(false);
+			}
 
 			return base.HandleEvent(e);
         }
@@ -48,7 +50,7 @@ namespace XRL.World.Parts {
 			}
 
 			The.Game.HandleEvent(new RA_UninstallEvent());
-			ParentObject.RemovePart<RA_ArrowTracking>();
+			ParentObject.RemovePart<RA_ArrowTracker>();
 			
 			Popup.Show("Finished removing {{W|Recoverable Arrows}}. Please save and quit, then you can remove this mod.");
 		}

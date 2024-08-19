@@ -1,26 +1,26 @@
 <objects>
 	<object Name="ProjectileWoodenArrow" Load="Merge" >
-		<part Name="RA_RecoverableArrow" Chance="60" Blueprint="Wooden Arrow" />
+		<part Name="RA_RecoverableProjectile" BreakChance="40" Blueprint="Wooden Arrow" />
 	</object>
 	<object Name="ProjectileSteelArrow" Load="Merge" >
-		<part Name="RA_RecoverableArrow" Chance="70" Blueprint="Steel Arrow" />
+		<part Name="RA_RecoverableProjectile" BreakChance="30" Blueprint="Steel Arrow" />
 	</object>
 	<object Name="ProjectileCarbideArrow" Load="Merge" >
-		<part Name="RA_RecoverableArrow" Chance="75" Blueprint="Carbide Arrow" />
+		<part Name="RA_RecoverableProjectile" BreakChance="25" Blueprint="Carbide Arrow" />
 	</object>
 	<object Name="ProjectileFoldedCarbideArrow" Load="Merge" >
-		<part Name="RA_RecoverableArrow" Chance="75" Blueprint="Folded Carbide Arrow" />
+		<part Name="RA_RecoverableProjectile" BreakChance="25" Blueprint="Folded Carbide Arrow" />
 	</object>
 	<object Name="ProjectileFulleriteArrow" Load="Merge" >
-		<part Name="RA_RecoverableArrow" Chance="90" Blueprint="Fullerite Arrow" />
+		<part Name="RA_RecoverableProjectile" BreakChance="10" Blueprint="Fullerite Arrow" />
 	</object>
 	<object Name="ProjectileCrysteelArrow" Load="Merge" >
-		<part Name="RA_RecoverableArrow" Chance="80" Blueprint="Crysteel Arrow" />
+		<part Name="RA_RecoverableProjectile" BreakChance="20" Blueprint="Crysteel Arrow" />
 	</object>
 	<object Name="ProjectileFlawlessCrysteelArrow" Load="Merge" >
-		<part Name="RA_RecoverableArrow" Chance="85" Blueprint="Flawless Crysteel Arrow" />
+		<part Name="RA_RecoverableProjectile" BreakChance="15" Blueprint="Flawless Crysteel Arrow" />
 	</object>
 	<object Name="ProjectileZetachromeArrow" Load="Merge" >
-		<part Name="RA_RecoverableArrow" Chance="99" Blueprint="Zetachrome Arrow" />
+		<part Name="RA_RecoverableProjectile" BreakChance="1" Blueprint="Zetachrome Arrow" />
 	</object>
 </objects> 
