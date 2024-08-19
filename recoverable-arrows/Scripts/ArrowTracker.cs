@@ -2,31 +2,17 @@
 using Plaidman.RecoverableArrows.Events;
 using XRL.UI;
 
-// test
-//  miss
-//  flinch
-//  arrow breaks after hitting edge
-//  arrow breaks after hitting wall
-//  arrow breaks after hitting creature
-//  no target
-//  target creature
-//  hit edge
-//  hit wall
-//  hit creature
-//  kill creature with arrow
-//  kill creature with melee but having arrows in it
-//  kill creature with melee with no arrows
-//  ensure the correct number of arrows drop from creature
-//  save saves pincushion
-//  save saves without errors in playerlog
-//  uninstall works without errors
-//
 // todo
+//  test pincushion with multiple arrow types
+//  test boomrose arrows don't collect
 //  add an option for verbose mode
 //  remove other messages
+//  clear up whitespace problems
+//  make icon
+//  make screenshot
+//  make description
 
 namespace XRL.World.Parts {
-	[Serializable]
 	public class RA_ArrowTracker : IPlayerPart {
 		[NonSerialized]
 		private static readonly string UninstallCommand = "Plaidman_RecoverableArrows_Command_Uninstall";
@@ -47,7 +33,7 @@ namespace XRL.World.Parts {
 			if (ProjectilePart == null) {
 				return base.HandleEvent(e);
 			}
-			
+
 			ProjectilePart.CurrentCell = e.Cell;
 			
 			if (e.PathIndex == e.Path.Count - 1) {
@@ -72,7 +58,7 @@ namespace XRL.World.Parts {
 			}
 
 			The.Game.HandleEvent(new RA_UninstallEvent());
-			ParentObject.RemovePart<RA_ArrowTracker>();
+			ParentObject.RemovePart(this);
 			
 			Popup.Show("Finished removing {{W|Recoverable Arrows}}. Please save and quit, then you can remove this mod.");
 		}
