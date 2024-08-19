@@ -19,13 +19,13 @@ namespace XRL.World.Parts {
 		[NonSerialized]
 		public RA_RecoverableProjectile ProjectilePart = null;
 
-        public override void Register(GameObject go, IEventRegistrar registrar) {
+	    public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);
 			registrar.Register(ProjectileMovingEvent.ID);
-            base.Register(go, registrar);
-        }
+	        base.Register(go, registrar);
+	    }
 
-        public override bool HandleEvent(ProjectileMovingEvent e) {
+	    public override bool HandleEvent(ProjectileMovingEvent e) {
 			if (e.PathIndex <= 1) {
 				e.Projectile.TryGetPart(out ProjectilePart);
 			}
@@ -41,9 +41,9 @@ namespace XRL.World.Parts {
 			}
 
 			return base.HandleEvent(e);
-        }
+	    }
 
-        public override bool HandleEvent(CommandEvent e) {
+	    public override bool HandleEvent(CommandEvent e) {
 			if (e.Command == UninstallCommand) {
 				UninstallParts();
 			}

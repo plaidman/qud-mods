@@ -3,7 +3,7 @@ using Plaidman.RecoverableArrows.Events;
 using XRL.Rules;
 
 namespace XRL.World.Parts {
-    public enum HitType { Wall, Open }
+	public enum HitType { Wall, Open }
 
 	[Serializable]
 	public class RA_RecoverableProjectile : IPart, IModEventHandler<RA_UninstallEvent> {
@@ -13,13 +13,13 @@ namespace XRL.World.Parts {
 		public int BreakChance = 50;
 		public string Blueprint = "Wooden Arrow";
 
-        public override void Register(GameObject go, IEventRegistrar registrar) {
+	    public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register("ProjectileHit");
 			registrar.Register(The.Game, RA_UninstallEvent.ID);
-            base.Register(go, registrar);
-        }
+	        base.Register(go, registrar);
+	    }
 
-        public override bool FireEvent(Event e) {
+	    public override bool FireEvent(Event e) {
 			if (e.ID != "ProjectileHit") {
 				return base.FireEvent(e);
 			}
@@ -35,8 +35,8 @@ namespace XRL.World.Parts {
 				CheckSpawn(defender.ConsiderSolid());
 			}
 
-            return base.FireEvent(e);
-        }
+	        return base.FireEvent(e);
+	    }
 
 		public bool CheckBreak() {
 			int roll = Stat.TinkerRandom(1, 100);
@@ -49,7 +49,7 @@ namespace XRL.World.Parts {
 			return false;
 		}
 
-        public void CheckSpawn(bool isSolid) {
+	    public void CheckSpawn(bool isSolid) {
 			if (CheckBreak()) {
 				return;
 			}
