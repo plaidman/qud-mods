@@ -32,8 +32,7 @@ namespace XRL.World.Parts {
 		}
 
 		public override bool HandleEvent(AddedToInventoryEvent e) {
-			ParentObject.RemovePart<AEFV_AutoGetBeacon>();
-
+			ParentObject.RemovePart(this);
 			return base.HandleEvent(e);
 		}
 	}

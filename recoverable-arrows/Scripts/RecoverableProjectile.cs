@@ -1,11 +1,12 @@
 ﻿using System;
+using Plaidman.RecoverableArrows.Events;
 using XRL.Rules;
 
 namespace XRL.World.Parts {
     public enum HitType { Wall, Open }
 
 	[Serializable]
-	public class RA_RecoverableProjectile : IPart {
+	public class RA_RecoverableProjectile : IPart, IModEventHandler<RA_UninstallEvent> {
 		[NonSerialized]
 		public Cell CurrentCell = null;
 
@@ -14,6 +15,7 @@ namespace XRL.World.Parts {
 
         public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register("ProjectileHit");
+			registrar.Register(The.Game, RA_UninstallEvent.ID);
             base.Register(go, registrar);
         }
 
@@ -22,11 +24,8 @@ namespace XRL.World.Parts {
 				return base.FireEvent(e);
 			}
 
-			Messages.MessageQueue.AddPlayerMessage("arrow hit object");
-
 			GameObject defender = e.GetParameter("Defender") as GameObject;
 			if (defender?.CurrentCell != null) {
-				Messages.MessageQueue.AddPlayerMessage("  with known location");
 				CurrentCell = defender.CurrentCell;
 			}
 			
@@ -35,24 +34,23 @@ namespace XRL.World.Parts {
             return base.FireEvent(e);
         }
 
-		//todo handle uninstall event here
-
         public void CheckSpawn(bool isSolid) {
-			Messages.MessageQueue.AddPlayerMessage("break chance: " + BreakChance);
 			int roll = Stat.TinkerRandom(1, 100);
-			Messages.MessageQueue.AddPlayerMessage("rolled: " + roll);
 			if (roll <= BreakChance) {
-				Messages.MessageQueue.AddPlayerMessage("arrow broken");
 				return;
 			}
 			
 			if (isSolid) {
-				Messages.MessageQueue.AddPlayerMessage("hit wall, finding passable cell");
 				CurrentCell = CurrentCell.GetCellFromDirectionOfCell(The.Player.CurrentCell);
 			}
 
-			Messages.MessageQueue.AddPlayerMessage("creating " + Blueprint);
 			CurrentCell.AddObject(Blueprint);
+		}
+		
+		public bool HandleEvent(RA_UninstallEvent e) {
+			Messages.MessageQueue.AddPlayerMessage("uninstalling arrow part");
+			ParentObject.RemovePart(this);
+			return base.HandleEvent(e);
 		}
 	}
 }

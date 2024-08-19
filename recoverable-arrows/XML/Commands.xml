@@ -1,0 +1,3 @@
+<commands>
+	<command ID="Plaidman_RecoverableArrows_Command_Uninstall" DisplayText="Uninstall Mod" Category="Mod: Recoverable Arrows" Layer="Adventure" Auto="Down"></command>
+</commands>

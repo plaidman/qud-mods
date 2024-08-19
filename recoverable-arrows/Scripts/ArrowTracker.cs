@@ -28,7 +28,6 @@ namespace XRL.World.Parts {
 			ProjectilePart.CurrentCell = e.Cell;
 			
 			if (e.PathIndex == e.Path.Count - 1) {
-				Messages.MessageQueue.AddPlayerMessage("arrow hit edge of map");
 				ProjectilePart.CheckSpawn(false);
 			}
 
