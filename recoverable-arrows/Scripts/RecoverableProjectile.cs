@@ -42,11 +42,11 @@ namespace XRL.World.Parts {
 		public bool CheckBreak() {
 			int roll = Stat.TinkerRandom(1, 100);
 			if (roll <= BreakChance) {
-				MessageLogger.VerboseMessage(Blueprint + " broke");
+				MessageLogger.VerboseMessage("Your " + Blueprint + " broke. [" + roll + " vs " + BreakChance + "]");
 				return true;
 			}
 			
-			MessageLogger.VerboseMessage(Blueprint + " survived");
+			MessageLogger.VerboseMessage("Your " + Blueprint + " is intact. [" + roll + " vs " + BreakChance + "]");
 			return false;
 		}
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Plaidman.RecoverableArrows.Events;
 using Plaidman.RecoverableArrows.Utils;
+using XRL.Language;
 
 namespace XRL.World.Parts {
 	[Serializable]
@@ -25,7 +26,7 @@ namespace XRL.World.Parts {
 					ParentObject.CurrentCell.AddObject(pin);
 				}
 				
-				MessageLogger.VerboseMessage(ParentObject.DisplayNameStripped + " released " + Pins[pin] + "x " + pin);
+				MessageLogger.VerboseMessage("You can recover " + Pins[pin] + "x " + pin + " from " + Grammar.MakePossessive(ParentObject.DisplayNameOnlyStripped) + " body");
 			}
 
 			return base.HandleEvent(e);
