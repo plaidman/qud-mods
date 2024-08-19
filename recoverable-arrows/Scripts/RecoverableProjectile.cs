@@ -29,14 +29,28 @@ namespace XRL.World.Parts {
 				CurrentCell = defender.CurrentCell;
 			}
 			
-			CheckSpawn(defender.ConsiderSolid());
+			if (defender.IsCreature) {
+				CheckPin(defender);
+			} else {
+				CheckSpawn(defender.ConsiderSolid());
+			}
 
             return base.FireEvent(e);
         }
 
-        public void CheckSpawn(bool isSolid) {
+		public bool CheckBreak() {
 			int roll = Stat.TinkerRandom(1, 100);
 			if (roll <= BreakChance) {
+				Messages.MessageQueue.AddPlayerMessage(Blueprint + " broke");
+				return true;
+			}
+			
+			Messages.MessageQueue.AddPlayerMessage(Blueprint + " survived");
+			return false;
+		}
+
+        public void CheckSpawn(bool isSolid) {
+			if (CheckBreak()) {
 				return;
 			}
 			
@@ -47,8 +61,23 @@ namespace XRL.World.Parts {
 			CurrentCell.AddObject(Blueprint);
 		}
 		
+		public void CheckPin(GameObject defender) {
+			if (defender.CurrentCell == null) {
+				// BeforeDeathRemovalEvent happens before ProjectileHit.
+				// AddPin will have no effect, so we add the final arrow differently
+				CheckSpawn(false);
+				return;
+			}
+
+			if (CheckBreak()) {
+				return;
+			}
+
+			var part = defender.RequirePart<RA_PinCushion>();
+			part.AddPin(Blueprint);
+		}
+		
 		public bool HandleEvent(RA_UninstallEvent e) {
-			Messages.MessageQueue.AddPlayerMessage("uninstalling arrow part");
 			ParentObject.RemovePart(this);
 			return base.HandleEvent(e);
 		}
