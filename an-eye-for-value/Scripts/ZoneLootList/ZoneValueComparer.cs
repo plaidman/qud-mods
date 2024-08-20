@@ -42,7 +42,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			}
 
 			if (!item.IsKnown) {
-				if (item.IsPool) {
+				if (item.Type == ItemType.Liquid) {
 					return 1;
 				}
 

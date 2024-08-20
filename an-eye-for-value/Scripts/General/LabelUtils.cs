@@ -45,7 +45,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 		}
 
 		public static string GetWeightLabel(InventoryItem item) {
-			if (item.IsPool) {
+			if (item.Type == ItemType.Liquid) {
 				return "{{c||~\xf7~|}}";
 			}
 
@@ -60,8 +60,8 @@ namespace Plaidman.AnEyeForValue.Utils {
 			return "{{w||" + item.Weight.ToString().PadLeft(2, '\xff') + "#|}}";
 		}
 
-		public static string GetSelectionLabel(bool selected, bool isPool) {
-			if (isPool) {
+		public static string GetSelectionLabel(bool selected, ItemType type) {
+			if (type == ItemType.Liquid) {
 				return "{{c|[\xf7]}}";
 			}
 

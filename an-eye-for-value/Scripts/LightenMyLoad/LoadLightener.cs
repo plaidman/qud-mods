@@ -99,7 +99,7 @@ namespace XRL.World.Parts {
 			var valueMult = ValueUtils.GetValueMultiplier();
 			var itemList = objects.Select((go, i) => {
 				var known = GetItemKnowledge().IsItemKnown(go);
-				return new InventoryItem(i, go, valueMult, known, false);
+				return new InventoryItem(i, go, valueMult, known, ItemType.Takeable);
 			}).ToArray();
 
 			ItemPopup.CurrentSortType = CurrentSortType;

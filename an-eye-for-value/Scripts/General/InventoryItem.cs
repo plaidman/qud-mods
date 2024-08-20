@@ -3,6 +3,8 @@ using Plaidman.AnEyeForValue.Utils;
 using XRL.World;
 
 namespace Plaidman.AnEyeForValue.Menus {
+	public enum ItemType { Takeable, Liquid, Chest }
+
 	public class InventoryItem {
 		public int Index { get; }
 		public string DisplayName { get; }
@@ -11,27 +13,37 @@ namespace Plaidman.AnEyeForValue.Menus {
 		public double? Value { get; }
 		public double? Ratio { get; }
 		public bool IsKnown { get; }
-		public bool IsPool { get; }
+		public ItemType Type { get; }
 
 		public InventoryItem(
 			int index,
 			GameObject go,
 			double valueMult,
 			bool isKnown,
-			bool isPool
+			ItemType type
 		) {
 			Index = index;
 			DisplayName = go.DisplayName;
 			Icon = go.Render;
 			IsKnown = isKnown;
 
-			IsPool = isPool;
-			if (isPool) {
-				Value = ValueUtils.GetLiquidValue(go, valueMult);
-				Weight = ValueUtils.GetLiquidWeight(go);
-			} else {
-				Value = ValueUtils.GetValue(go, valueMult);
-				Weight = go.Weight;
+			Type = type;
+			switch (type) {
+				case ItemType.Chest:
+					DisplayName += " {{w|(chest)}}";
+					Value = ValueUtils.GetValue(go, valueMult);
+					Weight = go.Weight;
+					break;
+
+				case ItemType.Takeable:
+					Value = ValueUtils.GetValue(go, valueMult);
+					Weight = go.Weight;
+					break;
+
+				case ItemType.Liquid:
+					Value = ValueUtils.GetLiquidValue(go, valueMult);
+					Weight = ValueUtils.GetLiquidWeight(go);
+					break;
 			}
 
 			Ratio = ValueUtils.GetValueRatio(Value, Weight);

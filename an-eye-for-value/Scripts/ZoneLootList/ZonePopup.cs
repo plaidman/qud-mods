@@ -133,7 +133,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 				}
 
 				var mappedItem = sortedOptions[selectedIndex];
-				if (mappedItem.IsPool || CurrentPickupType == PickupType.Single) {
+				if (mappedItem.Type == ItemType.Liquid || CurrentPickupType == PickupType.Single) {
 					yield return new ZonePopupAction(mappedItem.Index, ActionType.Travel);
 					yield break;
 				} else if (selectedItems.Contains(mappedItem.Index)) {

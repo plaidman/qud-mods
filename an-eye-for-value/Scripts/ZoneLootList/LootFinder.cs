@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using ConsoleLib.Console;
 using Plaidman.AnEyeForValue.Events;
@@ -127,7 +127,7 @@ namespace XRL.World.Parts {
 			for (var i = 0; i < takeableItems.Count; i++) {
 				var go = takeableItems[i];
 				var known = GetItemKnowledge().IsItemKnown(go);
-				var inv = new InventoryItem(i, go, valueMult, known, false);
+				var inv = new InventoryItem(i, go, valueMult, known, ItemType.Takeable);
 
 				goList[i] = go;
 				invList[i] = inv;
@@ -137,7 +137,7 @@ namespace XRL.World.Parts {
 				var iAdj = i + takeableItems.Count;
 				var go = liquids[i];
 				var known = GetItemKnowledge().IsLiquidKnown(go.LiquidVolume);
-				var inv = new InventoryItem(iAdj, go, valueMult, known, true);
+				var inv = new InventoryItem(iAdj, go, valueMult, known, ItemType.Liquid);
 
 				goList[iAdj] = go;
 				invList[iAdj] = inv;
