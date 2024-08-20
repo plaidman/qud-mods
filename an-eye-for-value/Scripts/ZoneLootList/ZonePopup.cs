@@ -95,6 +95,14 @@ namespace Plaidman.AnEyeForValue.Menus {
 								var item = sortedOptions[i];
 								if (selectedItems.Contains(item.Index)) continue;
 								if (item.Type == ItemType.Liquid) continue;
+								if (item.Type == ItemType.ChestReset) continue;
+
+								if (item.Type == ItemType.Chest) {
+									item.Type = ItemType.ChestReset;
+									itemLabels[i] = PopupUtils.GetItemLabel(false, item, CurrentSortType);
+									yield return new ZonePopupAction(item.Index, ActionType.ResetChest);
+									continue;
+								}
 
 								selectedItems.Add(item.Index);
 								itemLabels[i] = PopupUtils.GetItemLabel(true, item, CurrentSortType);
@@ -106,6 +114,8 @@ namespace Plaidman.AnEyeForValue.Menus {
 								var item = sortedOptions[i];
 								if (!selectedItems.Contains(item.Index)) continue;
 								if (item.Type == ItemType.Liquid) continue;
+								if (item.Type == ItemType.Chest) continue;
+								if (item.Type == ItemType.ChestReset) continue;
 
 								selectedItems.Remove(item.Index);
 								itemLabels[i] = PopupUtils.GetItemLabel(false, item, CurrentSortType);
