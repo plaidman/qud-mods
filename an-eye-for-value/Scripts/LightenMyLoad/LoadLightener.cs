@@ -100,7 +100,7 @@ namespace XRL.World.Parts {
 			var itemList = objects.Select((go, i) => {
 				var known = GetItemKnowledge().IsItemKnown(go);
 				return new InventoryItem(i, go, valueMult, known, ItemType.Takeable);
-			}).ToArray();
+			}).ToList();
 
 			ItemPopup.CurrentSortType = CurrentSortType;
 			var selected = ItemPopup.ShowPopup(itemList);

@@ -17,7 +17,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 		}
 
 		public IEnumerable<ZonePopupAction> ShowPopup(
-			InventoryItem[] options,
+			List<InventoryItem> options,
 			int[] initialSelections
 		) {
 			var defaultSelected = 0;
@@ -61,7 +61,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			};
 
 			while (true) {
-				var selectPrefix = selectedItems.Count < options.Length ? "S" : "Des";
+				var selectPrefix = selectedItems.Count < options.Count ? "S" : "Des";
 				menuCommands[0].text = "{{W|[" + toggleKey + "]}} {{y|" + selectPrefix + "elect All}}";
 
 				var intro = "Mark items here, then autoexplore to pick them up.\n"
@@ -87,8 +87,8 @@ namespace Plaidman.AnEyeForValue.Menus {
 					case -2:  // toggle all
 						var tempList = new List<int>(selectedItems);
 
-						if (selectedItems.Count < options.Length) {
-							for (var i = 0; i < sortedOptions.Length; i++) {
+						if (selectedItems.Count < options.Count) {
+							for (var i = 0; i < sortedOptions.Count; i++) {
 								var item = sortedOptions[i];
 								if (selectedItems.Contains(item.Index)) continue;
 								selectedItems.Add(item.Index);
@@ -97,7 +97,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 								yield return new ZonePopupAction(item.Index, ActionType.TurnOn);
 							}
 						} else {
-							for (var i = 0; i < sortedOptions.Length; i++) {
+							for (var i = 0; i < sortedOptions.Count; i++) {
 								var item = sortedOptions[i];
 								if (!selectedItems.Contains(item.Index)) continue;
 								selectedItems.Remove(item.Index);

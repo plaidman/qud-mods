@@ -7,7 +7,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 
 	public class BasePopup {
 		public SortType CurrentSortType;
-		private Dictionary<SortType, InventoryItem[]> ItemListCache;
+		private Dictionary<SortType, List<InventoryItem>> ItemListCache;
 		protected Dictionary<SortType, IComparer<InventoryItem>> Comparers;
 
 		protected void ResetCache() {
@@ -17,24 +17,24 @@ namespace Plaidman.AnEyeForValue.Menus {
 			};
 		}
 
-		protected InventoryItem[] SortItemsDescending(InventoryItem[] items) {
+		protected List<InventoryItem> SortItemsDescending(List<InventoryItem> items) {
 			var cache = ItemListCache.GetValue(CurrentSortType);
 
 			if (cache == null) {
 				var comparer = Comparers.GetValue(CurrentSortType);
-				cache = items.OrderByDescending(item => item, comparer).ToArray();
+				cache = items.OrderByDescending(item => item, comparer).ToList();
 				ItemListCache.Set(CurrentSortType, cache);
 			}
 
 			return cache;
 		}
 
-		protected InventoryItem[] SortItems(InventoryItem[] items) {
+		protected List<InventoryItem> SortItems(List<InventoryItem> items) {
 			var cache = ItemListCache.GetValue(CurrentSortType);
 
 			if (cache == null) {
 				var comparer = Comparers.GetValue(CurrentSortType);
-				cache = items.OrderBy(item => item, comparer).ToArray();
+				cache = items.OrderBy(item => item, comparer).ToList();
 				ItemListCache.Set(CurrentSortType, cache);
 			}
 

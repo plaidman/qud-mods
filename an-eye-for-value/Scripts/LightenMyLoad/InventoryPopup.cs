@@ -14,7 +14,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			};
 		}
 
-		public int[] ShowPopup(InventoryItem[] options) {
+		public int[] ShowPopup(List<InventoryItem> options) {
 			var defaultSelected = 0;
 			var weightSelected = 0.0;
 			var selectedItems = new HashSet<int>();

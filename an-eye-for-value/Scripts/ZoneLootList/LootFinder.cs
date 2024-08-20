@@ -121,7 +121,7 @@ namespace XRL.World.Parts {
 			}
 
 			var itemCount = takeableItems.Count + liquids.Count;
-			var invList = new InventoryItem[itemCount];
+			var invList = new List<InventoryItem>(itemCount);
 			var goList = new GameObject[itemCount];
 			var valueMult = ValueUtils.GetValueMultiplier();
 
@@ -131,7 +131,7 @@ namespace XRL.World.Parts {
 				var inv = new InventoryItem(i, go, valueMult, known, ItemType.Takeable);
 
 				goList[i] = go;
-				invList[i] = inv;
+				invList.Add(inv);
 			}
 
 			for (var i = 0; i < liquids.Count; i++) {
@@ -141,7 +141,7 @@ namespace XRL.World.Parts {
 				var inv = new InventoryItem(iAdj, go, valueMult, known, ItemType.Liquid);
 
 				goList[iAdj] = go;
-				invList[iAdj] = inv;
+				invList.Add(inv);
 			}
 
 			ItemPopup.CurrentSortType = CurrentSortType;
