@@ -26,7 +26,14 @@ namespace XRL.World.Parts {
 					ParentObject.CurrentCell.AddObject(pin);
 				}
 				
-				MessageLogger.VerboseMessage("You can recover " + Pins[pin] + "x " + pin + " from " + Grammar.MakePossessive(ParentObject.DisplayNameOnlyStripped) + " body");
+				var target = Grammar.MakePossessive(ParentObject.DisplayNameStripped);
+				var qty = Pins[pin];
+				var blueprint = pin;
+				if (qty > 1) {
+					blueprint = Grammar.Pluralize(pin);
+				}
+				
+				MessageLogger.VerboseMessage("{{y|You can recover " + qty + "x " + blueprint + " from " + target + " body}}");
 			}
 
 			return base.HandleEvent(e);

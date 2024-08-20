@@ -4,14 +4,9 @@ using Plaidman.RecoverableArrows.Utils;
 using XRL.UI;
 
 // todo
-//  test pincushion with multiple arrow types
-//  test boomrose arrows don't collect
-//  add an option for verbose mode
-//  remove other messages
-//  clear up whitespace problems
 //  make icon
-//  make screenshot
 //  make description
+//  make metadata file
 
 namespace XRL.World.Parts {
 	public class RA_ArrowTracker : IPlayerPart {
