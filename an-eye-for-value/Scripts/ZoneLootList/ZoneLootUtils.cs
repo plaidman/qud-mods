@@ -55,6 +55,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 			var isCorpse = go.GetInventoryCategory() == "Corpses"
 				|| go.HasTag("DynamicObjectsTable:Corpses");
 			var isTrash = go.HasPart<Garbage>();
+			var isStone = go.GetBlueprint().DescendsFrom("BaseStone");
 
 			var armedMine = false;
 			if (go.TryGetPart(out Tinkering_Mine minePart)) {
@@ -66,6 +67,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 				&& !go.IsOwned()
 				&& !armedMine
 				&& !autogetByDefault
+				&& !(isStone && Options.GetOption(XMLStrings.StonesOption) != "Yes")
 				&& !(isCorpse && Options.GetOption(XMLStrings.CorpsesOption) != "Yes")
 				&& !(isTrash && Options.GetOption(XMLStrings.TrashOption) != "Yes");
 		}

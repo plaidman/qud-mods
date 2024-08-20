@@ -14,6 +14,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 		public static readonly string PreferredSortOption = "Plaidman_AnEyeForValue_Option_PreferredSort";
 		public static readonly string PreferredPickupOption = "Plaidman_AnEyeForValue_Option_PreferredPickup";
 		public static readonly string TrashOption = "Plaidman_AnEyeForValue_Option_ZoneTrash";
+		public static readonly string StonesOption = "Plaidman_AnEyeForValue_Option_ZoneStones";
 		public static readonly string CorpsesOption = "Plaidman_AnEyeForValue_Option_ZoneCorpses";
 		public static readonly string LiquidsOption = "Plaidman_AnEyeForValue_Option_ZoneLiquids";
 

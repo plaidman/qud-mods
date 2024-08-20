@@ -1,5 +1,6 @@
 <options>
 	<option ID="Plaidman_AnEyeForValue_Option_ZoneTrash" DisplayText="Trash in Zone Loot" Category="Mod: An Eye For Value" Type="Checkbox" Default="No"></option>
+	<option ID="Plaidman_AnEyeForValue_Option_ZoneStones" DisplayText="Stones/Boulders in Zone Loot" Category="Mod: An Eye For Value" Type="Checkbox" Default="No"></option>
 	<option ID="Plaidman_AnEyeForValue_Option_ZoneCorpses" DisplayText="Corpses in Zone Loot" Category="Mod: An Eye For Value" Type="Checkbox" Default="No"></option>
 	<option ID="Plaidman_AnEyeForValue_Option_ZoneLiquids" DisplayText="Liquids in Zone Loot" Category="Mod: An Eye For Value" Type="Checkbox" Default="No"></option>
 	<option ID="Plaidman_AnEyeForValue_Option_UseAbilities" DisplayText="Use Activated Abilities" Category="Mod: An Eye For Value" Type="Checkbox" Default="No"></option>
