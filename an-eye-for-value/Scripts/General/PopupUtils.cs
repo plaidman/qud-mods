@@ -5,13 +5,13 @@ using XRL.UI;
 namespace Plaidman.AnEyeForValue.Utils {
 	public class PopupUtils {
 		public static readonly Dictionary<SortType, string> SortStrings = new() {
-			{ SortType.Value, "\xffvalue" },
-			{ SortType.Weight, "weight" },
+			{ SortType.Value, "[Sort Mode: {{W|value}}]\xff" },
+			{ SortType.Weight, "[Sort Mode: {{W|weight}}]" },
 		};
 
 		public static readonly Dictionary<PickupType, string> PickupStrings = new() {
-			{ PickupType.Single, "single" },
-			{ PickupType.Multi, "\xffmulti" },
+			{ PickupType.Single, "[Pickup Mode: {{W|single}}]" },
+			{ PickupType.Multi, "[Pickup Mode: {{W|multi}}]\xff" },
 		};
 
 		public static readonly Dictionary<SortType, SortType> NextSortType = new() {
@@ -50,16 +50,6 @@ namespace Plaidman.AnEyeForValue.Utils {
 			}
 
 			return label + item.DisplayName;
-		}
-
-		public static string GetSortLabel(SortType sortType, string sortKey) {
-			var sortString = SortStrings.GetValue(sortType);
-			return "{{W|[" + sortKey + "]}} {{y|Sort: " + sortString + "}}";
-		}
-
-		public static string GetPickupLabel(PickupType pickupType, string pickupKey) {
-			var pickupString = PickupStrings.GetValue(pickupType);
-			return "{{W|[" + pickupKey + "]}} {{y|Pickup: " + pickupString + "}}";
 		}
 	}
 }

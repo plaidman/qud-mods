@@ -39,15 +39,17 @@ namespace Plaidman.AnEyeForValue.Menus {
 					hotkey = XMLStrings.DropCommand,
 				},
 				new() {
-					text = PopupUtils.GetSortLabel(CurrentSortType, sortKey),
+					text = "{{W|[" + sortKey + "]}} {{y|Sort Mode}}",
 					command = "option:-3",
 					hotkey = XMLStrings.InvSortCommand,
 				},
 			};
 
 			while (true) {
+				var sortModeString = PopupUtils.SortStrings.GetValue(CurrentSortType);
 				var intro = "Mark items here, then press {{W|[" + dropKey + "]}} to drop them.\n"
-					+ "Selected weight: {{w|" + (int)weightSelected + "#}}\n\n";
+					+ "[Selected Weight: {{w|" + (int)weightSelected + "#}}]\xff\xff\xff"
+					+ sortModeString + "\n\n";
 
 				int selectedIndex = Popup.PickOption(
 					Title: "Inventory Items",
@@ -70,8 +72,6 @@ namespace Plaidman.AnEyeForValue.Menus {
 
 					case -3: // sort items
 						CurrentSortType = PopupUtils.NextSortType.GetValue(CurrentSortType);
-
-						menuCommands[1].text = PopupUtils.GetSortLabel(CurrentSortType, sortKey);
 						sortedOptions = SortItems(options);
 						itemIcons = sortedOptions.Select((item) => { return item.Icon; }).ToArray();
 						itemLabels = sortedOptions.Select((item) => {

@@ -46,30 +46,29 @@ namespace Plaidman.AnEyeForValue.Menus {
 			QudMenuItem[] menuCommands = new QudMenuItem[]
 			{
 				new() {
+					text = "{{W|[" + toggleKey + "]}} {{y|Toggle All}}",
 					command = "option:-2",
 					hotkey = XMLStrings.ToggleCommand,
 				},
 				new() {
-					text = PopupUtils.GetSortLabel(CurrentSortType, sortKey),
+					text = "{{W|[" + sortKey + "]}} {{y|Sort Mode}}",
 					command = "option:-3",
 					hotkey = XMLStrings.ZoneSortCommand,
 				},
 				new() {
-					text = PopupUtils.GetPickupLabel(CurrentPickupType, pickupKey),
+					text = "{{W|[" + pickupKey + "]}} {{y|Pickup Mode}}",
 					command = "option:-4",
 					hotkey = XMLStrings.PickupCommand,
 				},
 			};
 
 			while (true) {
-				var buttonLabel = selectedItems.Count < numTakeableItems
-					? "\xffSelect All\xff"
-					: "Deselect All";
-				menuCommands[0].text = "{{W|[" + toggleKey + "]}} {{y|" + buttonLabel + "}}";
-
+				var sortModeString = PopupUtils.SortStrings.GetValue(CurrentSortType);
+				var pickupModeString = PopupUtils.PickupStrings.GetValue(CurrentPickupType);
 				var intro = "Mark items here, then autoexplore to pick them up.\n"
 					+ "Selecting a liquid item ({{c|[\xf7]}}) will auto-travel to that liquid.\n"
-					+ "Selected weight: {{w|" + (int)weightSelected + "#}}\n\n";
+					+ sortModeString + "\xff\xff\xff" + pickupModeString + "\n"
+					+ "[Selected weight: {{w|" + (int)weightSelected + "#}}]\n\n";
 
 				int selectedIndex = Popup.PickOption(
 					Title: "Lootable Items",
@@ -131,7 +130,6 @@ namespace Plaidman.AnEyeForValue.Menus {
 					case -3: // sort
 						CurrentSortType = PopupUtils.NextSortType.GetValue(CurrentSortType);
 
-						menuCommands[1].text = PopupUtils.GetSortLabel(CurrentSortType, sortKey);
 						sortedOptions = SortItemsDescending(options);
 						itemIcons = sortedOptions.Select((item) => { return item.Icon; }).ToArray();
 						itemLabels = sortedOptions.Select((item) => {
@@ -144,7 +142,6 @@ namespace Plaidman.AnEyeForValue.Menus {
 
 					case -4: // pickup mode
 						CurrentPickupType = PopupUtils.NextPickupType.GetValue(CurrentPickupType);
-						menuCommands[2].text = PopupUtils.GetPickupLabel(CurrentPickupType, pickupKey);
 						yield return new ZonePopupAction(0, ActionType.Sort);
 						continue;
 
