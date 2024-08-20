@@ -3,11 +3,6 @@ using Plaidman.RecoverableArrows.Events;
 using Plaidman.RecoverableArrows.Utils;
 using XRL.UI;
 
-// todo
-//  make icon
-//  make description
-//  make metadata file
-
 namespace XRL.World.Parts {
 	public class RA_ArrowTracker : IPlayerPart {
 		[NonSerialized]

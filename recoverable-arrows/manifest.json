@@ -1,0 +1,9 @@
+{
+	"id": "Plaidman_RecoverableArrows",
+	"title": "Recoverable Arrows",
+	"description": "Arrows have a chance to not break when fired.",
+	"version": "1.0.0",
+	"author": "Plaidman",
+	"tags": "Script,Arrows",
+	"previewImage": "preview.png"
+}
