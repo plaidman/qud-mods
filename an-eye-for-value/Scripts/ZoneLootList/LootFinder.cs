@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using ConsoleLib.Console;
 using Plaidman.AnEyeForValue.Events;
@@ -120,7 +120,7 @@ namespace XRL.World.Parts {
 				}
 			}
 
-			var itemCount = takeableItems.Count + liquids.Count;
+			var itemCount = takeableItems.Count + liquids.Count + chestItems.Count;
 			var invList = new List<InventoryItem>(itemCount);
 			var goList = new GameObject[itemCount];
 			var valueMult = ValueUtils.GetValueMultiplier();
@@ -142,6 +142,20 @@ namespace XRL.World.Parts {
 
 				goList[iAdj] = go;
 				invList.Add(inv);
+			}
+
+			for (var i = 0; i < chestItems.Count; i++) {
+				var iAdj = i + takeableItems.Count + liquids.Count;
+				var go = chestItems[i];
+				
+				foreach (var chestItem in go.Inventory.GetObjects()) {
+					var known = GetItemKnowledge().IsLiquidKnown(go.LiquidVolume);
+					var inv = new InventoryItem(iAdj, chestItem, valueMult, known, ItemType.Chest);
+
+					invList.Add(inv);
+				}
+
+				goList[iAdj] = go;
 			}
 
 			ItemPopup.CurrentSortType = CurrentSortType;
