@@ -88,7 +88,10 @@ namespace Plaidman.AnEyeForValue.Menus {
 						yield break;
 
 					case -2:  // toggle all
-						var tempList = new List<int>(selectedItems);
+						if (CurrentPickupType == PickupType.Single) {
+							Popup.Show("[Toggle All] is not available in single pickup mode.");
+							continue;
+						}
 
 						if (selectedItems.Count < numTakeableItems) {
 							for (var i = 0; i < sortedOptions.Count; i++) {
