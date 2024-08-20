@@ -3,7 +3,7 @@ using Plaidman.AnEyeForValue.Utils;
 using XRL.World;
 
 namespace Plaidman.AnEyeForValue.Menus {
-	public enum ItemType { Takeable, Liquid, Chest }
+	public enum ItemType { Takeable, Liquid, Chest, ChestReset }
 
 	public class InventoryItem {
 		public int Index { get; }
@@ -13,7 +13,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 		public double? Value { get; }
 		public double? Ratio { get; }
 		public bool IsKnown { get; }
-		public ItemType Type { get; }
+		public ItemType Type { get; set; }
 
 		public InventoryItem(
 			int index,
@@ -30,6 +30,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			Type = type;
 			switch (type) {
 				case ItemType.Chest:
+				case ItemType.ChestReset:
 					DisplayName += " {{w|(chest)}}";
 					Value = ValueUtils.GetValue(go, valueMult);
 					Weight = go.Weight;

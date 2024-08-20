@@ -65,8 +65,8 @@ namespace Plaidman.AnEyeForValue.Utils {
 				return "{{c|[\xf7]}}";
 			}
 
-			if (type == ItemType.Chest) {
-				return "{{c|[\x04]}}";
+			if (type == ItemType.ChestReset) {
+				return "{{w|[\x04]}}";
 			}
 
 			if (selected) {

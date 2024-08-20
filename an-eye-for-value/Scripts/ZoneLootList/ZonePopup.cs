@@ -136,13 +136,26 @@ namespace Plaidman.AnEyeForValue.Menus {
 				if (mappedItem.Type == ItemType.Liquid || CurrentPickupType == PickupType.Single) {
 					yield return new ZonePopupAction(mappedItem.Index, ActionType.Travel);
 					yield break;
+
 				} else if (mappedItem.Type == ItemType.Chest) {
+					for (var i = 0; i < sortedOptions.Count; i++) {
+						var item = sortedOptions[i];
+						if (item.Index == mappedItem.Index) {
+							item.Type = ItemType.ChestReset;
+							itemLabels[i] = PopupUtils.GetItemLabel(false, item, CurrentSortType);
+						}
+					}
 					yield return new ZonePopupAction(mappedItem.Index, ActionType.ResetChest);
+
+				} else if (mappedItem.Type == ItemType.ChestReset) {
+					// do nothing
+
 				} else if (selectedItems.Contains(mappedItem.Index)) {
 					selectedItems.Remove(mappedItem.Index);
 					itemLabels[selectedIndex] = PopupUtils.GetItemLabel(false, mappedItem, CurrentSortType);
 					weightSelected -= mappedItem.Weight;
 					yield return new ZonePopupAction(mappedItem.Index, ActionType.TurnOff);
+
 				} else {
 					selectedItems.Add(mappedItem.Index);
 					itemLabels[selectedIndex] = PopupUtils.GetItemLabel(true, mappedItem, CurrentSortType);
