@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using ConsoleLib.Console;
 using Plaidman.AnEyeForValue.Events;
@@ -185,9 +185,13 @@ namespace XRL.World.Parts {
 						break;
 
 					case ActionType.Travel:
-						var playerCell = ParentObject.GetCurrentCell();
 						var itemCell = goList[result.Index].CurrentCell;
-						var landingCell = itemCell.GetCellFromDirectionOfCell(playerCell);
+						var landingCell = FindPassableAdjacentCell(itemCell, ParentObject.CurrentCell);
+						
+						if (landingCell == null) {
+							Popup.Show("Unable to find a suitable path to this item");
+							break;
+						}
 
 						AutoAct.Setting = "M" + landingCell.X.ToString() + "," + landingCell.Y.ToString();
 						The.ActionManager.SkipPlayerTurn = true;
@@ -199,6 +203,35 @@ namespace XRL.World.Parts {
 						break;
 				}
 			}
+		}
+		
+		private Cell FindPassableAdjacentCell(Cell start, Cell bias) {
+			Cell passable = null;
+
+			var biasDir = start.GetDirectionFromCell(bias);
+			var biasAdj = start.GetCellFromDirection(biasDir);
+			if (biasAdj.IsPassable()) {
+				if (!biasAdj.HasOpenLiquidVolume()) {
+					return biasAdj;
+				}
+
+				passable = biasAdj;
+			}
+
+			foreach (var direction in Cell.DirectionListCardinalFirst) {
+				if (direction == biasDir) continue;
+				
+				var adj = start.GetCellFromDirection(direction);
+				if (!adj.IsPassable()) continue;
+
+				passable ??= adj;
+				
+				if (!adj.HasOpenLiquidVolume()) {
+					return adj;
+				}
+			}
+
+			return passable;
 		}
 	}
 }
