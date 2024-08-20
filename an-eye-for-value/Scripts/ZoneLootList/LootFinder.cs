@@ -169,13 +169,13 @@ namespace XRL.World.Parts {
 			foreach (ZonePopupAction result in toggledItemsEnumerator) {
 				switch (result.Action) {
 					case ActionType.TurnOn:
-						item = takeableItems[result.Index];
+						item = goList[result.Index];
 						item.RemoveIntProperty("AutoexploreActionAutoget");
 						item.RequirePart<AEFV_AutoGetBeacon>();
 						break;
 
 					case ActionType.TurnOff:
-						item = takeableItems[result.Index];
+						item = goList[result.Index];
 						item.RemovePart<AEFV_AutoGetBeacon>();
 						break;
 
@@ -191,6 +191,11 @@ namespace XRL.World.Parts {
 
 						AutoAct.Setting = "M" + landingCell.X.ToString() + "," + landingCell.Y.ToString();
 						The.ActionManager.SkipPlayerTurn = true;
+						break;
+						
+					case ActionType.ResetChest:
+						item = goList[result.Index];
+						item.RemoveIntProperty("Autoexplored");
 						break;
 				}
 			}

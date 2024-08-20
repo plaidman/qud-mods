@@ -1,5 +1,5 @@
 namespace Plaidman.AnEyeForValue.Menus {
-	public enum ActionType { TurnOn, TurnOff, Sort, Travel };
+	public enum ActionType { TurnOn, TurnOff, Sort, Travel, ResetChest };
 
 	public class ZonePopupAction {
 		public int Index { get; }

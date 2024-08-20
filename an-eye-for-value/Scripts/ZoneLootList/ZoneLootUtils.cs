@@ -21,7 +21,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 				if (item.HasTag("AutoexploreChest")) {
 					var invCount = item.Inventory.GetObjectCountDirect();
 
-					if (invCount > 0) {
+					if (invCount > 0 && item.HasIntProperty("Autoexplored")) {
 						chestItems.Add(item);
 						continue;
 					}

@@ -136,6 +136,8 @@ namespace Plaidman.AnEyeForValue.Menus {
 				if (mappedItem.Type == ItemType.Liquid || CurrentPickupType == PickupType.Single) {
 					yield return new ZonePopupAction(mappedItem.Index, ActionType.Travel);
 					yield break;
+				} else if (mappedItem.Type == ItemType.Chest) {
+					yield return new ZonePopupAction(mappedItem.Index, ActionType.ResetChest);
 				} else if (selectedItems.Contains(mappedItem.Index)) {
 					selectedItems.Remove(mappedItem.Index);
 					itemLabels[selectedIndex] = PopupUtils.GetItemLabel(false, mappedItem, CurrentSortType);
