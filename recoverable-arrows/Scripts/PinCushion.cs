@@ -33,7 +33,7 @@ namespace XRL.World.Parts {
 					blueprint = Grammar.Pluralize(pin);
 				}
 				
-				MessageLogger.VerboseMessage("{{y|You can recover " + qty + "x " + blueprint + " from " + target + " body}}");
+				MessageLogger.VerboseMessage("{{y|You can recover " + qty + "x " + blueprint + " from " + target + " body.}}");
 			}
 
 			return base.HandleEvent(e);
