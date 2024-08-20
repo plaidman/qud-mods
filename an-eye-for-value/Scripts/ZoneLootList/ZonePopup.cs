@@ -30,6 +30,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			}
 
 			ResetCache();
+			int numTakeableItems = options.Count((item) => { return item.Type == ItemType.Takeable; });
 			var sortedOptions = SortItemsDescending(options);
 			IRenderable[] itemIcons = sortedOptions.Select(
 				(item) => { return item.Icon; }
@@ -61,8 +62,10 @@ namespace Plaidman.AnEyeForValue.Menus {
 			};
 
 			while (true) {
-				var selectPrefix = selectedItems.Count < options.Count ? "S" : "Des";
-				menuCommands[0].text = "{{W|[" + toggleKey + "]}} {{y|" + selectPrefix + "elect All}}";
+				var buttonLabel = selectedItems.Count < numTakeableItems
+					? "\xffSelect All\xff"
+					: "Deselect All";
+				menuCommands[0].text = "{{W|[" + toggleKey + "]}} {{y|" + buttonLabel + "}}";
 
 				var intro = "Mark items here, then autoexplore to pick them up.\n"
 					+ "Selecting a liquid item ({{c|[\xf7]}}) will auto-travel to that liquid.\n"
@@ -87,10 +90,12 @@ namespace Plaidman.AnEyeForValue.Menus {
 					case -2:  // toggle all
 						var tempList = new List<int>(selectedItems);
 
-						if (selectedItems.Count < options.Count) {
+						if (selectedItems.Count < numTakeableItems) {
 							for (var i = 0; i < sortedOptions.Count; i++) {
 								var item = sortedOptions[i];
 								if (selectedItems.Contains(item.Index)) continue;
+								if (item.Type == ItemType.Liquid) continue;
+
 								selectedItems.Add(item.Index);
 								itemLabels[i] = PopupUtils.GetItemLabel(true, item, CurrentSortType);
 								weightSelected += item.Weight;
@@ -100,6 +105,8 @@ namespace Plaidman.AnEyeForValue.Menus {
 							for (var i = 0; i < sortedOptions.Count; i++) {
 								var item = sortedOptions[i];
 								if (!selectedItems.Contains(item.Index)) continue;
+								if (item.Type == ItemType.Liquid) continue;
+
 								selectedItems.Remove(item.Index);
 								itemLabels[i] = PopupUtils.GetItemLabel(false, item, CurrentSortType);
 								weightSelected -= item.Weight;
