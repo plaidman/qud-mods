@@ -104,7 +104,8 @@ namespace XRL.World.Parts {
 			ZoneLootUtils.FilterZoneItems(
 				ParentObject.CurrentZone.YieldObjects(),
 				out List<GameObject> takeableItems,
-				out List<GameObject> liquids
+				out List<GameObject> liquids,
+				out List<GameObject> chestItems
 			);
 
 			if (liquids.Count == 0 && takeableItems.Count == 0) {

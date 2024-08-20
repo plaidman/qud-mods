@@ -10,12 +10,23 @@ namespace Plaidman.AnEyeForValue.Utils {
 		public static void FilterZoneItems(
 			IEnumerable<GameObject> items,
 			out List<GameObject> takeableItems,
-			out List<GameObject> liquidItems
+			out List<GameObject> liquidItems,
+			out List<GameObject> chestItems
 		) {
 			takeableItems = new();
+			chestItems = new();
 			Dictionary<string, GameObject> Liquids = new();
 
 			foreach (var item in items) {
+				if (item.HasTag("AutoexploreChest")) {
+					var invCount = item.Inventory.GetObjectCountDirect();
+
+					if (invCount > 0) {
+						chestItems.Add(item);
+						continue;
+					}
+				}
+
 				if (NotSeen(item)) {
 					// skip unseen items
 					continue;
