@@ -9,10 +9,10 @@ namespace Plaidman.AnEyeForValue.Utils {
 	class ZoneLootUtils {
 		public static void FilterZoneItems(
 			IEnumerable<GameObject> items,
-			out List<GameObject> TakeableItems,
-			out List<GameObject> LiquidItems
+			out List<GameObject> takeableItems,
+			out List<GameObject> liquidItems
 		) {
-			TakeableItems = new();
+			takeableItems = new();
 			Dictionary<string, GameObject> Liquids = new();
 
 			foreach (var item in items) {
@@ -22,7 +22,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 				}
 
 				if (IsTakeable(item)) {
-					TakeableItems.Add(item);
+					takeableItems.Add(item);
 					continue;
 				}
 
@@ -41,7 +41,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 				}
 			}
 			
-			LiquidItems = new List<GameObject>(Liquids.Values);
+			liquidItems = new List<GameObject>(Liquids.Values);
 			return;
 		}
 
@@ -53,9 +53,8 @@ namespace Plaidman.AnEyeForValue.Utils {
 			var autogetByDefault = go.ShouldAutoget()
 				&& !go.HasPart<AEFV_AutoGetBeacon>();
 			var isCorpse = go.GetInventoryCategory() == "Corpses"
-				&& Options.GetOption(XMLStrings.CorpsesOption) != "Yes";
-			var isTrash = go.HasPart<Garbage>()
-				&& Options.GetOption(XMLStrings.TrashOption) != "Yes";
+				|| go.HasTag("DynamicObjectsTable:Corpses");
+			var isTrash = go.HasPart<Garbage>();
 
 			var armedMine = false;
 			if (go.TryGetPart(out Tinkering_Mine minePart)) {
@@ -67,8 +66,8 @@ namespace Plaidman.AnEyeForValue.Utils {
 				&& !go.IsOwned()
 				&& !armedMine
 				&& !autogetByDefault
-				&& !isCorpse
-				&& !isTrash;
+				&& !(isCorpse && Options.GetOption(XMLStrings.CorpsesOption) != "Yes")
+				&& !(isTrash && Options.GetOption(XMLStrings.TrashOption) != "Yes");
 		}
 
 		private static GameObject ClosestToPlayer(GameObject a, GameObject b) {
