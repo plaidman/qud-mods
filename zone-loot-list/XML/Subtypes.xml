@@ -1,0 +1,9 @@
+<subtypes>
+  <class ID="Callings" Load="Merge">
+    <subtype Load="Merge" Name="Water Merchant">
+      <skills Load="Merge">
+        <skill Name="AEFV_AnEyeForValue" />
+      </skills>
+    </subtype>
+  </class>
+</subtypes>
