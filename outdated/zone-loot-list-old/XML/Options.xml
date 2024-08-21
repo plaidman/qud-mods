@@ -1,0 +1,6 @@
+<options>
+	<option ID="Plaidman_ZoneLootList_Option_UseAbility" DisplayText="Use Activated Ability" Category="Mod: Zone Loot List" Type="Checkbox" Default="No"></option>
+	<option ID="Plaidman_ZoneLootList_Option_Corpses" DisplayText="Show Corpses" Category="Mod: Zone Loot List" Type="Checkbox" Default="No"></option>
+	<option ID="Plaidman_ZoneLootList_Option_Trash" DisplayText="Show Trash" Category="Mod: Zone Loot List" Type="Checkbox" Default="No"></option>
+	<option ID="Plaidman_ZoneLootList_Option_Value" DisplayText="Show Value $/#" Category="Mod: Zone Loot List" Type="Checkbox" Default="No"></option>
+</options>
