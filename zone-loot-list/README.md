@@ -8,3 +8,4 @@ Todo list:
 - option for pure liquids only AEFV
 - mod idea for excluding an item from autopickup
 - aefv liquid disclaimer only show if liquids is enabled
+- update screenshot
