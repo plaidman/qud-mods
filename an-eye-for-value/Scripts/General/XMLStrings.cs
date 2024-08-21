@@ -16,6 +16,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 		public static readonly string TrashOption = "Plaidman_AnEyeForValue_Option_ZoneTrash";
 		public static readonly string StonesOption = "Plaidman_AnEyeForValue_Option_ZoneStones";
 		public static readonly string CorpsesOption = "Plaidman_AnEyeForValue_Option_ZoneCorpses";
+		public static readonly string ChestsOption = "Plaidman_AnEyeForValue_Option_ZoneChests";
 		public static readonly string LiquidsOption = "Plaidman_AnEyeForValue_Option_ZoneLiquids";
 
 		public static readonly string PKAppraisalSkill = "PKAPP_Price";

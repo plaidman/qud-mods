@@ -18,18 +18,18 @@ namespace Plaidman.AnEyeForValue.Utils {
 			Dictionary<string, GameObject> Liquids = new();
 
 			foreach (var item in items) {
-				if (item.HasTag("AutoexploreChest")) {
+				if (NotSeen(item)) {
+					// skip unseen items
+					continue;
+				}
+
+				if (Options.GetOption(XMLStrings.ChestsOption) == "Yes" && item.HasPart<Inventory>()) {
 					var invCount = item.Inventory.GetObjectCountDirect();
 
 					if (invCount > 0 && item.HasIntProperty("Autoexplored")) {
 						chestItems.Add(item);
 						continue;
 					}
-				}
-
-				if (NotSeen(item)) {
-					// skip unseen items
-					continue;
 				}
 
 				if (IsTakeable(item)) {
@@ -57,7 +57,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 		}
 
 		private static bool NotSeen(GameObject go) {
-			return !go.Physics.CurrentCell.IsExplored() || go.IsHidden;
+			return !go.CurrentCell.IsExplored() || go.IsHidden;
 		}
 
 		private static bool IsTakeable(GameObject go) {
