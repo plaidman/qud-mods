@@ -6,7 +6,7 @@ using XRL.World;
 using XRL.World.Parts;
 
 namespace Plaidman.AnEyeForValue.Utils {
-	class ZoneLootUtils {
+	class ZoneItemFilter {
 		public static void FilterZoneItems(
 			IEnumerable<GameObject> items,
 			out List<GameObject> takeableItems,

@@ -1,0 +1,1 @@
+in admin powershell `New-Item -ItemType SymbolicLink -Path .\mod-name.lnk\ -Target C:\path\to\mod-name\`

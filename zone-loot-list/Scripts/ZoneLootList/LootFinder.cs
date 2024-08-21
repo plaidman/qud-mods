@@ -101,7 +101,7 @@ namespace XRL.World.Parts {
 		}
 
 		private void ListItems() {
-			ZoneLootUtils.FilterZoneItems(
+			ZoneItemFilter.FilterZoneItems(
 				ParentObject.CurrentZone.YieldObjects(),
 				out List<GameObject> takeableItems,
 				out List<GameObject> liquids,
