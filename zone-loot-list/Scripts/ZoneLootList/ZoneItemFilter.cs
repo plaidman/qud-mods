@@ -36,18 +36,19 @@ namespace Plaidman.AnEyeForValue.Utils {
 					takeableItems.Add(item);
 					continue;
 				}
-
-				if (Options.GetOption(XMLStrings.LiquidsOption) != "Yes") {
-					// skip
-					continue;
+				
+				if (IsLiquid(item)) {
+					var prevPool = Liquids.GetValue(item.ShortDisplayNameStripped);
+					var closest = ClosestToPlayer(item, prevPool);
+					Liquids.SetValue(item.ShortDisplayNameStripped, closest);
 				}
 
 				// if an item has a LiquidVolume and is not takeable,
 				// or if an item has the Pool Tag
 				// I'm not sure what will be excluded if I use tag
-				if (item.LiquidVolume != null) {
-					var b = Liquids.GetValue(item.ShortDisplayNameStripped);
-					var closest = ClosestToPlayer(item, b);
+				if (IsLiquid(item)) {
+					var prevClosest = Liquids.GetValue(item.ShortDisplayNameStripped);
+					var closest = ClosestToPlayer(item, prevClosest);
 					Liquids.SetValue(item.ShortDisplayNameStripped, closest);
 				}
 			}
@@ -58,6 +59,18 @@ namespace Plaidman.AnEyeForValue.Utils {
 
 		private static bool NotSeen(GameObject go) {
 			return !go.CurrentCell.IsExplored() || go.IsHidden;
+		}
+		
+		private static bool IsLiquid(GameObject go) {
+			if (Options.GetOption(XMLStrings.LiquidsOption) != "Yes" || !go.HasPart<LiquidVolume>()) {
+				return false;
+			}
+			
+			if (Options.GetOption(XMLStrings.PureLiquidsOption) == "Yes" && !go.LiquidVolume.IsPure()) {
+				return false;
+			}
+			
+			return true;
 		}
 
 		private static bool IsTakeable(GameObject go) {
