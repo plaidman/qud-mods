@@ -21,20 +21,24 @@ namespace XRL.World.Parts {
 		}
 
 		public override bool HandleEvent(BeforeDeathRemovalEvent e) {
+			List<string> dropped = new();
+
 			foreach (var pin in Pins.Keys) {
 				for (var i = 0; i < Pins[pin]; i++) {
 					ParentObject.CurrentCell.AddObject(pin);
 				}
 				
-				var target = Grammar.MakePossessive(ParentObject.DisplayNameStripped);
 				var qty = Pins[pin];
 				var blueprint = pin;
 				if (qty > 1) {
 					blueprint = Grammar.Pluralize(pin);
 				}
 				
-				MessageLogger.VerboseMessage("{{y|You can recover " + qty + "x " + blueprint + " from " + target + " body.}}");
+				dropped.Add("{{w|[" + qty + "x " + blueprint + "]}}");
 			}
+
+			var target = Grammar.MakePossessive(ParentObject.DisplayNameStripped);
+			MessageLogger.VerboseMessage("{{y|You can recover " + string.Join(", ", dropped) + " from " + target + " body.}}");
 
 			return base.HandleEvent(e);
 		}
