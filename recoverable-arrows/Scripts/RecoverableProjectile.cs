@@ -1,5 +1,6 @@
 ﻿using System;
 using Plaidman.RecoverableArrows.Events;
+using Plaidman.RecoverableArrows.Handlers;
 using Plaidman.RecoverableArrows.Utils;
 using XRL.Rules;
 
@@ -10,9 +11,6 @@ namespace XRL.World.Parts {
 	public class RA_RecoverableProjectile : IPart, IModEventHandler<RA_UninstallEvent> {
 		[NonSerialized]
 		public Cell CurrentCell = null;
-
-		public int BreakChance = 50;
-		public string Blueprint = "Wooden Arrow";
 
 		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register("ProjectileHit");
@@ -40,13 +38,20 @@ namespace XRL.World.Parts {
 		}
 
 		public bool CheckBreak() {
+			if (!ParentObject.TryGetIntProperty("RA_BreakChance", out int breakChance)) {
+				// break without verbose output
+				return true;
+			}
+
 			int roll = Stat.TinkerRandom(1, 100);
-			if (roll <= BreakChance) {
-				MessageLogger.VerboseMessage("{{y|Your " + Blueprint + " broke.}} {{w|[" + roll + " vs " + BreakChance + "]}}");
+			var blueprint = ProjectileBlueprint.Mapping[ParentObject.Blueprint];
+
+			if (roll <= breakChance) {
+				MessageLogger.VerboseMessage("{{y|Your " + blueprint + " broke.}} {{w|[" + roll + " vs " + breakChance + "]}}");
 				return true;
 			}
 			
-			MessageLogger.VerboseMessage("{{y|Your " + Blueprint + " is intact.}} {{w|[" + roll + " vs " + BreakChance + "]}}");
+			MessageLogger.VerboseMessage("{{y|Your " + blueprint + " is intact.}} {{w|[" + roll + " vs " + breakChance + "]}}");
 			return false;
 		}
 
@@ -59,11 +64,11 @@ namespace XRL.World.Parts {
 				CurrentCell = CurrentCell.GetCellFromDirectionOfCell(The.Player.CurrentCell);
 			}
 
-			CurrentCell.AddObject(Blueprint);
+			CurrentCell.AddObject(ProjectileBlueprint.Mapping[ParentObject.Blueprint]);
 		}
 		
 		public void CheckPin(GameObject defender) {
-			if (defender.CurrentCell == null) {
+			if (defender.hitpoints <= 0) {
 				// BeforeDeathRemovalEvent happens before ProjectileHit.
 				// AddPin will have no effect, so we add the final arrow differently
 				CheckSpawn(false);
@@ -75,7 +80,7 @@ namespace XRL.World.Parts {
 			}
 
 			var part = defender.RequirePart<RA_PinCushion>();
-			part.AddPin(Blueprint);
+			part.AddPin(ProjectileBlueprint.Mapping[ParentObject.Blueprint]);
 		}
 		
 		public bool HandleEvent(RA_UninstallEvent e) {

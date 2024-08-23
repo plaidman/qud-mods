@@ -1,26 +1,30 @@
 <objects>
+	<object Name="TemporaryProjectile" Load="Merge" >
+		<part Name="RA_RecoverableProjectile" />
+	</object>
+
 	<object Name="ProjectileWoodenArrow" Load="Merge" >
-		<part Name="RA_RecoverableProjectile" BreakChance="40" Blueprint="Wooden Arrow" />
+		<intproperty Name="RA_BreakChance" Value="40" />
 	</object>
 	<object Name="ProjectileSteelArrow" Load="Merge" >
-		<part Name="RA_RecoverableProjectile" BreakChance="30" Blueprint="Steel Arrow" />
+		<intproperty Name="RA_BreakChance" Value="30" />
 	</object>
 	<object Name="ProjectileCarbideArrow" Load="Merge" >
-		<part Name="RA_RecoverableProjectile" BreakChance="25" Blueprint="Carbide Arrow" />
+		<intproperty Name="RA_BreakChance" Value="25" />
 	</object>
 	<object Name="ProjectileFoldedCarbideArrow" Load="Merge" >
-		<part Name="RA_RecoverableProjectile" BreakChance="25" Blueprint="Folded Carbide Arrow" />
+		<intproperty Name="RA_BreakChance" Value="25" />
 	</object>
 	<object Name="ProjectileFulleriteArrow" Load="Merge" >
-		<part Name="RA_RecoverableProjectile" BreakChance="10" Blueprint="Fullerite Arrow" />
+		<intproperty Name="RA_BreakChance" Value="10" />
 	</object>
 	<object Name="ProjectileCrysteelArrow" Load="Merge" >
-		<part Name="RA_RecoverableProjectile" BreakChance="20" Blueprint="Crysteel Arrow" />
+		<intproperty Name="RA_BreakChance" Value="20" />
 	</object>
 	<object Name="ProjectileFlawlessCrysteelArrow" Load="Merge" >
-		<part Name="RA_RecoverableProjectile" BreakChance="15" Blueprint="Flawless Crysteel Arrow" />
+		<intproperty Name="RA_BreakChance" Value="15" />
 	</object>
 	<object Name="ProjectileZetachromeArrow" Load="Merge" >
-		<part Name="RA_RecoverableProjectile" BreakChance="1" Blueprint="Zetachrome Arrow" />
+		<intproperty Name="RA_BreakChance" Value="1" />
 	</object>
 </objects>
