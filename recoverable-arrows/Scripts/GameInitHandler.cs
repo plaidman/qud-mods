@@ -22,24 +22,26 @@ namespace Plaidman.RecoverableArrows.Handlers
 	}
 	
 	[HasModSensitiveStaticCache]
-	public class ProjectileBlueprint {
+	public static class ProjectileBlueprint {
 		[ModSensitiveStaticCache]
-		public static Dictionary<string, string> Mapping = null;
-
-		[ModSensitiveCacheInit]
-		public static void InitMapping() {
-			Dictionary<string, string> _mapping = new();
-
-			foreach (var bp in GameObjectFactory.Factory.BlueprintList) {
-				if (bp.IsBaseBlueprint()) continue;
-				if (bp.HasPart("HindrenClueItem")) continue;
-				
-				if (bp.TryGetPartParameter("AmmoArrow", "ProjectileObject", out string projectileName)) {
-					_mapping[projectileName] = bp.Name;
+		private static Dictionary<string, string> _mapping = null;
+		public static Dictionary<string, string> Mapping {
+  			get {
+				if (_mapping is null) {
+					_mapping = new();
+		
+					foreach (var bp in GameObjectFactory.Factory.BlueprintList) {
+						if (bp.IsBaseBlueprint()) continue;
+						if (bp.HasPart("HindrenClueItem")) continue;
+						
+						if (bp.TryGetPartParameter("AmmoArrow", "ProjectileObject", out string projectileName)) {
+							_mapping[projectileName] = bp.Name;
+						}
+					}
 				}
-			}
 			
-			Mapping = _mapping;
+				return _mapping;
+			}
 		}
 	}
 }
