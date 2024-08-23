@@ -6,7 +6,7 @@ using XRL.Language;
 
 namespace XRL.World.Parts {
 	[Serializable]
-	class RA_PinCushion : IPart, IModEventHandler<RA_UninstallEvent> {
+	public class RA_PinCushion : IPart, IModEventHandler<RA_UninstallEvent> {
 		public Dictionary<string, int> Pins = new();
 
 		public override void Register(GameObject go, IEventRegistrar registrar) {
@@ -22,6 +22,10 @@ namespace XRL.World.Parts {
 
 		public override bool HandleEvent(BeforeDeathRemovalEvent e) {
 			List<string> dropped = new();
+			
+			if (e.Projectile != null && e.Projectile.TryGetPart(out RA_RecoverableProjectile part)) {
+				part.CheckPin(this);
+			}
 
 			foreach (var pin in Pins.Keys) {
 				for (var i = 0; i < Pins[pin]; i++) {

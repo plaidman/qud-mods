@@ -5,8 +5,6 @@ using Plaidman.RecoverableArrows.Utils;
 using XRL.Rules;
 
 namespace XRL.World.Parts {
-	public enum HitType { Wall, Open }
-
 	[Serializable]
 	public class RA_RecoverableProjectile : IPart, IModEventHandler<RA_UninstallEvent> {
 		[NonSerialized]
@@ -70,8 +68,7 @@ namespace XRL.World.Parts {
 		public void CheckPin(GameObject defender) {
 			if (defender.hitpoints <= 0) {
 				// BeforeDeathRemovalEvent happens before ProjectileHit.
-				// AddPin will have no effect, so we add the final arrow differently
-				CheckSpawn(false);
+				// so we add the final arrow differently
 				return;
 			}
 
@@ -80,6 +77,14 @@ namespace XRL.World.Parts {
 			}
 
 			var part = defender.RequirePart<RA_PinCushion>();
+			part.AddPin(ProjectileBlueprint.Mapping[ParentObject.Blueprint]);
+		}
+
+		public void CheckPin(RA_PinCushion part) {
+			if (CheckBreak()) {
+				return;
+			}
+
 			part.AddPin(ProjectileBlueprint.Mapping[ParentObject.Blueprint]);
 		}
 		
