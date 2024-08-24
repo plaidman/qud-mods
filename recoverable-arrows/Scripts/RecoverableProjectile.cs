@@ -9,9 +9,16 @@ namespace XRL.World.Parts {
 	public class RA_RecoverableProjectile : IPart, IModEventHandler<RA_UninstallEvent> {
 		[NonSerialized]
 		public Cell CurrentCell = null;
+		[NonSerialized]
+		private int BreakChance = 101;
 
 		public override void Register(GameObject go, IEventRegistrar registrar) {
-			registrar.Register("ProjectileHit");
+			BreakChance = ParentObject.GetIntProperty("RA_BreakChance", 101);
+
+			if (BreakChance < 100) {
+				registrar.Register("ProjectileHit");
+			}
+
 			registrar.Register(The.Game, RA_UninstallEvent.ID);
 			base.Register(go, registrar);
 		}
@@ -25,7 +32,7 @@ namespace XRL.World.Parts {
 			if (defender?.CurrentCell != null) {
 				CurrentCell = defender.CurrentCell;
 			}
-			
+		
 			if (defender.IsCreature) {
 				CheckPin(defender);
 			} else {
@@ -35,8 +42,8 @@ namespace XRL.World.Parts {
 			return base.FireEvent(e);
 		}
 
-		public bool CheckBreak() {
-			if (!ParentObject.TryGetIntProperty("RA_BreakChance", out int breakChance)) {
+		private bool CheckBreak() {
+			if (BreakChance >= 100) {
 				// break without verbose output
 				return true;
 			}
@@ -44,12 +51,12 @@ namespace XRL.World.Parts {
 			int roll = Stat.TinkerRandom(1, 100);
 			var blueprint = ProjectileBlueprint.Mapping[ParentObject.Blueprint];
 
-			if (roll <= breakChance) {
-				MessageLogger.VerboseMessage("{{y|Your " + blueprint + " broke.}} {{w|[" + roll + " vs " + breakChance + "]}}");
+			if (roll <= BreakChance) {
+				MessageLogger.VerboseMessage("{{y|Your " + blueprint + " broke.}} {{w|[" + roll + " vs " + BreakChance + "]}}");
 				return true;
 			}
-			
-			MessageLogger.VerboseMessage("{{y|Your " + blueprint + " is intact.}} {{w|[" + roll + " vs " + breakChance + "]}}");
+		
+			MessageLogger.VerboseMessage("{{y|Your " + blueprint + " is intact.}} {{w|[" + roll + " vs " + BreakChance + "]}}");
 			return false;
 		}
 
@@ -57,18 +64,18 @@ namespace XRL.World.Parts {
 			if (CheckBreak()) {
 				return;
 			}
-			
+		
 			if (isSolid) {
 				CurrentCell = CurrentCell.GetCellFromDirectionOfCell(The.Player.CurrentCell);
 			}
 
 			CurrentCell.AddObject(ProjectileBlueprint.Mapping[ParentObject.Blueprint]);
 		}
-		
-		public void CheckPin(GameObject defender) {
+	
+		private void CheckPin(GameObject defender) {
 			if (defender.hitpoints <= 0) {
 				// BeforeDeathRemovalEvent happens before ProjectileHit.
-				// so we add the final arrow differently
+				// so we add the final arrow differently in the PinCushion part
 				return;
 			}
 
@@ -87,7 +94,7 @@ namespace XRL.World.Parts {
 
 			part.AddPin(ProjectileBlueprint.Mapping[ParentObject.Blueprint]);
 		}
-		
+
 		public bool HandleEvent(RA_UninstallEvent e) {
 			ParentObject.RemovePart(this);
 			return base.HandleEvent(e);

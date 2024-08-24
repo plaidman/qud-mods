@@ -20,7 +20,7 @@ namespace Plaidman.RecoverableArrows.Handlers
 			player.RequirePart<RA_ArrowTracker>();
 		}
 	}
-	
+
 	[HasModSensitiveStaticCache]
 	public class ProjectileBlueprint {
 		[ModSensitiveStaticCache]
@@ -33,12 +33,12 @@ namespace Plaidman.RecoverableArrows.Handlers
 			foreach (var bp in GameObjectFactory.Factory.BlueprintList) {
 				if (bp.IsBaseBlueprint()) continue;
 				if (bp.HasPart("HindrenClueItem")) continue;
-				
+			
 				if (bp.TryGetPartParameter("AmmoArrow", "ProjectileObject", out string projectileName)) {
 					_mapping[projectileName] = bp.Name;
 				}
 			}
-			
+		
 			Mapping = _mapping;
 		}
 	}

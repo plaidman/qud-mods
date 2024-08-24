@@ -6,7 +6,7 @@ namespace Plaidman.RecoverableArrows.Utils {
 
 		public static readonly string VerboseOption = "Plaidman_RecoverableArrows_Option_Verbose";
 	}
-	
+
 	class MessageLogger {
 		public static void VerboseMessage(string message) {
 			if (Options.GetOption(XMLStrings.VerboseOption) == "Yes") {

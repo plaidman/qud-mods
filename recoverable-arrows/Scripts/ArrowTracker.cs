@@ -24,7 +24,7 @@ namespace XRL.World.Parts {
 			}
 
 			ProjectilePart.CurrentCell = e.Cell;
-			
+		
 			if (e.PathIndex == e.Path.Count - 1) {
 				ProjectilePart.CheckSpawn(false);
 			}
@@ -48,7 +48,7 @@ namespace XRL.World.Parts {
 
 			The.Game.HandleEvent(new RA_UninstallEvent());
 			ParentObject.RemovePart(this);
-			
+		
 			Popup.Show("Finished removing {{W|Recoverable Arrows}}. Please save and quit, then you can remove this mod.");
 		}
 	}

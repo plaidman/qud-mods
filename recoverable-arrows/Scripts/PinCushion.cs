@@ -22,7 +22,7 @@ namespace XRL.World.Parts {
 
 		public override bool HandleEvent(BeforeDeathRemovalEvent e) {
 			List<string> dropped = new();
-			
+		
 			if (e.Projectile != null && e.Projectile.TryGetPart(out RA_RecoverableProjectile part)) {
 				part.CheckPin(this);
 			}
@@ -31,13 +31,13 @@ namespace XRL.World.Parts {
 				for (var i = 0; i < Pins[pin]; i++) {
 					ParentObject.CurrentCell.AddObject(pin);
 				}
-				
+			
 				var qty = Pins[pin];
 				var blueprint = pin;
 				if (qty > 1) {
 					blueprint = Grammar.Pluralize(pin);
 				}
-				
+			
 				dropped.Add("{{w|[" + qty + "x " + blueprint + "]}}");
 			}
 
