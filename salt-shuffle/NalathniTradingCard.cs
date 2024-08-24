@@ -1,18 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using ConsoleLib.Console;
-using UnityEngine;
-using XRL.Core;
-using XRL.Rules;
 using XRL.UI;
-using XRL.World.AI.GoalHandlers;
-using XRL.World.Capabilities;
-using XRL.Language;
-using XRL.World.Parts.Mutation;
-using XRL.World;
 using Qud.API;
 using System.Text;
+using System.Linq;
+
 namespace XRL.World.Parts
 {
     [Serializable]
@@ -148,12 +140,12 @@ namespace XRL.World.Parts
             LatestGameNews = "";
             if(CardsInZoneOf(IPart.ThePlayer).Count <10)
             {
-                Popup.Show("You need at least 10 cards in order to play.", true);
+                Popup.Show("You need at least 10 cards in order to play.");
                 return false;
             }
             if(CardsInZoneOf(opponent).Count <10)
             {
-                Popup.Show("Your opponent needs at least 10 cards in order to play.", true);
+                Popup.Show("Your opponent needs at least 10 cards in order to play.");
                 return false;
             }
             foreach(NalathniTradingCard card in CardsInZoneOf(IPart.ThePlayer))
@@ -243,7 +235,7 @@ namespace XRL.World.Parts
             if(npcScore >= PointsToWin)
             {
                 LatestGameNews += "&R"+npc.The+npc.DisplayNameStripped+" wins the game!\n";
-                Popup.Show(LatestGameNews, true);
+                Popup.Show(LatestGameNews);
                 return npc;
             }
             NalathniTradingCard drawn = Draw(IPart.ThePlayer);
@@ -251,7 +243,7 @@ namespace XRL.World.Parts
                 LatestGameNews += "&RYou can't draw from an empty deck.\n";
             //else LatestGameNews += "&CYou draw "+drawn.ParentObject.DisplayName+".\n";
             
-            Popup.Show(LatestGameNews, true);
+            Popup.Show(LatestGameNews);
             LatestGameNews = "";
             
             
@@ -262,7 +254,7 @@ namespace XRL.World.Parts
             if(playerHand.Count == 0)
             {
                 LatestGameNews += "&RYou have no cards in your hand.\n";
-                Popup.Show(LatestGameNews, true);
+                Popup.Show(LatestGameNews);
             }
             else
             {
@@ -285,10 +277,10 @@ namespace XRL.World.Parts
             {
                 LatestGameNews += "------\n"+BoardState(npc)+"\n";
                 LatestGameNews += "&GYou win the game!";
-                Popup.Show(LatestGameNews, true);
+                Popup.Show(LatestGameNews);
                 return ThePlayer;
             }
-            Popup.Show(LatestGameNews, true);
+            Popup.Show(LatestGameNews);
             LatestGameNews = "";
             //declare victory for opponent if over target score, popup final news            
             return null;
@@ -343,7 +335,7 @@ namespace XRL.World.Parts
             int error = XPLevel - (SunScore + MoonScore + StarScore);
             SunScore += error;
             
-            if(creature.pBrain != null && creature.pBrain.Factions.Contains("Baetyl"))
+            if(creature.Brain != null && creature.Brain.GetPrimaryFaction() == "Baetyl")
             {
                 SunScore = -5;
                 MoonScore = -5;
@@ -377,8 +369,13 @@ namespace XRL.World.Parts
             if(E.ID == "GetShortDescription")
             {
                 string desc = "A trading card with a stylized illustration of "+creature.a+creature.DisplayNameStripped+" plus various cryptic statistics.\n\n";
-                List<string> factions = new List<string>(creature.pBrain.FactionMembership.Keys);
-                desc += "&GAllegiance: "+string.Join(", ", factions.ToArray())+"\n";
+                if (creature.Brain != null) {
+                    var factions = creature.Brain.Allegiance
+                        .Where(faction => Brain.GetAllegianceLevel(faction.Value) == Brain.AllegianceLevel.Member)
+                        .Select(faction => faction.Key)
+                        .ToList();
+                    desc += "&GAllegiance: "+string.Join(", ", factions.ToArray())+"\n";
+                }
                 desc += "&WSun: &Y"+SunScore+" &CMoon: &Y"+MoonScore+" &MStar: &Y"+StarScore+"\n";
                 Mutations muts = creature.GetPart<Mutations>();
                 if(muts != null) desc += "&c"+muts.ToString();

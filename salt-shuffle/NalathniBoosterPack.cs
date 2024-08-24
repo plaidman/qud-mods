@@ -1,17 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using ConsoleLib.Console;
-using UnityEngine;
-using XRL.Core;
-using XRL.Rules;
+using System.Linq;
+using XRL.Collections;
 using XRL.UI;
-using XRL.World.AI.GoalHandlers;
-using XRL.World.Capabilities;
-using XRL.Language;
-using XRL.World.Parts.Mutation;
-using XRL.World;
-using Qud.API;
+using XRL.World.AI;
+
 namespace XRL.World.Parts
 {
     [Serializable]
@@ -20,8 +13,7 @@ namespace XRL.World.Parts
         public Faction faction;
         public bool Starter = false;
 		
-        public override void Register(GameObject Object)
-		{
+        public override void Register(GameObject Object) {
 			Object.RegisterPartEvent(this, "GetInventoryActions");
             Object.RegisterPartEvent(this, "InvCommandUnwrap");
             Object.RegisterPartEvent(this, "ObjectCreated");
@@ -29,15 +21,21 @@ namespace XRL.World.Parts
             
 			base.Register(Object);
 		}
-        public static List<GameObjectBlueprint> GetFactionMembersIncludingUniques(string Faction)
-		{
-			List<GameObjectBlueprint> list = new List<GameObjectBlueprint>();
+
+        public static List<GameObjectBlueprint> GetFactionMembersIncludingUniques(string Faction) {
+			List<GameObjectBlueprint> list = new();
 			foreach (GameObjectBlueprint gameObjectBlueprint in GameObjectFactory.Factory.BlueprintList)
 			{
-				if (!gameObjectBlueprint.Tags.ContainsKey("BaseObject") && gameObjectBlueprint.HasPart("Brain") && gameObjectBlueprint.GetPart("Brain").Parameters.ContainsKey("Factions") && (gameObjectBlueprint.GetPart("Brain").Parameters["Factions"].Contains(Faction + "-100") || gameObjectBlueprint.GetPart("Brain").Parameters["Factions"].Contains(Faction + "-50") || gameObjectBlueprint.GetPart("Brain").Parameters["Factions"].Contains(Faction + "-25")) )
-				{
-                    if(!(gameObjectBlueprint.DisplayName().Contains("[")))
-					 list.Add(gameObjectBlueprint);
+				if (!gameObjectBlueprint.Tags.ContainsKey("BaseObject")
+                    && gameObjectBlueprint.HasPart("Brain")
+                    && gameObjectBlueprint.GetPart("Brain").Parameters.ContainsKey("Factions")
+                    && (gameObjectBlueprint.GetPart("Brain").Parameters["Factions"].Contains(Faction + "-100")
+                        || gameObjectBlueprint.GetPart("Brain").Parameters["Factions"].Contains(Faction + "-50")
+                        || gameObjectBlueprint.GetPart("Brain").Parameters["Factions"].Contains(Faction + "-25")
+                    )
+                ) {
+                    if(!gameObjectBlueprint.DisplayName().Contains("["))
+                        list.Add(gameObjectBlueprint);
 				}
 			}
 			return list;
@@ -45,14 +43,21 @@ namespace XRL.World.Parts
         
         public static void GenerateDeckFor(GameObject creature)
         {
-            if(creature.pBrain == null) return;
-            List<string> factions = new List<string>(creature.pBrain.FactionMembership.Keys);
+            if(creature.Brain == null) return;
+
+            var factions = creature.Brain.Allegiance
+                .Where(faction => Brain.GetAllegianceLevel(faction.Value) == Brain.AllegianceLevel.Member)
+                .Select(faction => faction.Key)
+                .ToList();
+
             if(factions.Count == 0) return;
              for(int i=0; i<12; i++)
              {
                  string faction = factions.GetRandomElement();
                   GameObject card = GameObjectFactory.Factory.CreateObject("NalathniCard");
-                  card.GetPart<NalathniTradingCard>().SetCreature(GetFactionMembersIncludingUniques(faction).GetRandomElement().createSample());
+                  card.GetPart<NalathniTradingCard>().SetCreature(
+                    GetFactionMembersIncludingUniques(faction).GetRandomElement().createSample()
+                  );
                   creature.TakeObject(card, true);
              }
         }
@@ -62,16 +67,25 @@ namespace XRL.World.Parts
             if(E.ID == "ObjectCreated")
             {
                faction = Factions.GetRandomFactionWithAtLeastOneMember();
-               this.ParentObject.DisplayName = "pack of Salt Shuffle cards: "+faction.DisplayName;
-               if(Starter) this.ParentObject.DisplayName = "Salt Shuffle starter deck";
+               ParentObject.DisplayName = "pack of Salt Shuffle cards: "+faction.DisplayName;
+               if(Starter) ParentObject.DisplayName = "Salt Shuffle starter deck";
             }
+
             if(E.ID == "GetInventoryActions")
             {
-                if(IPart.ThePlayer.OnWorldMap()) return true;
+                if (The.Player.OnWorldMap()) return true;
                 EventParameterGetInventoryActions actions = E.GetParameter("Actions") as EventParameterGetInventoryActions;
-                actions.AddAction("Unwrap", 'o', false, "&Wo&ypen", "InvCommandUnwrap", 2, 0, false, false, false, false);
+                actions.AddAction(
+                    Name: "Unwrap",
+                    Key: 'o',
+                    FireOnActor: false,
+                    Display: "&Wo&ypen",
+                    Command: "InvCommandUnwrap",
+                    Default: 2
+                );
                 return true;
             }
+
             if(E.ID == "InvCommandUnwrap")
             {
                 
@@ -100,7 +114,7 @@ namespace XRL.World.Parts
                         tally += card.DisplayName+"\n";
                     }
                 }
-                Popup.Show(tally, true);
+                Popup.Show(tally);
                 this.ParentObject.Destroy("Unwrapped", true);
                 return true;
             }

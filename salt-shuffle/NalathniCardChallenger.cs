@@ -1,18 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Threading;
-using ConsoleLib.Console;
-using UnityEngine;
-using XRL.Core;
-using XRL.Rules;
 using XRL.UI;
-using XRL.World.AI.GoalHandlers;
-using XRL.World.Capabilities;
-using XRL.Language;
-using XRL.World.Parts.Mutation;
-using XRL.World;
-using Qud.API;
-using System.Text;
+
 namespace XRL.World.Parts
 {
     [Serializable]
@@ -54,7 +42,7 @@ namespace XRL.World.Parts
                             "&y",
                             With.GetVerb("refuse", true, false),
                             " to play card games with you."
-                        }), true);
+                        }));
                     
                     return false;
                 }
@@ -69,7 +57,7 @@ namespace XRL.World.Parts
                             " engaged in hand-to-hand combat and",
                             With.Is,
                             " too busy to play card games with you."
-                        }), true);
+                        }));
                     
                     return false;
                 }
