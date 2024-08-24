@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<populations>
+  <population Name="StartingGear_Common">
+    <group Style="pickeach">
+      <object Blueprint="EmptyWaterskin" Number="2"></object>
+      <object Blueprint="Torch" Number="6d8"></object>
+      <object Blueprint="NalathniStarter" Number="1"></object>
+    </group>
+  </population>
+</populations>
