@@ -1,72 +1,71 @@
-<?xml version="1.0" encoding="utf-8"?>
 <objects>
     <!-- rainbow generation -->
-  <object Name="Walking Stick" Inherits="BaseCudgel" Load="Merge">
+  <object Name="Walking Stick" Load="Merge">
     <part Name="Render" DisplayName="walking stick" Tile="Items/sw_cudgel_11.bmp" ColorString="&amp;w" DetailColor="g" />
 	<part Name="RandomColors" MainColor="w" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object>  
-  <object Name="BoxOfCrayons" Inherits="Trinket" Load="Merge">
+  <object Name="BoxOfCrayons" Load="Merge">
     <part Name="Render" DisplayName="{{w|box of {{R-W-G-B-M-C-Y sequence|crayons}}}}" Tile="Items/sw_crayons.bmp" RenderString="*" ColorString="&amp;w" DetailColor="R" RenderLayer="5" />
   	<part Name="RandomColors" MainColor="w" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object>
-  <object Name="Clay Pot" Inherits="Armor" Load="Merge">
+  <object Name="Clay Pot" Load="Merge">
     <part Name="Render" DisplayName="clay pot" RenderString="]" Tile="Items/sw_clay_pot.bmp" ColorString="&amp;w" DetailColor="r" />
   	<part Name="RandomColors" MainColor="w" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object> 
-  <object Name="Gourd" Inherits="Item" Load="Merge">
+  <object Name="Gourd" Load="Merge">
     <part Name="Render" DisplayName="gourd" ColorString="&amp;w" DetailColor="W" RenderString="229" RenderLayer="5" Tile="Items/sw_gourd.bmp" />
 	<part Name="RandomColors" MainColor="w" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object> 
-  <object Name="SkinGlitter1" Inherits="BaseCyberneticsEquipment_1point" Load="Merge">
+  <object Name="SkinGlitter1" Load="Merge">
     <part Name="Render" DisplayName="{{Y|skin glitter}}" Tile="Items/sw_skin_glitter.bmp" TileColor="&amp;m" DetailColor="C" />
 	<part Name="RandomColors" MainColor="m" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object>
-  <object Name="SkinGlitter2" Inherits="BaseCyberneticsEquipment_2point" Load="Merge">
+  <object Name="SkinGlitter2" Load="Merge">
     <part Name="Render" DisplayName="{{Y|skin glitter}}" Tile="Items/sw_skin_glitter.bmp" TileColor="&amp;m" DetailColor="C" />
 	<part Name="RandomColors" MainColor="m" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object>
-  <object Name="Staff" Inherits="BaseCudgel" Load="Merge">
+  <object Name="Staff" Load="Merge">
     <part Name="Render" DisplayName="staff" Tile="Items/sw_cudgel_11.bmp" DetailColor="r" />
 	<part Name="RandomColors" MainColor="y" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object>
-  <object Name="Wide-brimmed Hat" Inherits="BaseHat" Load="Merge">
+  <object Name="Wide-brimmed Hat" Load="Merge">
     <part Name="Armor" AV="0" DV="1" WornOn="Head" />
     <part Name="Render" Tile="items/sw_hat.bmp" DetailColor="b" DisplayName="wide-brimmed hat" RenderString="]" />
 	<part Name="RandomColors" MainColor="y" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object>
-  <object Name="Ganglionic Teleprojector" Inherits="BaseHelmet" Load="Merge">
+  <object Name="Ganglionic Teleprojector" Load="Merge">
     <part Name="Armor" AV="1" DV="-1" WornOn="Head" />
     <part Name="Render" DisplayName="ganglionic teleprojector" ColorString="&amp;m" TileColor="&amp;c" RenderString="]" DetailColor="m" Tile="Items/sw_teleprojector.bmp" />
 	<part Name="RandomColors" MainColor="c" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object>
-  <object Name="Spectacles" Inherits="BaseEyewear" Load="Merge">
+  <object Name="Spectacles" Load="Merge">
     <part Name="Render" DisplayName="spectacles" RenderString="]" Tile="Items/sw_spectacles.bmp" ColorString="&amp;y" DetailColor="Y" />
 	<part Name="RandomColors" TileColor="b,B,g,G,r,R,m,M,W,Y,K" DetailColor="Y" />
   </object>
-  <object Name="Bed" Inherits="BaseBed" Load="Merge">
+  <object Name="Bed" Load="Merge">
     <part Name="Render" DisplayName="bed" ColorString="&amp;w" DetailColor="Y" Tile="Items/sw_bed.bmp" Occluding="false" RenderIfDark="true" />
 	<part Name="RandomColors" MainColor="w" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object>
-  <object Name="Crib" Inherits="BaseBed" Load="Merge">
+  <object Name="Crib" Load="Merge">
     <part Name="Render" DisplayName="crib" ColorString="&amp;Y" TileColor="&amp;w" DetailColor="Y" Tile="Items/sw_crib.bmp" Occluding="false" RenderIfDark="true" />
 	<part Name="RandomColors" MainColor="w" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object>
-  <object Name="Four-Poster Bed" Inherits="BaseBed" Load="Merge">
+  <object Name="Four-Poster Bed" Load="Merge">
     <part Name="Render" DisplayName="four-poster bed" ColorString="&amp;r" TileColor="&amp;w" DetailColor="r" Tile="Items/sw_bed_four.bmp" Occluding="false" RenderIfDark="true" />
 	<part Name="RandomColors" MainColor="w" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object>
-  <!-- <object Name="GritGateBed" Inherits="Bed" Load="Merge">
+  <!-- <object Name="GritGateBed" Load="Merge">
   	<part Name="RandomColors" MainColor="w" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object> -->
-  <object Name="Floor Cushion" Inherits="BaseChair" Load="Merge">
+  <object Name="Floor Cushion" Load="Merge">
     <part Name="Render" DisplayName="floor cushion" ColorString="&amp;w" DetailColor="y" RenderString="009" Tile="Items/sw_floor_cushion.png" />
 	<part Name="RandomColors" MainColor="b,B,g,G,r,R,m,M,w,W,Y,K" DetailColor="y" />
   </object>
-  <object Name="Stool" Inherits="BaseChair" Load="Merge">
+  <object Name="Stool" Load="Merge">
     <part Name="Render" DisplayName="stool" ColorString="&amp;w" TileColor="w" DetailColor="y" Tile="Items/sw_stool.bmp" />
 	<part Name="RandomColors" MainColor="w" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object>
-   <object Name="Alchemist Table" Inherits="Table" Load="Merge"> <!-- is funky -->
+   <object Name="Alchemist Table" Load="Merge"> <!-- is funky -->
     <part Name="Render" DisplayName="alchemist's table" Tile="Items/sw_alchemist_table.bmp" />
 	<part Name="RandomColors" MainColor="w" DetailColor="B,G,R,M,W,y,C" />
 	<tag Name="EmptyTile" Value="*delete" />
@@ -74,619 +73,562 @@
     <tag Name="EmptyDetailColor" Value="*delete" />
     <tag Name="FullDetailColor" Value="*delete" />
   </object>
-  <object Name="Hookah" Inherits="Furniture" Load="Merge">
+  <object Name="Hookah" Load="Merge">
     <part Name="Render" DisplayName="hookah" ColorString="&amp;R" TileColor="w" DetailColor="w" RenderString="227" Tile="Items/sw_hookah.bmp" Occluding="false" RenderIfDark="false" />
 	<part Name="RandomColors" MainColor="b,B,g,G,r,R,m,M,W,Y,K" DetailColor="w" />
   </object>
-  <object Name="Display Breadboard" Inherits="MountedFurniture" Load="Merge">
+  <object Name="Display Breadboard" Load="Merge">
     <part Name="Render" DisplayName="display breadboard" ColorString="&amp;y" DetailColor="R" RenderString="223" Tile="Items/sw_breadboard.bmp" />
 	<part Name="RandomColors" MainColor="y" DetailColor="b,B,g,G,r,R,m,M,W,Y,K" />
   </object>
-  <object Name="Cloth Robe" Inherits="BaseArmor" Load="Merge">
+  <object Name="Cloth Robe" Load="Merge">
     <part Name="Render" DisplayName="cloth robe" RenderString="]" Tile="Items/sw_robes1.bmp" ColorString="&amp;y" DetailColor="y" />
 	<part Name="RandomColors" MainColor="y,b,g,r,m,w,K,W" DetailColor="y,b,g,r,m,w,K,W" />
   </object>
   
     <!-- variable generation -->
-  <object Name="Frowning Moon Mask" Inherits="BaseMask" Load="Merge">
+  <object Name="Frowning Moon Mask" Load="Merge">
     <part Name="Armor" AV="0" DV="1" WornOn="Face" />
     <part Name="Render" DisplayName="frowning {{moon|moon}} mask" RenderString="]" Tile="items/sw_mask3.bmp" ColorString="&amp;Y" DetailColor="K" />
 	<part Name="RandomColors" MainColor="Y" DetailColor="y,K,b,B,c,C" />
   </object>
-  <object Name="Sun and Moon Mask" Inherits="BaseMask" Load="Merge">
+  <object Name="Sun and Moon Mask" Load="Merge">
     <part Name="Render" DisplayName="{{sun|sun}} and {{moon|moon}} mask" RenderString="]" ColorString="&amp;B" DetailColor="W" Tile="items/sw_mask2.bmp" />
 	<part Name="RandomColors" MainColor="W" DetailColor="y,K,b,B,c,C" />
   </object>
-  <object Name="Wool Kilt" Inherits="BaseArmor" Load="Merge">
+  <object Name="Wool Kilt" Load="Merge">
     <part Name="Render" DisplayName="{{tartan|wool kilt}}" Tile="Items/sw_kilt.bmp" RenderString="]" ColorString="&amp;g" DetailColor="R" />
 	<part Name="RandomColors" MainColor="y,K,g,G" DetailColor="r,R,y,K" />
   </object>
-  <object Name="Rainboweave Cloak" Inherits="BaseCloak" Load="Merge">
+  <object Name="Rainboweave Cloak" Load="Merge">
     <part Name="Render" DisplayName="{{rainbow|rainboweave}} cloak" RenderString="]" Tile="items/sw_cloak_fancy.bmp" ColorString="&amp;m" DetailColor="W" />
 	<part Name="RandomColors" MainColor="b,g,r,m,W" DetailColor="B,G,R,M,W" />
   </object>
   <object Name="Chiral Rings" Load="Merge">
 	<part Name="RandomColors" TileColor="y,M,C,B" DetailColor="m,c,b" />
   </object>
-  <object Name="Scrapasan" Inherits="BaseChair" Load="Merge">
+  <object Name="Scrapasan" Load="Merge">
     <part Name="Render" DisplayName="scrapasan chair" ColorString="&amp;y" DetailColor="w" Tile="Items/sw_chair_scrapasan.bmp" />
 	<part Name="RandomColors" MainColor="w" DetailColor="B,G,R,M,W,Y,K" />
   </object>
-  <object Name="Globe" Inherits="Furniture" Load="Merge">
+  <object Name="Globe" Load="Merge">
     <part Name="Render" DisplayName="globe" RenderString="149" ColorString="&amp;B" DetailColor="w" Tile="Items/sw_globe.bmp" RenderLayer="6" Occluding="false" />
 	<part Name="RandomColors" MainColor="b,B,c,C" DetailColor="w" />
   </object>
-  <object Name="Sewing Machine" Inherits="MountedFurniture" Load="Merge">
+  <object Name="Sewing Machine" Load="Merge">
     <part Name="Render" DisplayName="sewing machine" ColorString="&amp;R" TileColor="&amp;w" DetailColor="C" RenderString="247" Tile="Items/sw_sewing_machine.bmp" />
 	<part Name="RandomColors" MainColor="w" DetailColor="c,C,y" />
   </object>
-  <object Name="Patchwork Coat" Inherits="BaseArmor" Load="Merge">
+  <object Name="Patchwork Coat" Load="Merge">
     <part Name="Render" DisplayName="{{patchwork|patchwork}} coat" ColorString="&amp;W" RenderString="]" />
 	<part Name="RandomColors" MainColor="W" DetailColor="w,r,R,b,B" />
   </object>
-  <object Name="Scarlet Shawl" Inherits="BaseCloak" Load="Merge">
+  <object Name="Scarlet Shawl" Load="Merge">
     <part Name="Render" DisplayName="{{R|scarlet}} shawl" RenderString="]" ColorString="&amp;R" Tile="items/sw_shawl.bmp" DetailColor="Y" />
 	<part Name="RandomColors" MainColor="r,R" DetailColor="Y,r,R" />
   </object>
-  <object Name="Quilted Shawl" Inherits="BaseCloak" Load="Merge">
+  <object Name="Quilted Shawl" Load="Merge">
     <part Name="Render" DisplayName="{{W-w sequence|quilted}} {{C-c sequence|shawl}}" RenderString="]" Tile="items/sw_shawl.bmp" ColorString="&amp;C" DetailColor="W" />
 	<part Name="RandomColors" MainColor="c,C" DetailColor="w,W" />
   </object>
-  <object Name="Snapjaw Scavenger" Inherits="Snapjaw" Load="Merge">
+  <object Name="Snapjaw Scavenger" Load="Merge">
     <part Name="RandomColors" MainColor="w" DetailColor="g,G,r,R,W,y,K" />
   </object>
-  <object Name="Salamander" Inherits="BaseReptile" Load="Merge">
+  <object Name="Salamander" Load="Merge">
     <part Name="Render" DisplayName="{{R|salamander}}" Tile="Creatures/sw_salamander.bmp" RenderString="r" ColorString="&amp;R" />
 	<part Name="RandomColors" MainColor="R" DetailColor="r,M,W" />
   </object>
-  <object Name="Bookshelf" Inherits="BaseBookshelf" Load="Merge">
+  <object Name="Bookshelf" Load="Merge">
     <tag Name="FullDetailColor" Value="b,g,r,m,W,Y,y,c" />
   </object>
   
     <!-- expanded colors -->
-  <object Name="Worn Burnoose" Inherits="BaseCloak" Load="Merge">
+  <object Name="Worn Burnoose" Load="Merge">
 	<part Name="RandomColors" MainColor="y,Y" DetailColor="K,w" />
   </object>
-  <object Name="Electrobow" Inherits="MissileWeapon" Load="Merge">
+  <object Name="Electrobow" Load="Merge">
     <part Name="Render" DisplayName="{{W|electro}}{{c|bow}}" ColorString="&amp;W" DetailColor="c" Tile="items/sw_bow_4.bmp" />
   </object>
-  <object Name="Iron Gate" Inherits="Gate" Load="Merge">
+  <object Name="Iron Gate" Load="Merge">
     <part Name="Render" RenderLayer="6" DisplayName="iron gate" ColorString="&amp;y" DetailColor="Y" RenderString="+" Occluding="false" RenderIfDark="true" Tile="Items/sw_fence_gates_2_open.bmp" />
   </object>
-  <object Name="IronFence" Inherits="Wall" Load="Merge">
+  <object Name="IronFence" Load="Merge">
     <part Name="Render" DisplayName="wrought iron fence" RenderString="216" ColorString="&amp;Y^k" TileColor="&amp;Y^k" DetailColor="y" Occluding="false" />
   </object>
-  <object Name="Boar" Inherits="BaseAnimal" Load="Merge">
+  <object Name="Boar" Load="Merge">
     <part Name="Render" DisplayName="boar"  Tile="creatures/sw_boar.bmp" RenderString="o" ColorString="&amp;w" DetailColor="Y" />
   </object>
-  <object Name="Grandfather Horn" Inherits="MeleeWeapon" Load="Merge">
+  <object Name="Grandfather Horn" Load="Merge">
     <part Name="Render" DisplayName="grandfather horn" ColorString="&amp;y" DetailColor="r" Tile="creatures/sw_goathorn.bmp" />
   </object>
-  <object Name="Goat" Inherits="BaseAnimal" Load="Merge">
+  <object Name="Goat" Load="Merge">
     <part Name="Render" DisplayName="goat" Tile="Assets_Content_Textures_Creatures_sw_goat.bmp" RenderString="g" ColorString="&amp;w" DetailColor="y" />
   </object>
-  <object Name="Barkbiter" Inherits="BaseBear" Load="Merge">
+  <object Name="Barkbiter" Load="Merge">
     <part Name="Render" DisplayName="barkbiter" Tile="creatures/sw_angrybear.bmp" DetailColor="Y" RenderString="u" ColorString="&amp;W" />
   </object>
-  <object Name="Bear" Inherits="BaseBear" Load="Merge">
+  <object Name="Bear" Load="Merge">
     <part Name="Render" DisplayName="bear" Tile="creatures/sw_angrybear.bmp" RenderString="u" ColorString="&amp;w" DetailColor="y" />
   </object>
-  <object Name="Mimic" Inherits="BaseReptile" Load="Merge">
+  <object Name="Mimic" Load="Merge">
     <part Name="Render" Tile="Creatures/sw_mimic.bmp" DisplayName="mimic" ColorString="&amp;w" DetailColor="W" RenderString="254" />
   </object>
-  <object Name="Rimewyk" Inherits="BaseReptile" Load="Merge">
+  <object Name="Rimewyk" Load="Merge">
     <part Name="Render" DisplayName="rimewyk" RenderString="r" ColorString="&amp;C" DetailColor="m" Tile="creatures/rimewyk.bmp" />
   </object>
-  <object Name="Mechanimist Catechist" Inherits="Mechanimist" Load="Merge">
+  <object Name="Mechanimist Catechist" Load="Merge">
     <part Name="Render" ColorString="&amp;R" RenderString="m" DisplayName="{{W|Mechanimist catechist}}" Tile="creatures/sw_preacher.bmp" DetailColor="W" />
   </object>
-  <object Name="Pig" Inherits="BaseAnimal" Load="Merge">
+  <object Name="Pig" Load="Merge">
     <part Name="Render" DisplayName="pig" RenderString="o"  Tile="creatures/sw_boar2.bmp" ColorString="&amp;m" DetailColor="M" />
 	<part Name="RandomColors" MainColor="m,M" DetailColor="M,m" PairDetailWithForeground="true" />
   </object>
-  <object Name="Ghost Perch" Inherits="BaseFish" Load="Merge">
+  <object Name="Ghost Perch" Load="Merge">
     <part Name="Render" DisplayName="ghost perch" RenderString="224" Tile="creatures\sw_glowfish.bmp" DetailColor="y" ColorString="&amp;y" TileColor="&amp;Y" />
   </object>
-  <object Name="Bloated Pearlfrog" Inherits="BaseReptile" Load="Merge">
+  <object Name="Bloated Pearlfrog" Load="Merge">
     <part Name="Render" DisplayName="bloated pearlfrog" Tile="Creatures/sw_giant_frog.bmp" RenderString="F" ColorString="&amp;g" DetailColor="Y" />
   </object>
-  <object Name="Amber-Tipped Staff" Inherits="BaseCudgel" Load="Merge">
+  <object Name="Amber-Tipped Staff" Load="Merge">
     <part Name="Render" DisplayName="amber-tipped staff" Tile="Items/sw_cudgel_12.bmp" ColorString="&amp;w" DetailColor="W" />
   </object>
-  <object Name="Blood-stained neck-ring" Inherits="BaseBracelet" Load="Merge">
+  <object Name="Blood-stained neck-ring" Load="Merge">
     <part Name="Render" DisplayName="neck-ring" RenderString="236" ColorString="&amp;r" TileColor="&amp;w" DetailColor="r" Tile="Items/sw_neckring.bmp" />
   </object>
-  <object Name="Cave Spider" Inherits="BaseSpider" Load="Merge">
+  <object Name="Cave Spider" Load="Merge">
     <part Name="Render" DisplayName="cave spider" Tile="creatures/sw_spider.bmp" DetailColor="G" RenderString="x" />
 	<part Name="RandomColors" MainColor="w" DetailColor="G" />
   </object>
-  <object Name="Equimax" Inherits="BaseAnimal" Load="Merge">
+  <object Name="Equimax" Load="Merge">
     <part Name="Render" DisplayName="equimax" RenderString="E" Tile="creatures/sw_equimax.bmp" DetailColor="B" />
     <part Name="RandomColors" MainColor="w" DetailColor="y,C,c,b,K" />
   </object>
-  <object Name="Snapjaw Shotgunner" Inherits="Snapjaw" Load="Merge">
+  <object Name="Snapjaw Shotgunner" Load="Merge">
     <part Name="RandomColors" MainColor="R" DetailColor="w" />
   </object>
-  <object Name="Desert Kris" Inherits="BaseDagger" Load="Merge">
+  <object Name="Desert Kris" Load="Merge">
     <part Name="Render" DisplayName="desert kris" Tile="Items/sw_shortblade_9.bmp" ColorString="&amp;y" DetailColor="Y" />
   </object>
-  <object Name="Food Cube" Inherits="Preservable" Load="Merge">
+  <object Name="Food Cube" Load="Merge">
     <part Name="Render" DisplayName="food cube" Tile="items/sw_cube.bmp" ColorString="&amp;y" DetailColor="Y" />
   </object>
-  <object Name="GiantDragonfly" Inherits="BaseInsect" Load="Merge">
+  <object Name="GiantDragonfly" Load="Merge">
     <part Name="Render" DisplayName="giant dragonfly" Tile="creatures/sw_giantdragonfly.bmp" RenderString="i" ColorString="&amp;K" TileColor="&amp;K" DetailColor="y" />
 	<part Name="AnimatedMaterialGeneric" AnimationLength="12" LowFrameOffset="1" HighFrameOffset="1" DetailColorAnimationFrames="0=Y,9=y" />
   </object>
  
     <!-- grenades -->
-  <object Name="SleepGasGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="SleepGasGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{w|sleep}} gas grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;w" />
   </object>
-  <object Name="SleepGasGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="SleepGasGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{w|sleep}} gas grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;w" />
   </object>
-  <object Name="SleepGasGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="SleepGasGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{w|sleep}} gas grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;w" />
   </object>
   
-  <object Name="PoisonGasGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="PoisonGasGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{g|poison}} gas grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;g" />
   </object>
-  <object Name="PoisonGasGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="PoisonGasGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{g|poison}} gas grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;g" />
   </object>
-  <object Name="PoisonGasGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="PoisonGasGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{g|poison}} gas grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;g" />
   </object>
   
-  <object Name="AcidGasGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="AcidGasGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{G|acid}} gas grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;G" />
   </object>
-  <object Name="AcidGasGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="AcidGasGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{G|acid}} gas grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;G" />
   </object>
-  <object Name="AcidGasGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="AcidGasGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{G|acid}} gas grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;G" />
   </object>
   
-  <object Name="FlashbangGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="FlashbangGrenade1" Load="Merge">
     <part Name="Render" DisplayName="flashbang grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;Y" />
   </object>
-  <object Name="FlashbangGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="FlashbangGrenade2" Load="Merge">
     <part Name="Render" DisplayName="flashbang grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;Y" />
   </object>
-  <object Name="FlashbangGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="FlashbangGrenade3" Load="Merge">
     <part Name="Render" DisplayName="flashbang grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;Y" />
   </object>
   
-  <object Name="HeatGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="HeatGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{R|thermal}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;R" />
   </object>
-  <object Name="HeatGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="HeatGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{R|thermal}} grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;R" />
   </object>
-  <object Name="HeatGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="HeatGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{R|thermal}} grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;R" />
   </object>
   
-  <object Name="ColdGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="ColdGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{C|freeze}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;C" />
   </object>
-  <object Name="ColdGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="ColdGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{C|freeze}} grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;C" />
   </object>
-  <object Name="ColdGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="ColdGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{C|freeze}} grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;C" />
   </object>
   
-  <object Name="HEGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="HEGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{W|high explosive}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;W" />
   </object>
-  <object Name="HEGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="HEGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{W|high explosive}} grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;W" />
   </object>
-  <object Name="HEGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="HEGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{W|high explosive}} grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;W" />
   </object>
   
-  <object Name="EMPGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="EMPGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{B|EMP}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;B" />
   </object>
-  <object Name="EMPGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="EMPGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{B|EMP}} grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;B" />
   </object>
-  <object Name="EMPGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="EMPGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{B|EMP}} grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;B" />
   </object>
   
-  <object Name="NormalityGasGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="NormalityGasGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{normal|normality gas}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;K" />
   </object>
-  <object Name="NormalityGasGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="NormalityGasGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{normal|normality gas}} grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;K" />
   </object>
-  <object Name="NormalityGasGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="NormalityGasGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{normal|normality gas}} grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;K" />
   </object>
   
-  <object Name="StasisGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="StasisGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{m|stasis}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;m" />
   </object>
-  <object Name="StasisGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="StasisGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{m|stasis}} grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;m" />
   </object>
-  <object Name="StasisGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="StasisGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{m|stasis}} grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;m" />
   </object>
   
-  <object Name="SunderGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="SunderGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{resonance|resonance}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;W" DetailColor="C" />
   </object>
-  <object Name="SunderGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="SunderGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{resonance|resonance}} grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;W" DetailColor="C" />
   </object>
-  <object Name="SunderGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="SunderGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{resonance|resonance}} grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;W" DetailColor="C" />
   </object>
   
-  <object Name="PlasmaGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="PlasmaGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{plasma|plasma}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;Y" DetailColor="g" />
   </object>
-  <object Name="PlasmaGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="PlasmaGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{plasma|plasma}} grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;Y" DetailColor="g" />
   </object>
-  <object Name="PlasmaGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="PlasmaGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{plasma|plasma}} grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;Y" DetailColor="g" />
   </object>
   
-  <object Name="DefoliantGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="DefoliantGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{defoliant|defoliant}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;w" DetailColor="W" />
   </object>
-  <object Name="DefoliantGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="DefoliantGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{defoliant|defoliant}} grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;w" DetailColor="W" />
   </object>
-  <object Name="DefoliantGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="DefoliantGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{defoliant|defoliant}} grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;w" DetailColor="W" />
   </object>
   
-  <object Name="FungicideGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="FungicideGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{fungicide|fungicide}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;r" DetailColor="m" />
   </object>
-  <object Name="FungicideGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="FungicideGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{fungicide|fungicide}} grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;r" DetailColor="m" />
   </object>
-  <object Name="FungicideGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="FungicideGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{fungicide|fungicide}} grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;r" DetailColor="m" />
   </object>
   
-  <object Name="FireSupportGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="FireSupportGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{Y-Y-Y-Y-Y-Y-Y-Y-Y-y-y-K-K sequence|spring-turret}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;y" DetailColor="K" />
   </object>
-  <object Name="FireSupportGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="FireSupportGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{Y-Y-Y-Y-Y-Y-Y-Y-Y-y-y-K-K sequence|spring-turret}} grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;y" DetailColor="K" />
   </object>
-  <object Name="FireSupportGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="FireSupportGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{Y-Y-Y-Y-Y-Y-Y-Y-Y-y-y-K-K sequence|spring-turret}} grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;y" DetailColor="K" />
   </object>
   
-  <object Name="GravityGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="GravityGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{K|gravity}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;K" DetailColor="K" />
   </object>
-  <object Name="GravityGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="GravityGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{K|gravity}} grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;K" DetailColor="K" />
   </object>
-  <object Name="GravityGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="GravityGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{K|gravity}} grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;K" DetailColor="K" />
   </object>
   
-  <object Name="TimeDilationGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="TimeDilationGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{b|time dilation}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;b"/>
   </object>
-  <object Name="TimeDilationGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="TimeDilationGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{b|time dilation}} grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;b"/>
   </object>
-  <object Name="TimeDilationGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="TimeDilationGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{b|time dilation}} grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;b"/>
   </object>
   
-  <object Name="GlitterGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="GlitterGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{glittering|glitter}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;M" DetailColor="K"/>
   </object>
-  <object Name="GlitterGrenade2" Inherits="Grenade" Load="Merge">
+  <object Name="GlitterGrenade2" Load="Merge">
     <part Name="Render" DisplayName="{{glittering|glitter}} grenade mk II" Tile="Items/sw_grenade_mkii.bmp" ColorString="&amp;M" DetailColor="K"/>
   </object>
-  <object Name="GlitterGrenade3" Inherits="Grenade" Load="Merge">
+  <object Name="GlitterGrenade3" Load="Merge">
     <part Name="Render" DisplayName="{{glittering|glitter}} grenade mk III" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;M" DetailColor="K"/>
   </object>
   
-  <object Name="PhaseGrenade1" Inherits="Grenade" Load="Merge">
+  <object Name="PhaseGrenade1" Load="Merge">
     <part Name="Render" DisplayName="{{M-M-M-m-m-m-K-K-K-m-m sequence|phase shift}} grenade mk I" Tile="Items/sw_grenade_mki.bmp" ColorString="&amp;K" DetailColor="m"/>
   </object>
   
-  <object Name="HandENuke" Inherits="Grenade" Load="Merge">
+  <object Name="HandENuke" Load="Merge">
     <part Name="Render" DisplayName="{{m|Hand-E-Nuke}}" Tile="Items/sw_grenade_mkiii.bmp" ColorString="&amp;m" DetailColor="M"/>
   </object>
   
     <!-- signs -->
 <!-- to do: village signs? -->
-  <object Name="AppleSign1" Inherits="Sign">
+  <object Name="AppleSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_apple.bmp" TileColor="&amp;w" Occluding="false" />
-    <part Name="Chat" Says="Starapples and Cider" ShowInShortDescription="true" />
   </object>
-  <object Name="AppleSign2" Inherits="Sign">
-    <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_apple.bmp" Occluding="false" />
-    <part Name="Chat" Says="Spiced Cider" ShowInShortDescription="true" />
+  <object Name="AppleSign2" Load="Merge">
+    <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_apple.bmp" TileColor="&amp;w"  Occluding="false" />
   </object>
-  <object Name="AppleSign3" Inherits="Sign">
-    <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_apple.bmp" Occluding="false" />
-    <part Name="Chat" Says="Apples. Yum." ShowInShortDescription="true" />
+  <object Name="AppleSign3" Load="Merge">
+    <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_apple.bmp" TileColor="&amp;w"  Occluding="false" />
   </object>
 	
-  <object Name="BookSign1" Inherits="Sign">
+  <object Name="BookSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_book.bmp" ColorString="&amp;B" TileColor="&amp;y" DetailColor="B" Occluding="false" />
-    <part Name="Chat" Says="Books" ShowInShortDescription="true" />
   </object>
-  <object Name="BookSign2" Inherits="Sign">
+  <object Name="BookSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_book.bmp" ColorString="&amp;B" TileColor="&amp;y" DetailColor="B" Occluding="false" />
-    <part Name="Chat" Says="Wisdom and Knowledge" ShowInShortDescription="true" />
   </object>
-  <object Name="BookSign3" Inherits="Sign">
+  <object Name="BookSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_book.bmp" ColorString="&amp;B" TileColor="&amp;y" DetailColor="B" Occluding="false" />
-    <part Name="Chat" Says="Inkblots" ShowInShortDescription="true" />
   </object>
   
-  <object Name="BottleSign1" Inherits="Sign">
+  <object Name="BottleSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_honey_sign.bmp" ColorString="&amp;W" TileColor="&amp;w" DetailColor="W" Occluding="false" />
-    <part Name="Chat" Says="Sweet Honey" ShowInShortDescription="true" />
   </object>
-  <object Name="BottleSign2" Inherits="Sign">
+  <object Name="BottleSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_honey_sign.bmp" ColorString="&amp;W" TileColor="&amp;w" DetailColor="W" Occluding="false" />
-    <part Name="Chat" Says="Beejuice" ShowInShortDescription="true" />
   </object>
-  <object Name="BottleSign3" Inherits="Sign">
+  <object Name="BottleSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_honey_sign.bmp" ColorString="&amp;W" TileColor="&amp;w" DetailColor="W" Occluding="false" />
-    <part Name="Chat" Says="Sticky Honey" ShowInShortDescription="true" />
   </object>
   
-  <object Name="BootSign1" Inherits="Sign">
+  <object Name="BootSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_boot.bmp" ColorString="&amp;g" TileColor="&amp;Y" DetailColor="g" Occluding="false" />
-    <part Name="Chat" Says="Boots Here!" ShowInShortDescription="true" />
   </object>
-  <object Name="BootSign2" Inherits="Sign">
+  <object Name="BootSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_boot.bmp" ColorString="&amp;g" TileColor="&amp;Y" DetailColor="g" Occluding="false" />
-    <part Name="Chat" Says="Boot and Shoe" ShowInShortDescription="true" />
   </object>
-  <object Name="BootSign3" Inherits="Sign">
+  <object Name="BootSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_boot.bmp" ColorString="&amp;g" TileColor="&amp;Y" DetailColor="g" Occluding="false" />
-    <part Name="Chat" Says="Shoemaker" ShowInShortDescription="true" />
   </object>
   
-  <object Name="HatSign1" Inherits="Sign">
+  <object Name="HatSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_hat.bmp" ColorString="&amp;R" TileColor="&amp;Y" DetailColor="R" Occluding="false" />
-    <part Name="Chat" Says="Hats and Caps" ShowInShortDescription="true" />
   </object>
-  <object Name="HatSign2" Inherits="Sign">
+  <object Name="HatSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_hat.bmp" ColorString="&amp;R" TileColor="&amp;Y" DetailColor="R" Occluding="false" />
-    <part Name="Chat" Says="Cover Your Frail Heads" ShowInShortDescription="true" />
   </object>
-  <object Name="HatSign3" Inherits="Sign">
+  <object Name="HatSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_hat.bmp" ColorString="&amp;R" TileColor="&amp;Y" DetailColor="R" Occluding="false" />
-    <part Name="Chat" Says="Stylish Hats" ShowInShortDescription="true" />
   </object>
   
-  <object Name="GloveSign1" Inherits="Sign">
+  <object Name="GloveSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_glove.bmp" ColorString="&amp;C" TileColor="&amp;Y" DetailColor="C" Occluding="false" />
-    <part Name="Chat" Says="Gloves and Mittens" ShowInShortDescription="true" />
   </object>
-  <object Name="GloveSign2" Inherits="Sign">
+  <object Name="GloveSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_glove.bmp" ColorString="&amp;C" TileColor="&amp;Y" DetailColor="C" Occluding="false" />
-    <part Name="Chat" Says="Fingercoats" ShowInShortDescription="true" />
   </object>
-  <object Name="GloveSign3" Inherits="Sign">
+  <object Name="GloveSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_glove.bmp" ColorString="&amp;C" TileColor="&amp;Y" DetailColor="C" Occluding="false" />
-    <part Name="Chat" Says="Wear Gloves Now" ShowInShortDescription="true" />
   </object>
   
-  <object Name="CloakSign1" Inherits="Sign">
+  <object Name="CloakSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_cloak.bmp" ColorString="&amp;b" TileColor="&amp;Y" DetailColor="b" Occluding="false" />
-    <part Name="Chat" Says="Cloaks and Capes" ShowInShortDescription="true" />
   </object>
-  <object Name="CloakSign2" Inherits="Sign">
+  <object Name="CloakSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_cloak.bmp" ColorString="&amp;b" TileColor="&amp;Y" DetailColor="b" Occluding="false" />
-    <part Name="Chat" Says="Shawls, Mantles, and More" ShowInShortDescription="true" />
   </object>
-  <object Name="CloakSign3" Inherits="Sign">
+  <object Name="CloakSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_cloak.bmp" ColorString="&amp;b" TileColor="&amp;Y" DetailColor="b" Occluding="false" />
-    <part Name="Chat" Says="Stylish Cloaks" ShowInShortDescription="true" />
   </object>
   
-  <object Name="ArmorSign1" Inherits="Sign">
+  <object Name="ArmorSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_body.bmp" ColorString="&amp;y" TileColor="&amp;Y" DetailColor="y" Occluding="false" />
-    <part Name="Chat" Says="Vests and Mail" ShowInShortDescription="true" />
   </object>
-  <object Name="ArmorSign2" Inherits="Sign">
+  <object Name="ArmorSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_body.bmp" ColorString="&amp;y" TileColor="&amp;Y" DetailColor="y" Occluding="false" />
-    <part Name="Chat" Says="All Sorts of Armor" ShowInShortDescription="true" />
   </object>
-  <object Name="ArmorSign3" Inherits="Sign">
+  <object Name="ArmorSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_body.bmp" ColorString="&amp;y" TileColor="&amp;Y" DetailColor="y" Occluding="false" />
-    <part Name="Chat" Says="Chestpieces" ShowInShortDescription="true" />
   </object>
   
-  <object Name="GunSign1" Inherits="Sign">
+  <object Name="GunSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_gun.bmp" ColorString="&amp;K" TileColor="&amp;r" DetailColor="K" Occluding="false" />
-    <part Name="Chat" Says="Guns and Ammo" ShowInShortDescription="true" />
   </object>
-  <object Name="GunSign2" Inherits="Sign">
+  <object Name="GunSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_gun.bmp" ColorString="&amp;K" TileColor="&amp;r" DetailColor="K" Occluding="false" />
-    <part Name="Chat" Says="Pistols, Rifles, and More" ShowInShortDescription="true" />
   </object>
-  <object Name="GunSign3" Inherits="Sign">
+  <object Name="GunSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_gun.bmp" ColorString="&amp;K" TileColor="&amp;r" DetailColor="K" Occluding="false" />
-    <part Name="Chat" Says="Guns!" ShowInShortDescription="true" />
   </object>
   
-  <object Name="DiscSign1" Inherits="Sign">
+  <object Name="DiscSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_datadisc.bmp" ColorString="&amp;c" TileColor="&amp;Y" DetailColor="c" Occluding="false" />
-    <part Name="Chat" Says="Data Disks" ShowInShortDescription="true" />
   </object>
-  <object Name="DiscSign2" Inherits="Sign">
+  <object Name="DiscSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_datadisc.bmp" ColorString="&amp;c" TileColor="&amp;Y" DetailColor="c" Occluding="false" />
-    <part Name="Chat" Says="Schematics" ShowInShortDescription="true" />
   </object>
-  <object Name="DiscSign3" Inherits="Sign">
+  <object Name="DiscSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_datadisc.bmp" ColorString="&amp;c" TileColor="&amp;Y" DetailColor="c" Occluding="false" />
-    <part Name="Chat" Says="Build Your Own Artifacts" ShowInShortDescription="true" />
   </object>
   
-  <object Name="LiquidSign1" Inherits="Sign">
+  <object Name="LiquidSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_liquid.bmp" ColorString="&amp;M" TileColor="&amp;B" DetailColor="M" Occluding="false" />
-    <part Name="Chat" Says="Exotic Liquids" ShowInShortDescription="true" />
   </object>
-  <object Name="LiquidSign2" Inherits="Sign">
+  <object Name="LiquidSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_liquid.bmp" ColorString="&amp;M" TileColor="&amp;B" DetailColor="M" Occluding="false" />
-    <part Name="Chat" Says="Exotic Liquids" ShowInShortDescription="true" />
   </object>
-  <object Name="LiquidSign3" Inherits="Sign">
+  <object Name="LiquidSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_liquid.bmp" ColorString="&amp;M" TileColor="&amp;B" DetailColor="M" Occluding="false" />
-    <part Name="Chat" Says="Exotic Liquids" ShowInShortDescription="true" />
   </object>
   
-  <object Name="JewelSign1" Inherits="Sign">
+  <object Name="JewelSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_jeweler.bmp" ColorString="&amp;m" TileColor="&amp;b" DetailColor="m" Occluding="false" />
-    <part Name="Chat" Says="Jewels and Jewelry" ShowInShortDescription="true" />
   </object>
-  <object Name="JewelSign2" Inherits="Sign">
+  <object Name="JewelSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_jeweler.bmp" ColorString="&amp;m" TileColor="&amp;b" DetailColor="m" Occluding="false" />
-    <part Name="Chat" Says="Bejeweled Wares" ShowInShortDescription="true" />
   </object>
-  <object Name="JewelSign3" Inherits="Sign">
+  <object Name="JewelSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_jeweler.bmp" ColorString="&amp;m" TileColor="&amp;b" DetailColor="m" Occluding="false" />
-    <part Name="Chat" Says="Gemstones and Jewelry" ShowInShortDescription="true" />
   </object>
   
-  <object Name="HookahSign1" Inherits="Sign">
+  <object Name="HookahSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_hookah_sign.bmp" ColorString="&amp;w" TileColor="&amp;g" DetailColor="w" Occluding="false" />
-    <part Name="Chat" Says="Mint Smoke and Wine" ShowInShortDescription="true" />
   </object>
-  <object Name="HookahSign2" Inherits="Sign">
+  <object Name="HookahSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_hookah_sign.bmp" ColorString="&amp;w" TileColor="&amp;g" DetailColor="w" Occluding="false" />
-    <part Name="Chat" Says="Waterpipe and Rest" ShowInShortDescription="true" />
   </object>
-  <object Name="HookahSign3" Inherits="Sign">
+  <object Name="HookahSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_hookah_sign.bmp" ColorString="&amp;w" TileColor="&amp;g" DetailColor="w" Occluding="false" />
-    <part Name="Chat" Says="Smoke Lounge" ShowInShortDescription="true" />
   </object>
   
-  <object Name="GrenadeSign1" Inherits="Sign">
+  <object Name="GrenadeSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_bombs.bmp" ColorString="&amp;r" TileColor="&amp;K" DetailColor="r" Occluding="false" />
-    <part Name="Chat" Says="Explosives" ShowInShortDescription="true" />
   </object>
-  <object Name="GrenadeSign2" Inherits="Sign">
+  <object Name="GrenadeSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_bombs.bmp" ColorString="&amp;r" TileColor="&amp;K" DetailColor="r" Occluding="false" />
-    <part Name="Chat" Says="Boomspheres" ShowInShortDescription="true" />
   </object>
-  <object Name="GrenadeSign3" Inherits="Sign">
+  <object Name="GrenadeSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_bombs.bmp" ColorString="&amp;r" TileColor="&amp;K" DetailColor="r" Occluding="false" />
-    <part Name="Chat" Says="Grenades and More" ShowInShortDescription="true" />
   </object>
   
-  <object Name="PepperSign1" Inherits="Sign">
+  <object Name="PepperSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_pepper.bmp" ColorString="&amp;G" TileColor="&amp;w" DetailColor="G" Occluding="false" />
-    <part Name="Chat" Says="Apothecary" ShowInShortDescription="true" />
   </object>
-  <object Name="PepperSign2" Inherits="Sign">
+  <object Name="PepperSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_pepper.bmp" ColorString="&amp;G" TileColor="&amp;w" DetailColor="G" Occluding="false" />
-    <part Name="Chat" Says="Herbs and Tonics" ShowInShortDescription="true" />
   </object>
-  <object Name="PepperSign3" Inherits="Sign">
+  <object Name="PepperSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_pepper.bmp" ColorString="&amp;G" TileColor="&amp;w" DetailColor="G" Occluding="false" />
-    <part Name="Chat" Says="Simples" ShowInShortDescription="true" />
   </object>
   
-  <object Name="FoodSign1" Inherits="Sign">
+  <object Name="FoodSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_pepper.bmp" ColorString="&amp;g" TileColor="&amp;w" DetailColor="g" Occluding="false" />
-    <part Name="Chat" Says="Foodstuffs" ShowInShortDescription="true" />
   </object>
-  <object Name="FoodSign2" Inherits="Sign">
+  <object Name="FoodSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_pepper.bmp" ColorString="&amp;g" TileColor="&amp;w" DetailColor="g" Occluding="false" />
-    <part Name="Chat" Says="Sweet and Savory" ShowInShortDescription="true" />
   </object>
-  <object Name="FoodSign3" Inherits="Sign">
+  <object Name="FoodSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_pepper.bmp" ColorString="&amp;g" TileColor="&amp;w" DetailColor="g" Occluding="false" />
-    <part Name="Chat" Says="Spicy Foods" ShowInShortDescription="true" />
   </object>
   
-  <object Name="PreserveSign1" Inherits="Sign">
+  <object Name="PreserveSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_bottle.bmp" ColorString="&amp;C" TileColor="&amp;w" DetailColor="C" Occluding="false" />
-    <part Name="Chat" Says="Preserved Foods" ShowInShortDescription="true" />
   </object>
-  <object Name="PreserveSign2" Inherits="Sign">
+  <object Name="PreserveSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_bottle.bmp" ColorString="&amp;C" TileColor="&amp;w" DetailColor="C" Occluding="false" />
-    <part Name="Chat" Says="Foods and Spices" ShowInShortDescription="true" />
   </object>
-  <object Name="PreserveSign3" Inherits="Sign">
+  <object Name="PreserveSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_bottle.bmp" ColorString="&amp;C" TileColor="&amp;w" DetailColor="C" Occluding="false" />
-    <part Name="Chat" Says="Cooking Preparation" ShowInShortDescription="true" />
   </object>
   
-  <object Name="WineSign1" Inherits="Sign">
+  <object Name="WineSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_wine.bmp" ColorString="&amp;m" TileColor="&amp;w" DetailColor="m" Occluding="false" />
-    <part Name="Chat" Says="Wine" ShowInShortDescription="true" />
   </object>
-  <object Name="WineSign2" Inherits="Sign">
+  <object Name="WineSign2" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_wine.bmp" ColorString="&amp;m" TileColor="&amp;w" DetailColor="m" Occluding="false" />
-    <part Name="Chat" Says="Grapewitch Brew" ShowInShortDescription="true" />
   </object>
-  <object Name="WineSign3" Inherits="Sign">
+  <object Name="WineSign3" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_wine.bmp" ColorString="&amp;m" TileColor="&amp;w" DetailColor="m" Occluding="false" />
-    <part Name="Chat" Says="Winemaker" ShowInShortDescription="true" />
   </object>
   
-  <object Name="ImplantSign1" Inherits="Sign">
+  <object Name="ImplantSign1" Load="Merge">
     <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_gutsmonger.bmp" ColorString="&amp;R" TileColor="&amp;c" DetailColor="R" Occluding="false" />
-    <part Name="Chat" Says="Cybernetics" ShowInShortDescription="true" />
   </object>
-  <object Name="ImplantSign2" Inherits="Sign">
-    <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_gutsmonger.bmp" Occluding="false" />
-    <part Name="Chat" Says="Chrome Guts" ShowInShortDescription="true" />
+  <object Name="ImplantSign2" Load="Merge">
+    <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_gutsmonger.bmp" ColorString="&amp;R" TileColor="&amp;c" DetailColor="R" Occluding="false" />
   </object>
-  <object Name="ImplantSign3" Inherits="Sign">
-    <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_gutsmonger.bmp" Occluding="false" />
-    <part Name="Chat" Says="Organs for Machine and Folk" ShowInShortDescription="true" />
+  <object Name="ImplantSign3" Load="Merge">
+    <part Name="Render" DisplayName="sign" Tile="Items/sw_sign_gutsmonger.bmp" ColorString="&amp;R" TileColor="&amp;c" DetailColor="R" Occluding="false" />
   </object>
   
     <!-- barathrumites -->
-  <object Name="Otho" Inherits="Barathrumite" Load="Merge">
+  <object Name="Otho" Load="Merge">
     <part Name="Render" DisplayName="Otho" ColorString="&amp;Y" RenderString="b" Tile="Creatures/sw_bearman4.bmp" DetailColor="r" />
   </object>
-  <object Name="Sparafucile" Inherits="Barathrumite" Load="Merge">
+  <object Name="Sparafucile" Load="Merge">
     <part Name="Render" DisplayName="Sparafucile" ColorString="&amp;Y" RenderString="b" Tile="Creatures/sw_bearman3.bmp" DetailColor="R" />
   </object>
-  <object Name="Jacobo" Inherits="Barathrumite" Load="Merge">
+  <object Name="Jacobo" Load="Merge">
     <part Name="Render" DisplayName="Jacobo" ColorString="&amp;Y" RenderString="b" Tile="Creatures/sw_bearman2.bmp" DetailColor="G" />
   </object>
-  <object Name="Dardi" Inherits="Barathrumite" Load="Merge">
+  <object Name="Dardi" Load="Merge">
     <part Name="Render" DisplayName="Dardi" ColorString="&amp;Y" RenderString="b" Tile="Creatures/sw_bearman8.bmp" DetailColor="g" />
   </object>
-  <object Name="Hortensa" Inherits="Barathrumite" Load="Merge">
+  <object Name="Hortensa" Load="Merge">
     <part Name="Render" DisplayName="Hortensa" ColorString="&amp;Y" RenderString="b" Tile="Creatures/sw_bearman7.bmp" DetailColor="C" />
   </object>
-  <object Name="Iseppa" Inherits="Barathrumite" Load="Merge">
+  <object Name="Iseppa" Load="Merge">
     <part Name="Render" DisplayName="Iseppa" ColorString="&amp;Y" RenderString="b" Tile="Creatures/sw_bearman11.bmp" DetailColor="c" />
   </object>
-  <object Name="Neek" Inherits="Barathrumite" Load="Merge">
+  <object Name="Neek" Load="Merge">
     <part Name="Render" DisplayName="Neek" ColorString="&amp;Y" RenderString="b" Tile="Creatures/sw_bearman10.bmp" DetailColor="O" />
   </object>
-  <object Name="Mafeo" Inherits="Barathrumite" Load="Merge">
+  <object Name="Mafeo" Load="Merge">
     <part Name="Render" DisplayName="Mafeo" ColorString="&amp;Y" RenderString="b" Tile="Creatures/sw_bearman6.bmp" DetailColor="W" />
   </object>
-  <object Name="Aloysius" Inherits="Barathrumite" Load="Merge">
+  <object Name="Aloysius" Load="Merge">
     <part Name="Render" DisplayName="Aloysius" ColorString="&amp;Y" RenderString="b" Tile="Creatures/sw_bearman5.bmp" DetailColor="y" />
   </object>
  
     <!-- misc? -->
-  <object Name="Kindleflame" Inherits="LightSource" Load="Merge">
+  <object Name="Kindleflame" Load="Merge">
     <part Name="UnityPrefabImposter" PrefabID="Prefabs/Particles/MagmaCrabFlames" />
   </object>
   
