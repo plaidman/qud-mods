@@ -17,10 +17,12 @@ namespace XRL.World.Parts {
 		}
 
 		public override bool HandleEvent(ObjectCreatedEvent e) {
-			Faction = Factions.GetRandomFactionWithAtLeastOneMember();
-
-			ParentObject.DisplayName = "pack of Salt Shuffle cards: " + Faction.DisplayName;
-			if (Starter) ParentObject.DisplayName = "Salt Shuffle starter deck";
+			if (Starter) {
+				ParentObject.DisplayName = "Salt Shuffle starter deck";
+			} else {
+				Faction = Factions.GetRandomFactionWithAtLeastOneMember();
+				ParentObject.DisplayName = "pack of Salt Shuffle cards: " + Faction.DisplayName;
+			}
 
 			return base.HandleEvent(e);
 		}
@@ -39,31 +41,29 @@ namespace XRL.World.Parts {
 		}
 
 		public override bool HandleEvent(InventoryActionEvent e) {
-			Messages.MessageQueue.AddPlayerMessage(e.Command);
-
 			if (e.Command != "InvCommandUnwrap") return base.HandleEvent(e);
 
 			The.Player.RequirePart<NalathniCardChallenger>();
-			string tally = "You unwrap " + ParentObject.the + ParentObject.DisplayName + " and get:\n";
+			var tally = "You unwrap " + ParentObject.the + ParentObject.DisplayName + " and get:\n";
 
 			if (Starter) {
 				for (int i = 0; i < 12; i++) {
-					GameObject card = GameObjectFactory.Factory.CreateObject("NalathniCard");
-					The.Player.TakeObject(card, true);
+					var card = GameObjectFactory.Factory.CreateObject("NalathniCard");
+					The.Player.TakeObject(card, NoStack: true);
 					tally += card.DisplayName + "\n";
 				}
 			} else {
 				for (int i = 0; i < 5; i++) {
-					GameObject card = GameObjectFactory.Factory.CreateObject("NalathniCard");
+					var card = GameObjectFactory.Factory.CreateObject("NalathniCard");
 					card.GetPart<NalathniTradingCard>().SetCreature(
 						FactionUtils.GetFactionMembersIncludingUniques(Faction.Name).GetRandomElement().createSample()
 					);
-					The.Player.TakeObject(card, true);
+					The.Player.TakeObject(card, NoStack: true);
 					tally += card.DisplayName + "\n";
 				}
 			}
 
-			Popup.Show(tally);
+			Popup.Show(Message: tally, LogMessage: false);
 			ParentObject.Destroy("Unwrapped", true);
 
 			return base.HandleEvent(e);
