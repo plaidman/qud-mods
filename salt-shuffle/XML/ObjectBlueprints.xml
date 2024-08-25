@@ -1,30 +1,30 @@
 <objects>
- <object Name="NalathniBooster" Inherits="Item">
- <part Name="Render" Tile="items/NalathniBooster.png" DetailColor="O" ColorString="&amp;C"/>
-  <part Name="Physics" Weight="1" Category="Trading Cards"/>
-  <part Name="NalathniBoosterPack"/>
-  <part Name="Description" Short="A pack of five Salt Shuffle cards, all belonging to one specific faction."/>
-  <part Name="Commerce" Value="10"/>
- </object>
- <object Name="NalathniStarter" Inherits="Item">
-  <part Name="Render" Tile="items/NalathniBooster.png" DetailColor="W" ColorString="&amp;y"/>
-  <part Name="Physics" Weight="1" Category="Trading Cards"/>
-  <part Name="NalathniBoosterPack" Starter="true"/>
-  <part Name="Description" Short="A pack of twelve random Salt Shuffle cards, enough to get started playing the game."/>
-  <part Name="Commerce" Value="0"/>
- </object>
- <object Name="NalathniCard" Inherits="Item">
-  <part Name="Render" Tile="items/NalathniCard.png" DetailColor="M" ColorString="&amp;c"/>
-  <part Name="NalathniTradingCard"/>
-  <part Name="Description" Short=""/>
-  <part Name="Physics" Weight="0" Category="Trading Cards" IsReal="False"/>
-  <intproperty Name="Natural" Value="1" />
-  <tag Name="ExcludeFromDynamicEncounters" />
-  <tag Name="NoSparkingQuest" />
- </object>
- <object Name="NalathniBoosterBox" Inherits="Chest">
-    <inventoryobject Blueprint="NalathniBooster" Number="10" />
-    <tag Name="ExcludeFromDynamicEncounters" />
-    <tag Name="NoSparkingQuest" />
- </object>
+	<object Name="NalathniBooster" Inherits="Item">
+		<part Name="Render" Tile="items/NalathniBooster.png" DetailColor="O" ColorString="&amp;C" />
+		<part Name="Physics" Weight="1" Category="Trading Cards" />
+		<part Name="NalathniBoosterPack" />
+		<part Name="Description" Short="A pack of five Salt Shuffle cards, all belonging to one specific faction." />
+		<part Name="Commerce" Value="10" />
+	</object>
+	<object Name="NalathniStarter" Inherits="Item">
+		<part Name="Render" Tile="items/NalathniBooster.png" DetailColor="W" ColorString="&amp;y" />
+		<part Name="Physics" Weight="1" Category="Trading Cards" />
+		<part Name="NalathniBoosterPack" Starter="true" />
+		<part Name="Description" Short="A pack of twelve random Salt Shuffle cards, enough to get started playing the game." />
+		<part Name="Commerce" Value="0" />
+	</object>
+	<object Name="NalathniCard" Inherits="Item">
+		<part Name="Render" Tile="items/NalathniCard.png" DetailColor="M" ColorString="&amp;c" />
+		<part Name="NalathniTradingCard" />
+		<part Name="Description" Short="" />
+		<part Name="Physics" Weight="0" Category="Trading Cards" IsReal="False" />
+		<intproperty Name="Natural" Value="1" />
+		<tag Name="ExcludeFromDynamicEncounters" />
+		<tag Name="NoSparkingQuest" />
+	</object>
+	<object Name="NalathniBoosterBox" Inherits="Chest">
+		<inventoryobject Blueprint="NalathniBooster" Number="10" />
+		<tag Name="ExcludeFromDynamicEncounters" />
+		<tag Name="NoSparkingQuest" />
+	</object>
 </objects>

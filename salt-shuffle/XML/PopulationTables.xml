@@ -1,7 +1,7 @@
 <populations>
-  <population Name="StartingGear_Common" Load="Merge">
-    <group Name="Items" Style="pickeach">
-      <object Blueprint="NalathniStarter" Number="1"></object>
-    </group>
-  </population>
+	<population Name="StartingGear_Common" Load="Merge">
+		<group Name="Items" Style="pickeach">
+			<object Blueprint="NalathniStarter" Number="1"></object>
+		</group>
+	</population>
 </populations>
