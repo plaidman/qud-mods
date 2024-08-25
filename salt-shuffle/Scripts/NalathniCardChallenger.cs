@@ -1,4 +1,5 @@
 using System;
+using Nalathni.SaltShuffle;
 using XRL.UI;
 
 namespace XRL.World.Parts
@@ -22,7 +23,7 @@ namespace XRL.World.Parts
                 if(target == ThePlayer) return true;
                 if(NalathniTradingCard.CardsInZoneOf(target).Count == 0)
                 {
-                    NalathniBoosterPack.GenerateDeckFor(target);
+                    DeckUtils.GenerateDeckFor(target);
                 }
                 if(NalathniTradingCard.CardsInZoneOf(target).Count > 0)
                     actions.AddAction("playcards", 'P', true, "&WP&ylay Salt Shuffle", "InvCommandCardGame");//, 2, false, false, false, false);
