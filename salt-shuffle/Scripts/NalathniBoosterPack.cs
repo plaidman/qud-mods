@@ -18,6 +18,7 @@ namespace XRL.World.Parts {
 
 		public override bool HandleEvent(ObjectCreatedEvent e) {
 			if (Starter) {
+				Faction = null;
 				ParentObject.DisplayName = "Salt Shuffle starter deck";
 			} else {
 				Faction = Factions.GetRandomFactionWithAtLeastOneMember();
@@ -46,21 +47,19 @@ namespace XRL.World.Parts {
 			The.Player.RequirePart<NalathniCardChallenger>();
 			var tally = "You unwrap " + ParentObject.the + ParentObject.DisplayName + " and get:\n";
 
-			if (Starter) {
-				for (int i = 0; i < 12; i++) {
-					var card = GameObjectFactory.Factory.CreateObject("NalathniCard");
-					The.Player.TakeObject(card, NoStack: true);
-					tally += card.DisplayName + "\n";
-				}
-			} else {
-				for (int i = 0; i < 5; i++) {
-					var card = GameObjectFactory.Factory.CreateObject("NalathniCard");
+			var qty = Starter ? 12 : 5;
+			for (int i = 0; i < qty; i++) {
+				// todo static function in the card part that will create the card and assign the creature
+				var card = GameObjectFactory.Factory.CreateObject("NalathniCard");
+				if (!Starter) {
 					card.GetPart<NalathniTradingCard>().SetCreature(
+						// todo pass a string in here either null or faction name. sample creation should happen on the other end
 						FactionUtils.GetFactionMembersIncludingUniques(Faction.Name).GetRandomElement().createSample()
 					);
-					The.Player.TakeObject(card, NoStack: true);
-					tally += card.DisplayName + "\n";
 				}
+
+				The.Player.TakeObject(card, NoStack: true);
+				tally += card.DisplayName + "\n";
 			}
 
 			Popup.Show(Message: tally, LogMessage: false);

@@ -67,6 +67,5 @@ namespace Nalathni.SaltShuffle {
 				creature.TakeObject(card, NoStack: true, Silent: true);
 			}
 		}
-
 	}
 }
