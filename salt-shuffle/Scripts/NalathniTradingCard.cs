@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 using Nalathni.SaltShuffle;
 using Qud.API;
@@ -56,8 +57,6 @@ namespace XRL.World.Parts {
 
         public void SetCreature(GameObject go) {
             Creature = go ?? EncountersAPI.GetASampleCreature();
-            SetDescription();
-            SetDisplayName();
 
             float sunScore = 2;
             float moonScore = 2;
@@ -80,7 +79,7 @@ namespace XRL.World.Parts {
             if (Creature.Statistics.ContainsKey("Level"))
                 xpLevel = Math.Max(5, Creature.Statistics["Level"].Value);
             
-            float minScore = Math.Min(Math.Min(sunScore, moonScore), starScore);
+            float minScore = new float[]{ sunScore, moonScore, starScore }.Min();
             
             sunScore -= minScore * 2 / 3;
             moonScore -= minScore * 2 / 3;
@@ -104,6 +103,8 @@ namespace XRL.World.Parts {
             
             ParentObject.Render.ColorString = ConsoleLib.Console.ColorUtility.StripBackgroundFormatting(Creature.Render.ColorString);
 			ParentObject.Render.DetailColor = Creature.Render.DetailColor;
+            SetDescription();
+            SetDisplayName();
 		}
 
         private void SetDescription() {
