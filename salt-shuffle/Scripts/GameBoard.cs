@@ -72,6 +72,7 @@ namespace Nalathni.SaltShuffle {
 					card.GetPart<NalathniTradingCard>().SetCreature(creature);
 					Popup.Show("You get a card as a souvenir of your victory:\n\n" + card.DisplayName);
 					The.Player.TakeObject(card);
+					break;
 				}
 
 				Popup.Show(LatestGameNews);
@@ -88,21 +89,22 @@ namespace Nalathni.SaltShuffle {
 			}
 			
             var npcHand = CardZones[OpponentCards, HandZone];
-            NalathniTradingCard npcCard = null;
+            int npcCard = -1;
             if (npcHand.Count > 0) {
                 int bestOutcome = int.MinValue;
 
-                foreach (var candidate in npcHand) {
+                for (var i = 0; i < npcHand.Count; i++) {
+					var candidate = npcHand[i];
                     int value = CardScoreAgainstPlayer(candidate, PlayerCards);
 
                     if (value > bestOutcome) {
-                        npcCard = candidate;
+                        npcCard = i;
                         bestOutcome = value;
                     }
                 }
             }
 
-            if (npcCard != null) {
+            if (npcCard != -1) {
 				ResolveCardAgainstPlayer(npcCard, PlayerCards, OpponentCards);
 			} else {
 				LatestGameNews += "&C" + Opponent.The + Opponent.DisplayNameStripped
@@ -117,7 +119,8 @@ namespace Nalathni.SaltShuffle {
 				+ npcField.Count + " renown for " + Opponent.its + " fielded cards.\n";
 		}
 
-        public static void ResolveCardAgainstPlayer(NalathniTradingCard yourCard, int foe, int you) {
+        public static void ResolveCardAgainstPlayer(int yourCardIndex, int foe, int you) {
+			var yourCard = CardZones[you, HandZone][yourCardIndex];
             if (you == PlayerCards) {
 				LatestGameNews += "You play ";
 			} else {
@@ -126,25 +129,26 @@ namespace Nalathni.SaltShuffle {
 			LatestGameNews += yourCard.ParentObject.DisplayName + "&y.\n\n";
 
             var enemyField = CardZones[foe, FieldZone];
-            foreach (var foeCard in enemyField) {
-                LatestGameNews += ResolveCardAgainstCard(yourCard, foeCard, foe, you);
-            }
+			for (var i = enemyField.Count-1; i >= 0; i--) {
+                LatestGameNews += ResolveCardAgainstCard(yourCard, i, foe, you);
+			}
 
 			var yourHand = CardZones[you, HandZone];
 			var yourField = CardZones[you, FieldZone];
 				
-			yourHand.Remove(yourCard);
+			yourHand.RemoveAt(yourCardIndex);
 			yourField.Add(yourCard);
         }
 
-        public static string ResolveCardAgainstCard(NalathniTradingCard yourCard, NalathniTradingCard foeCard, int foe, int you) {
-            int margin = CardStatsAgainstCard(yourCard, foeCard);
+        public static string ResolveCardAgainstCard(NalathniTradingCard yourCard, int foeCardIndex, int foe, int you) {
 			var enemyField = CardZones[foe, FieldZone];
 			var enemyDeck = CardZones[foe, FieldZone];
+			var foeCard = enemyField[foeCardIndex];
+            int margin = CardStatsAgainstCard(yourCard, foeCard);
 
             if (margin == 3) {
 				// returned to hand
-				enemyField.Remove(foeCard);
+				enemyField.RemoveAt(foeCardIndex);
 				enemyDeck.Add(foeCard);
 
                 int penalty = CardCrushAgainstCard(yourCard, foeCard);
@@ -156,14 +160,14 @@ namespace Nalathni.SaltShuffle {
             if (margin == 2) {
                 if (foeCard.PointValue > yourCard.PointValue) {
 					// banished from play
-					enemyField.Remove(foeCard);
+					enemyField.RemoveAt(foeCardIndex);
 
                     ScorePoints(you, foeCard.PointValue);
                     return yourCard.NameWhose() + " &Ctopples&y " + foeCard.NameWhose(true)
 						+ "&y! (+" + foeCard.PointValue + " renown)\n";
                 } else {
 					// returned to hand
-					enemyField.Remove(foeCard);
+					enemyField.RemoveAt(foeCardIndex);
 					enemyDeck.Add(foeCard);
 
                     ScorePoints(you, 1);
@@ -246,7 +250,7 @@ namespace Nalathni.SaltShuffle {
             LatestGameNews += BoardState();
             
             var playerHand = CardZones[PlayerCards,HandZone];
-            NalathniTradingCard playerCard = null;
+            int playerCard = -1;
             if (playerHand.Count == 0) {
                 LatestGameNews += "&RYou have no cards in your hand.\n";
                 Popup.Show(LatestGameNews);
@@ -254,17 +258,16 @@ namespace Nalathni.SaltShuffle {
                 LatestGameNews += "\n\n&CPlay a card:";
                 var texts = playerHand.Select(c => c.ParentObject.DisplayName).ToArray();
 
-                int choice = Popup.PickOption(
+                playerCard = Popup.PickOption(
 					Options: texts,
 					Intro: LatestGameNews,
 					MaxWidth: 78,
 					RespectOptionNewlines: true
 				);
-                playerCard = playerHand[choice];
             }
 
             LatestGameNews = "";
-            if (playerCard != null) {
+            if (playerCard != -1) {
 				ResolveCardAgainstPlayer(playerCard, OpponentCards, PlayerCards);
 			}
 
