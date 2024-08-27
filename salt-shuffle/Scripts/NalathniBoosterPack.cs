@@ -21,7 +21,7 @@ namespace XRL.World.Parts {
 				Faction = null;
 				ParentObject.DisplayName = "Salt Shuffle starter deck";
 			} else {
-				Faction = Factions.GetRandomFactionWithAtLeastOneMember();
+				Faction = FactionUtils.GetRandomFaction();
 				ParentObject.DisplayName = "pack of Salt Shuffle cards: " + Faction.DisplayName;
 			}
 
@@ -51,11 +51,12 @@ namespace XRL.World.Parts {
 			for (int i = 0; i < qty; i++) {
 				// todo static function in the card part that will create the card and assign the creature
 				var card = GameObjectFactory.Factory.CreateObject("NalathniCard");
-				if (!Starter) {
-					card.GetPart<NalathniTradingCard>().SetCreature(
-						// todo pass a string in here either null or faction name. sample creation should happen on the other end
-						FactionUtils.GetFactionMembersIncludingUniques(Faction.Name).GetRandomElement().createSample()
-					);
+				var part = card.GetPart<NalathniTradingCard>();
+				
+				if (Starter) {
+					part.SetAnyCreature();
+				} else {
+					part.SetFactionCreature(Faction.Name);
 				}
 
 				The.Player.TakeObject(card, NoStack: true);

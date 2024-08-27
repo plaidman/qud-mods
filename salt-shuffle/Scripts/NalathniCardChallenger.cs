@@ -13,7 +13,7 @@ namespace XRL.World.Parts {
 		}
 
 		public override bool HandleEvent(OwnerGetInventoryActionsEvent e) {
-			if(NalathniTradingCard.CardsInZoneOf(The.Player).Count == 0) {
+			if (!DeckUtils.HasCards(The.Player)) {
 				return base.HandleEvent(e);
 			}
 
@@ -22,11 +22,11 @@ namespace XRL.World.Parts {
 				return base.HandleEvent(e);
 			}
 
-			if (NalathniTradingCard.CardsInZoneOf(target).Count == 0) {
+			if (!DeckUtils.HasCards(target)) {
 				DeckUtils.GenerateDeckFor(target);
 			}
 
-			if (NalathniTradingCard.CardsInZoneOf(target).Count > 0) {
+			if (DeckUtils.HasCards(target)) {
 				e.AddAction(
 					Name: "PlayCards",
 					Key: 'P',
@@ -58,7 +58,7 @@ namespace XRL.World.Parts {
 				return base.HandleEvent(e);
 			}
 
-			NalathniTradingCard.NewGameWith(with);
+			GameBoard.NewGameWith(with);
 			return base.HandleEvent(e);
 		}
 	}
