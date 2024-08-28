@@ -67,7 +67,7 @@ namespace Nalathni.SaltShuffle {
 					Popup.Show(LatestGameNews);
 
 					var card = GameObjectFactory.Factory.CreateObject("NalathniCard");
-					// todo should we create a sample here instead?
+					// todo should we create a sample here instead? ensure all places a sample is created
 					var creature = GameObjectFactory.Factory.CreateObject(opponent.Blueprint);
 					card.GetPart<NalathniTradingCard>().SetCreature(creature);
 					Popup.Show("You get a card as a souvenir of your victory:\n\n" + card.DisplayName);
@@ -111,16 +111,18 @@ namespace Nalathni.SaltShuffle {
 					+ " can't play any cards.\n";
 			}
 
-            var npcField = CardZones[OpponentCards, FieldZone];
-            ScorePoints(OpponentCards, npcField.Count);
+            var npcFieldCount = CardZones[OpponentCards, FieldZone].Count;
+            ScorePoints(OpponentCards, npcFieldCount);
 
 			// todo change & color codes to {{}}
             LatestGameNews += "\n&y" + Opponent.The + Opponent.DisplayNameStripped + " scores "
-				+ npcField.Count + " renown for " + Opponent.its + " fielded cards.\n";
+				+ npcFieldCount + " renown for " + Opponent.its + " fielded cards.\n";
 		}
 
         public static void ResolveCardAgainstPlayer(int yourCardIndex, int foe, int you) {
-			var yourCard = CardZones[you, HandZone][yourCardIndex];
+			var yourHand = CardZones[you, HandZone];
+			var yourCard = yourHand[yourCardIndex];
+
             if (you == PlayerCards) {
 				LatestGameNews += "You play ";
 			} else {
@@ -133,16 +135,13 @@ namespace Nalathni.SaltShuffle {
                 LatestGameNews += ResolveCardAgainstCard(yourCard, i, foe, you);
 			}
 
-			var yourHand = CardZones[you, HandZone];
-			var yourField = CardZones[you, FieldZone];
-				
 			yourHand.RemoveAt(yourCardIndex);
-			yourField.Add(yourCard);
+			CardZones[you, FieldZone].Add(yourCard);
         }
 
         public static string ResolveCardAgainstCard(NalathniTradingCard yourCard, int foeCardIndex, int foe, int you) {
 			var enemyField = CardZones[foe, FieldZone];
-			var enemyDeck = CardZones[foe, FieldZone];
+			var enemyDeck = CardZones[foe, DeckZone];
 			var foeCard = enemyField[foeCardIndex];
             int margin = CardStatsAgainstCard(yourCard, foeCard);
 
@@ -224,7 +223,7 @@ namespace Nalathni.SaltShuffle {
 
         public static bool Draw(int who) {
             var deck = CardZones[who, DeckZone];
-            if(deck.Count == 0) return false;
+            if (deck.Count == 0) return false;
 
             var hand = CardZones[who, HandZone];
 			var index = Stat.Rnd2.Next(deck.Count);
