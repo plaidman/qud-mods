@@ -5,22 +5,16 @@ using XRL.World;
 using XRL.World.Parts;
 
 namespace Nalathni.SaltShuffle {
-	[HasGameBasedStaticCache]
 	class FactionUtils {
-		private static List<Faction> FactionsWithMembers = null;
 		private static readonly Dictionary<string, List<GameObjectBlueprint>> FactionMemberCache = new();
-
-		[GameBasedCacheInit]
-		public static void InitModCache() {
-			UnityEngine.Debug.Log("faction count in gamebasedcacheinit " + Factions.GetFactionCount());
-			
-			FactionsWithMembers = Factions.GetList().Where(f => {
-				return f.Visible && GameObjectFactory.Factory.AnyFactionMembers(f.Name);
-			}).ToList();
-		}
+		// todo keep a list of creature GOs that you've seen.
+		// this can fill in any empty factions, and offer a source of legendary creatures to use in card generation
 		
+		// used when generating a new booster pack
 		public static Faction GetRandomFaction() {
-			return FactionsWithMembers.GetRandomElementCosmetic();
+			return Factions.GetList().Where(f => {
+				return f.Visible && GameObjectFactory.Factory.AnyFactionMembers(f.Name);
+			}).GetRandomElementCosmetic();
 		}
 
 		private static List<GameObjectBlueprint> GetFactionMembers(string faction) {
