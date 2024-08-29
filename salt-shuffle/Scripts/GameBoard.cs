@@ -40,7 +40,7 @@ namespace Nalathni.SaltShuffle {
 			CardZones[PlayerCards, FieldZone] = new();
 			Scores[PlayerCards] = 0;
 
-			CardZones[OpponentCards, DeckZone] = DeckUtils.CardList(opponent);
+			CardZones[OpponentCards, DeckZone] = DeckUtils.CardList(Opponent);
 			CardZones[OpponentCards, HandZone] = new();
 			CardZones[OpponentCards, FieldZone] = new();
 			Scores[OpponentCards] = 0;
@@ -67,9 +67,10 @@ namespace Nalathni.SaltShuffle {
 					Popup.Show(LatestGameNews);
 
 					var card = GameObjectFactory.Factory.CreateObject("NalathniCard");
-					// todo should we create a sample here instead? ensure all places a sample is created
-					var creature = GameObjectFactory.Factory.CreateObject(opponent.Blueprint);
-					card.GetPart<NalathniTradingCard>().SetCreature(creature);
+					// todo ensure we're using a sample creature when it makes sense, and using the creature directly otherwise
+                    // todo does a creature card who is dead still behave normally (display, description)
+                    // todo creature reference doesn't need to be kept in the card object when setCreature is done right?
+					card.GetPart<NalathniTradingCard>().SetCreature(Opponent);
 					Popup.Show("You get a card as a souvenir of your victory:\n\n" + card.DisplayName);
 					The.Player.TakeObject(card);
 					break;
