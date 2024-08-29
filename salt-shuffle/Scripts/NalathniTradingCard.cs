@@ -26,7 +26,6 @@ namespace XRL.World.Parts {
         }
 
         public void SetAnyCreature() {
-            // todo use get a creature here or get a sample creature
             SetCreature(EncountersAPI.GetASampleCreature());
         }
         
@@ -35,7 +34,6 @@ namespace XRL.World.Parts {
         }
 
         public void SetCreature(GameObject go) {
-            // todo does the old code use GetACreature here or GetASampleCreature
             go ??= EncountersAPI.GetACreature();
 
             float sunScore = 2;

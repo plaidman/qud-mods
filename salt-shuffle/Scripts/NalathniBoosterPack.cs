@@ -49,7 +49,6 @@ namespace XRL.World.Parts {
 
 			var qty = Starter ? 12 : 5;
 			for (int i = 0; i < qty; i++) {
-				// todo static function in the card part that will create the card and assign the creature
 				var card = GameObjectFactory.Factory.CreateObject("NalathniCard");
 				var part = card.GetPart<NalathniTradingCard>();
 				

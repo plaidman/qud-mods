@@ -69,8 +69,6 @@ namespace Nalathni.SaltShuffle {
 
 					var card = GameObjectFactory.Factory.CreateObject("NalathniCard");
 					// todo ensure we're using a sample creature when it makes sense, and using the creature directly otherwise
-                    // todo does a creature card who is dead still behave normally (display, description)
-                    // todo creature reference doesn't need to be kept in the card object when setCreature is done right?
 					card.GetPart<NalathniTradingCard>().SetCreature(Opponent);
 					Popup.Show("You get a card as a souvenir of your victory:\n\n" + card.DisplayName);
 					The.Player.TakeObject(card);
@@ -116,7 +114,7 @@ namespace Nalathni.SaltShuffle {
             var npcFieldCount = CardZones[OpponentCards, FieldZone].Count;
             ScorePoints(OpponentCards, npcFieldCount);
 
-			// todo change & color codes to {{}}
+			// todo use StringBuilder.appendColored()
             LatestGameNews += "\n&y" + Opponent.The + Opponent.DisplayNameStripped + " scores "
 				+ npcFieldCount + " renown for " + Opponent.its + " fielded cards.\n";
 		}
@@ -158,6 +156,7 @@ namespace Nalathni.SaltShuffle {
                 ScorePoints(you, penalty * -1);
                 return NameWhose(you, yourCard) + " &rcrushes&y "
                     + NameWhose(foe, foeCard, true)
+                    // todo use StringBuilder.appendSigned()
                     + "&y. (-" + penalty + " renown)\n";
             }
 

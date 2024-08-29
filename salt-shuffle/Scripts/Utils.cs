@@ -81,7 +81,7 @@ namespace Nalathni.SaltShuffle {
 
 		public static void GenerateDeckFor(GameObject creature) {
 			if (creature.Brain == null) return;
-			// todo test to make sure this prevents procgen villages from playing cards - this can be improved later
+			// todo should we be able to play salt shuffle with animals
 			var factions = FactionUtils.GetCreatureFactions(creature);
 			if (factions.Count == 0) return;
 
