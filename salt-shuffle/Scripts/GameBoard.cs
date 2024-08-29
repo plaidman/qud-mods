@@ -141,6 +141,8 @@ namespace Nalathni.SaltShuffle {
 			CardZones[you, FieldZone].Add(yourCard);
         }
 
+        // todo fix whitespace
+        // todo put all todos into github issues
         public static string ResolveCardAgainstCard(NalathniTradingCard yourCard, int foeCardIndex, int foe, int you) {
 			var enemyField = CardZones[foe, FieldZone];
 			var enemyDeck = CardZones[foe, DeckZone];
@@ -152,10 +154,10 @@ namespace Nalathni.SaltShuffle {
 				enemyField.RemoveAt(foeCardIndex);
 				enemyDeck.Add(foeCard);
 
-                int penalty = CardCrushAgainstCard(yourCard, foeCard);
-                ScorePoints(you, -penalty);
-                return NameWhose(you) + " " + yourCard.ShortDisplayName + " &rcrushes&y "
-                    + NameWhose(foe, true) + " " + foeCard.ShortDisplayName
+                int penalty = CardCrushPenalty(yourCard, foeCard);
+                ScorePoints(you, penalty * -1);
+                return NameWhose(you, yourCard) + " &rcrushes&y "
+                    + NameWhose(foe, foeCard, true)
                     + "&y. (-" + penalty + " renown)\n";
             }
 
@@ -165,8 +167,8 @@ namespace Nalathni.SaltShuffle {
 					enemyField.RemoveAt(foeCardIndex);
 
                     ScorePoints(you, foeCard.PointValue);
-                    return NameWhose(you) + " " + yourCard.ShortDisplayName + " &rtopples&y "
-                        + NameWhose(foe, true) + " " + foeCard.ShortDisplayName
+                    return NameWhose(you, yourCard) + " &rtopples&y "
+                        + NameWhose(foe, foeCard, true)
                         + "&y. (+" + foeCard.PointValue + " renown)\n";
                 } else {
 					// returned to hand
@@ -174,8 +176,8 @@ namespace Nalathni.SaltShuffle {
 					enemyDeck.Add(foeCard);
 
                     ScorePoints(you, 1);
-                    return NameWhose(you) + " " + yourCard.ShortDisplayName + " &rvanquishes&y "
-                        + NameWhose(foe, true) + " " + foeCard.ShortDisplayName
+                    return NameWhose(you, yourCard) + " &rvanquishes&y "
+                        + NameWhose(foe, foeCard, true)
                         + "&y. (+1 renown)\n";
                 }
             }
@@ -183,14 +185,18 @@ namespace Nalathni.SaltShuffle {
 			return "";
         }
 
-        public static string NameWhose(int who, bool lowercase = false) {
+        public static string NameWhose(int who, NalathniTradingCard card, bool lowercase = false) {
+            string prefix;
+
             if (who == PlayerCards) {
-                return lowercase ? "your" : "Your";
+                prefix = lowercase ? "your" : "Your";
+            } else {
+                var ownerPossessive = Grammar.MakePossessive(Opponent.DisplayNameStripped);
+                prefix = lowercase ? Opponent.the : Opponent.The;
+                prefix += ownerPossessive;
             }
             
-            var ownerPossessive = Grammar.MakePossessive(Opponent.DisplayNameStripped);
-            var prefix = lowercase ? Opponent.the : Opponent.The;
-            return prefix + ownerPossessive;
+            return prefix + " " + card.ShortDisplayName;
         }
 
         public static int CardScoreAgainstPlayer(NalathniTradingCard card, int who) {
@@ -207,7 +213,7 @@ namespace Nalathni.SaltShuffle {
             int margin = CardStatsAgainstCard(card, foe);
 
             if (margin == 3) {
-				return -CardCrushAgainstCard(card, foe);
+				return CardCrushPenalty(card, foe) * -1;
 			}
 
             if (margin == 2) {
@@ -228,7 +234,7 @@ namespace Nalathni.SaltShuffle {
             return margin;
         }
 
-        public static int CardCrushAgainstCard(NalathniTradingCard card, NalathniTradingCard foe) {
+        public static int CardCrushPenalty(NalathniTradingCard card, NalathniTradingCard foe) {
 			return new[]{
 				card.SunScore - foe.SunScore,
 				card.MoonScore - foe.MoonScore,
