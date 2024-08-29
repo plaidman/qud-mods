@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using XRL;
+using XRL.Language;
 using XRL.Rules;
 using XRL.UI;
 using XRL.World;
@@ -153,8 +154,9 @@ namespace Nalathni.SaltShuffle {
 
                 int penalty = CardCrushAgainstCard(yourCard, foeCard);
                 ScorePoints(you, -penalty);
-                return yourCard.NameWhose() + " &rcrushes&y " + foeCard.NameWhose(true)
-					+ "&y. (-" + penalty + " renown)\n";
+                return NameWhose(you) + " " + yourCard.ShortDisplayName + " &rcrushes&y "
+                    + NameWhose(foe, true) + " " + foeCard.ShortDisplayName
+                    + "&y. (-" + penalty + " renown)\n";
             }
 
             if (margin == 2) {
@@ -163,20 +165,32 @@ namespace Nalathni.SaltShuffle {
 					enemyField.RemoveAt(foeCardIndex);
 
                     ScorePoints(you, foeCard.PointValue);
-                    return yourCard.NameWhose() + " &Ctopples&y " + foeCard.NameWhose(true)
-						+ "&y! (+" + foeCard.PointValue + " renown)\n";
+                    return NameWhose(you) + " " + yourCard.ShortDisplayName + " &rtopples&y "
+                        + NameWhose(foe, true) + " " + foeCard.ShortDisplayName
+                        + "&y. (+" + foeCard.PointValue + " renown)\n";
                 } else {
 					// returned to hand
 					enemyField.RemoveAt(foeCardIndex);
 					enemyDeck.Add(foeCard);
 
                     ScorePoints(you, 1);
-                    return yourCard.NameWhose() + " &gvanquishes&y " + foeCard.NameWhose(true)
-						+ "&y. (+1 renown)\n";
+                    return NameWhose(you) + " " + yourCard.ShortDisplayName + " &rvanquishes&y "
+                        + NameWhose(foe, true) + " " + foeCard.ShortDisplayName
+                        + "&y. (+1 renown)\n";
                 }
             }
 
 			return "";
+        }
+
+        public static string NameWhose(int who, bool lowercase = false) {
+            if (who == PlayerCards) {
+                return lowercase ? "your" : "Your";
+            }
+            
+            var ownerPossessive = Grammar.MakePossessive(Opponent.DisplayNameStripped);
+            var prefix = lowercase ? Opponent.the : Opponent.The;
+            return prefix + ownerPossessive;
         }
 
         public static int CardScoreAgainstPlayer(NalathniTradingCard card, int who) {

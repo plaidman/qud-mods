@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text;
 using Nalathni.SaltShuffle;
 using Qud.API;
-using XRL.Language;
 
 namespace XRL.World.Parts {
     [Serializable]
@@ -12,6 +11,7 @@ namespace XRL.World.Parts {
         public int MoonScore = 0;
         public int StarScore = 0;
         public int PointValue = 0;
+        public string ShortDisplayName = "";
         // todo shiny card?
         // todo how to earn new boosters/boxes
 
@@ -25,27 +25,6 @@ namespace XRL.World.Parts {
             return base.HandleEvent(e);
         }
 
-        public GameObject Owner() {
-            return ParentObject.InInventory;
-        }
-
-        public string NameWhose(bool lowercase = false) {
-            string prefix;
-            var owner = Owner();
-
-            if (owner == The.Player) {
-                if (lowercase) prefix = "your";
-                else prefix = "Your";
-            } else {
-                var ownerPossessive = Grammar.MakePossessive(owner.DisplayNameStripped);
-
-                if (lowercase) prefix = owner.the + ownerPossessive;
-                else prefix = owner.The + ownerPossessive;
-            }
-
-            return prefix + " " + ParentObject.ShortDisplayName;
-        }
-        
         public void SetAnyCreature() {
             // todo use get a creature here or get a sample creature
             SetCreature(EncountersAPI.GetASampleCreature());
@@ -141,10 +120,11 @@ namespace XRL.World.Parts {
 
             builder.Append("&Y" + go.DisplayNameStripped);
             builder.Append(" &W" + SunScore + "&Y/&C" + MoonScore
-                + "&Y/&M" + StarScore + " &K(Lv " + PointValue + ")"
+                + "&Y/&M" + StarScore
             );
+            ShortDisplayName = builder.ToString();
             
-            ParentObject.DisplayName = builder.ToString();
+            ParentObject.DisplayName = ShortDisplayName + " &K(Lv " + PointValue + ")";
         }
     }
 }
