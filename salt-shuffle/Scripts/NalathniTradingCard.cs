@@ -12,8 +12,6 @@ namespace XRL.World.Parts {
         public int StarScore = 0;
         public int PointValue = 0;
         public string ShortDisplayName = "";
-        // todo shiny card?
-        // todo how to earn new boosters/boxes
 
         public override void Register(GameObject go, IEventRegistrar registrar) {
             registrar.Register(ObjectCreatedEvent.ID);

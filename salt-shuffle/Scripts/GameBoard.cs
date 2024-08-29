@@ -17,7 +17,6 @@ namespace Nalathni.SaltShuffle {
 		private const int FieldZone = 2;
 		
 		private static GameObject Opponent = null;
-		// todo this is written to and displayed in weird places/intervals. should this be a stringbuilder?
         private static string LatestGameNews = "";
 		private static readonly List<NalathniTradingCard>[,] CardZones = new List<NalathniTradingCard>[2,3];
 		private static readonly int[] Scores = new int[2];
@@ -68,7 +67,6 @@ namespace Nalathni.SaltShuffle {
 					Popup.Show(LatestGameNews);
 
 					var card = GameObjectFactory.Factory.CreateObject("NalathniCard");
-					// todo ensure we're using a sample creature when it makes sense, and using the creature directly otherwise
 					card.GetPart<NalathniTradingCard>().SetCreature(Opponent);
 					Popup.Show("You get a card as a souvenir of your victory:\n\n" + card.DisplayName);
 					The.Player.TakeObject(card);
@@ -114,7 +112,6 @@ namespace Nalathni.SaltShuffle {
             var npcFieldCount = CardZones[OpponentCards, FieldZone].Count;
             ScorePoints(OpponentCards, npcFieldCount);
 
-			// todo use StringBuilder.appendColored()
             LatestGameNews += "\n&y" + Opponent.The + Opponent.DisplayNameStripped + " scores "
 				+ npcFieldCount + " renown for " + Opponent.its + " fielded cards.\n";
 		}
@@ -139,8 +136,6 @@ namespace Nalathni.SaltShuffle {
 			CardZones[you, FieldZone].Add(yourCard);
         }
 
-        // todo fix whitespace
-        // todo put all todos into github issues
         public static string ResolveCardAgainstCard(NalathniTradingCard yourCard, int foeCardIndex, int foe, int you) {
 			var enemyField = CardZones[foe, FieldZone];
 			var enemyDeck = CardZones[foe, DeckZone];
@@ -156,7 +151,6 @@ namespace Nalathni.SaltShuffle {
                 ScorePoints(you, penalty * -1);
                 return NameWhose(you, yourCard) + " &rcrushes&y "
                     + NameWhose(foe, foeCard, true)
-                    // todo use StringBuilder.appendSigned()
                     + "&y. (-" + penalty + " renown)\n";
             }
 

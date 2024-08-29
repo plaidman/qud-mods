@@ -6,8 +6,6 @@ using XRL.World.Parts;
 namespace Nalathni.SaltShuffle {
 	class FactionUtils {
 		private static readonly Dictionary<string, List<GameObjectBlueprint>> FactionMemberCache = new();
-		// todo keep a list of creature GOs that you've seen.
-		// this can fill in any empty factions, and offer a source of legendary creatures to use in card generation
 		
 		// used when generating a new booster pack
 		public static Faction GetRandomFaction() {
@@ -81,7 +79,6 @@ namespace Nalathni.SaltShuffle {
 
 		public static void GenerateDeckFor(GameObject creature) {
 			if (creature.Brain == null) return;
-			// todo should we be able to play salt shuffle with animals
 			var factions = FactionUtils.GetCreatureFactions(creature);
 			if (factions.Count == 0) return;
 
