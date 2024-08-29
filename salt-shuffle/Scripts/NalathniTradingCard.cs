@@ -8,7 +8,6 @@ using XRL.Language;
 namespace XRL.World.Parts {
     [Serializable]
     public class NalathniTradingCard : IPart {
-        public GameObject Creature;
         public int SunScore = 0;
         public int MoonScore = 0;
         public int StarScore = 0;
@@ -48,36 +47,38 @@ namespace XRL.World.Parts {
         }
         
         public void SetAnyCreature() {
+            // todo use get a creature here or get a sample creature
             SetCreature(EncountersAPI.GetASampleCreature());
         }
         
         public void SetFactionCreature(string faction) {
-            SetCreature(FactionUtils.GetRandomCreatureFromFaction(faction));
+            SetCreature(FactionUtils.GetRandomSampleCreatureFromFaction(faction));
         }
 
         public void SetCreature(GameObject go) {
-            Creature = go ?? EncountersAPI.GetASampleCreature();
+            // todo does the old code use GetACreature here or GetASampleCreature
+            go ??= EncountersAPI.GetACreature();
 
             float sunScore = 2;
             float moonScore = 2;
             float starScore = 2;
             int xpLevel = 5;
 
-            if (Creature.Statistics.ContainsKey("Strength"))
-                sunScore += Creature.Statistics["Strength"].Value;
-            if (Creature.Statistics.ContainsKey("Ego"))
-                starScore += Creature.Statistics["Ego"].Value;
-            if (Creature.Statistics.ContainsKey("Toughness"))
-                sunScore += Creature.Statistics["Toughness"].Value;
-            if (Creature.Statistics.ContainsKey("Willpower"))
-                starScore += Creature.Statistics["Willpower"].Value;
-            if (Creature.Statistics.ContainsKey("Intelligence"))
-                moonScore += Creature.Statistics["Intelligence"].Value;
-            if (Creature.Statistics.ContainsKey("Agility"))
-                moonScore += Creature.Statistics["Agility"].Value;
+            if (go.Statistics.ContainsKey("Strength"))
+                sunScore += go.Statistics["Strength"].Value;
+            if (go.Statistics.ContainsKey("Ego"))
+                starScore += go.Statistics["Ego"].Value;
+            if (go.Statistics.ContainsKey("Toughness"))
+                sunScore += go.Statistics["Toughness"].Value;
+            if (go.Statistics.ContainsKey("Willpower"))
+                starScore += go.Statistics["Willpower"].Value;
+            if (go.Statistics.ContainsKey("Intelligence"))
+                moonScore += go.Statistics["Intelligence"].Value;
+            if (go.Statistics.ContainsKey("Agility"))
+                moonScore += go.Statistics["Agility"].Value;
 
-            if (Creature.Statistics.ContainsKey("Level"))
-                xpLevel = Math.Max(5, Creature.Statistics["Level"].Value);
+            if (go.Statistics.ContainsKey("Level"))
+                xpLevel = Math.Max(5, go.Statistics["Level"].Value);
             
             float minScore = new float[]{ sunScore, moonScore, starScore }.Min();
             
@@ -93,7 +94,7 @@ namespace XRL.World.Parts {
             int error = xpLevel - (SunScore + MoonScore + StarScore);
             SunScore += error;
             
-            if (Creature.Brain != null && Creature.Brain.GetPrimaryFaction() == "Baetyl") {
+            if (go.Brain != null && go.Brain.GetPrimaryFaction() == "Baetyl") {
                 SunScore = -5;
                 MoonScore = -5;
                 StarScore = -5;
@@ -101,21 +102,21 @@ namespace XRL.World.Parts {
             
             PointValue = SunScore + MoonScore + StarScore;
             
-            ParentObject.Render.ColorString = ConsoleLib.Console.ColorUtility.StripBackgroundFormatting(Creature.Render.ColorString);
-			ParentObject.Render.DetailColor = Creature.Render.DetailColor;
-            SetDescription();
-            SetDisplayName();
+            ParentObject.Render.ColorString = ConsoleLib.Console.ColorUtility.StripBackgroundFormatting(go.Render.ColorString);
+			ParentObject.Render.DetailColor = go.Render.DetailColor;
+            SetDescription(go);
+            SetDisplayName(go);
 		}
 
-        private void SetDescription() {
+        private void SetDescription(GameObject go) {
             StringBuilder builder = new();
 
             builder.Append("A trading card with a stylized illustration of "
-                + Creature.a + Creature.DisplayNameStripped
+                + go.a + go.DisplayNameStripped
                 + " plus various cryptic statistics.\n\n"
             );
 
-            var factions = FactionUtils.GetCreatureFactions(Creature);
+            var factions = FactionUtils.GetCreatureFactions(go);
             if (factions.Count > 0) {
                 builder.Append("&GAllegiance: " + string.Join(", ", factions) + "\n");
             }
@@ -125,20 +126,20 @@ namespace XRL.World.Parts {
                 "\xff\xff\xff&MStar: &Y" + StarScore + "\n"
             );
 
-            Mutations muts = Creature.GetPart<Mutations>();
+            Mutations muts = go.GetPart<Mutations>();
             if (muts != null) {
                 builder.Append("&c" + muts.ToString());
             }
 
-            builder.Append("\n&K" + ConsoleLib.Console.ColorUtility.StripFormatting(Creature.GetPart<Description>().Short));
+            builder.Append("\n&K" + ConsoleLib.Console.ColorUtility.StripFormatting(go.GetPart<Description>().Short));
 
             ParentObject.GetPart<Description>().Short = builder.ToString();
         }
         
-        private void SetDisplayName() {
+        private void SetDisplayName(GameObject go) {
             StringBuilder builder = new();
 
-            builder.Append("&Y" + Creature.DisplayNameStripped);
+            builder.Append("&Y" + go.DisplayNameStripped);
             builder.Append(" &W" + SunScore + "&Y/&C" + MoonScore
                 + "&Y/&M" + StarScore + " &K(Lv " + PointValue + ")"
             );
