@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using XRL;
 using XRL.World;
 using XRL.World.Parts;
 
@@ -28,18 +27,24 @@ namespace Nalathni.SaltShuffle {
 			return factionMembers;
 		}
 
+		// used when generating new cards for a potential opponent
+		// also used in the description of a card
 		public static List<string> GetCreatureFactions(GameObject creature) {
 			if (creature.Brain == null) {
 				return new();
 			}
 
 			return creature.Brain.Allegiance
-				.Where(faction => Brain.GetAllegianceLevel(faction.Value) == Brain.AllegianceLevel.Member)
+				.Where(faction => {
+					return Brain.GetAllegianceLevel(faction.Value) == Brain.AllegianceLevel.Member
+						&& GetFactionMembers(faction.Key).Count > 0;
+				})
 				.Select(faction => faction.Key)
 				.ToList();
 		}
 		
-		public static GameObject GetRandomCreatureFromFaction(string faction) {
+		// used when creating a card in GenerateDeckFor
+		public static GameObject GetRandomSampleCreatureFromFaction(string faction) {
 			return GetFactionMembers(faction).GetRandomElementCosmetic().createSample();
 		}
 	}
@@ -76,6 +81,7 @@ namespace Nalathni.SaltShuffle {
 
 		public static void GenerateDeckFor(GameObject creature) {
 			if (creature.Brain == null) return;
+			// todo test to make sure this prevents procgen villages from playing cards - this can be improved later
 			var factions = FactionUtils.GetCreatureFactions(creature);
 			if (factions.Count == 0) return;
 
