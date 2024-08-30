@@ -44,7 +44,6 @@ namespace XRL.World.Parts {
 		public override bool HandleEvent(InventoryActionEvent e) {
 			if (e.Command != "InvCommandUnwrap") return base.HandleEvent(e);
 
-			The.Player.RequirePart<SSR_CardChallenger>();
 			var tally = "You unwrap " + ParentObject.the + ParentObject.DisplayName + " and get:\n";
 
 			var qty = Starter ? 12 : 5;

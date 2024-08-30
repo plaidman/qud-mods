@@ -76,6 +76,14 @@ namespace Plaidman.SaltShuffleRevival {
 			
 			return cards;
 		}
+		
+		public static bool CanPlayCards(GameObject creature) {
+			if (creature.Brain == null) return false;
+			var factions = FactionUtils.GetCreatureFactions(creature);
+			if (factions.Count == 0) return false;
+
+			return true;
+		}
 
 		public static void GenerateDeckFor(GameObject creature) {
 			if (creature.Brain == null) return;

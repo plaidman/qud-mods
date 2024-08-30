@@ -1,0 +1,7 @@
+<conversations>
+	<conversation ID="BaseConversation">
+		<choice ID="SSR_PlaySaltShuffle" SSR_CanPlayCards="" SSR_StartGame="" >
+			<text>Care for a game of {{cloudy|Salt Shuffle}}?</text>
+		</choice>
+	</conversation>
+</conversations>
