@@ -50,7 +50,7 @@ namespace XRL.World.Parts {
 			for (int i = 0; i < qty; i++) {
 				var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
 				var part = card.GetPart<SSR_Card>();
-				
+
 				if (Starter) {
 					part.SetAnyCreature();
 				} else {
