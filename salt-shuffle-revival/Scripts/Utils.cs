@@ -3,7 +3,7 @@ using System.Linq;
 using XRL.World;
 using XRL.World.Parts;
 
-namespace Nalathni.SaltShuffle {
+namespace Plaidman.SaltShuffleRevival {
 	class FactionUtils {
 		private static readonly Dictionary<string, List<GameObjectBlueprint>> FactionMemberCache = new();
 		
@@ -54,7 +54,7 @@ namespace Nalathni.SaltShuffle {
 			var count = 0;
             var allItems = creature.GetPart<Inventory>().GetObjects();
             foreach (GameObject item in allItems) {
-				if (item.HasPart<NalathniTradingCard>()) {
+				if (item.HasPart<SSR_Card>()) {
 					count++;
 					if (count >= number) return true;
 				}
@@ -63,13 +63,13 @@ namespace Nalathni.SaltShuffle {
 			return false;
 		}
 		
-		public static List<NalathniTradingCard> CardList(GameObject creature) {
-			var cards = new List<NalathniTradingCard>();
+		public static List<SSR_Card> CardList(GameObject creature) {
+			var cards = new List<SSR_Card>();
             if (!creature.HasPart("Inventory")) return cards;
 
             var allItems = creature.GetPart<Inventory>().GetObjects();
             foreach (GameObject item in allItems) {
-				if (item.TryGetPart(out NalathniTradingCard part)) {
+				if (item.TryGetPart(out SSR_Card part)) {
 					cards.Add(part);
 				}
             }
@@ -84,8 +84,8 @@ namespace Nalathni.SaltShuffle {
 
 			for(int i = 0; i < 12; i++) {
 				string faction = factions.GetRandomElementCosmetic();
-				GameObject card = GameObjectFactory.Factory.CreateObject("NalathniCard");
-				card.GetPart<NalathniTradingCard>().SetFactionCreature(faction);
+				GameObject card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
+				card.GetPart<SSR_Card>().SetFactionCreature(faction);
 				creature.TakeObject(card, NoStack: true, Silent: true);
 			}
 		}

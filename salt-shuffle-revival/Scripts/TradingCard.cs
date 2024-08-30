@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
 using System.Text;
-using Nalathni.SaltShuffle;
+using Plaidman.SaltShuffleRevival;
 using Qud.API;
 
 namespace XRL.World.Parts {
     [Serializable]
-    public class NalathniTradingCard : IPart {
+    public class SSR_Card : IPart {
         public int SunScore = 0;
         public int MoonScore = 0;
         public int StarScore = 0;

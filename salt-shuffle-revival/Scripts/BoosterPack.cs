@@ -1,10 +1,10 @@
 using System;
-using Nalathni.SaltShuffle;
+using Plaidman.SaltShuffleRevival;
 using XRL.UI;
 
 namespace XRL.World.Parts {
 	[Serializable]
-	public class NalathniBoosterPack : IPart {
+	public class SSR_BoosterPack : IPart {
 		public Faction Faction;
 		public bool Starter = false;
 
@@ -44,13 +44,13 @@ namespace XRL.World.Parts {
 		public override bool HandleEvent(InventoryActionEvent e) {
 			if (e.Command != "InvCommandUnwrap") return base.HandleEvent(e);
 
-			The.Player.RequirePart<NalathniCardChallenger>();
+			The.Player.RequirePart<SSR_CardChallenger>();
 			var tally = "You unwrap " + ParentObject.the + ParentObject.DisplayName + " and get:\n";
 
 			var qty = Starter ? 12 : 5;
 			for (int i = 0; i < qty; i++) {
-				var card = GameObjectFactory.Factory.CreateObject("NalathniCard");
-				var part = card.GetPart<NalathniTradingCard>();
+				var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
+				var part = card.GetPart<SSR_Card>();
 				
 				if (Starter) {
 					part.SetAnyCreature();

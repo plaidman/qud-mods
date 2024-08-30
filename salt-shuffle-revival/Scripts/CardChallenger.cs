@@ -1,10 +1,10 @@
 using System;
-using Nalathni.SaltShuffle;
+using Plaidman.SaltShuffleRevival;
 using XRL.UI;
 
 namespace XRL.World.Parts {
 	[Serializable]
-	public class NalathniCardChallenger : IPart {
+	public class SSR_CardChallenger : IPart {
 		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(OwnerGetInventoryActionsEvent.ID);
 			registrar.Register(InventoryActionEvent.ID);

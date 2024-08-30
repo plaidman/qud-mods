@@ -7,7 +7,7 @@ using XRL.UI;
 using XRL.World;
 using XRL.World.Parts;
 
-namespace Nalathni.SaltShuffle {
+namespace Plaidman.SaltShuffleRevival {
 	public class GameBoard {
         private const int PointsToWin = 50;
 		private const int PlayerCards = 0;
@@ -18,7 +18,7 @@ namespace Nalathni.SaltShuffle {
 		
 		private static GameObject Opponent = null;
         private static string LatestGameNews = "";
-		private static readonly List<NalathniTradingCard>[,] CardZones = new List<NalathniTradingCard>[2,3];
+		private static readonly List<SSR_Card>[,] CardZones = new List<SSR_Card>[2,3];
 		private static readonly int[] Scores = new int[2];
 
         public static bool NewGameWith(GameObject opponent) {
@@ -66,8 +66,8 @@ namespace Nalathni.SaltShuffle {
 					LatestGameNews += "&GYou win the game!";
 					Popup.Show(LatestGameNews);
 
-					var card = GameObjectFactory.Factory.CreateObject("NalathniCard");
-					card.GetPart<NalathniTradingCard>().SetCreature(Opponent);
+					var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
+					card.GetPart<SSR_Card>().SetCreature(Opponent);
 					Popup.Show("You get a card as a souvenir of your victory:\n\n" + card.DisplayName);
 					The.Player.TakeObject(card);
 					break;
@@ -136,7 +136,7 @@ namespace Nalathni.SaltShuffle {
 			CardZones[you, FieldZone].Add(yourCard);
         }
 
-        public static string ResolveCardAgainstCard(NalathniTradingCard yourCard, int foeCardIndex, int foe, int you) {
+        public static string ResolveCardAgainstCard(SSR_Card yourCard, int foeCardIndex, int foe, int you) {
 			var enemyField = CardZones[foe, FieldZone];
 			var enemyDeck = CardZones[foe, DeckZone];
 			var foeCard = enemyField[foeCardIndex];
@@ -178,7 +178,7 @@ namespace Nalathni.SaltShuffle {
 			return "";
         }
 
-        public static string NameWhose(int who, NalathniTradingCard card, bool lowercase = false) {
+        public static string NameWhose(int who, SSR_Card card, bool lowercase = false) {
             string prefix;
 
             if (who == PlayerCards) {
@@ -192,7 +192,7 @@ namespace Nalathni.SaltShuffle {
             return prefix + " " + card.ShortDisplayName;
         }
 
-        public static int CardScoreAgainstPlayer(NalathniTradingCard card, int who) {
+        public static int CardScoreAgainstPlayer(SSR_Card card, int who) {
             int total = 0;
 
             foreach (var foe in CardZones[who, FieldZone]) {
@@ -202,7 +202,7 @@ namespace Nalathni.SaltShuffle {
             return total;
         }
 
-        public static int CardScoreAgainstCard(NalathniTradingCard card, NalathniTradingCard foe) {
+        public static int CardScoreAgainstCard(SSR_Card card, SSR_Card foe) {
             int margin = CardStatsAgainstCard(card, foe);
 
             if (margin == 3) {
@@ -217,7 +217,7 @@ namespace Nalathni.SaltShuffle {
             return 0;
         }
 
-        public static int CardStatsAgainstCard(NalathniTradingCard card, NalathniTradingCard foe) {
+        public static int CardStatsAgainstCard(SSR_Card card, SSR_Card foe) {
             int margin = 0;
 
             if (card.SunScore > foe.SunScore) margin += 1;
@@ -227,7 +227,7 @@ namespace Nalathni.SaltShuffle {
             return margin;
         }
 
-        public static int CardCrushPenalty(NalathniTradingCard card, NalathniTradingCard foe) {
+        public static int CardCrushPenalty(SSR_Card card, SSR_Card foe) {
 			return new[]{
 				card.SunScore - foe.SunScore,
 				card.MoonScore - foe.MoonScore,
