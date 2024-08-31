@@ -1,5 +1,4 @@
 using Plaidman.SaltShuffleRevival;
-using XRL.UI;
 
 namespace XRL.World.Conversations {
 	[HasConversationDelegate]

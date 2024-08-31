@@ -61,7 +61,7 @@ namespace Plaidman.SaltShuffleRevival {
 
 				ResolvePlayerTurn();
 
-				if (Scores[OpponentCards] >= PointsToWin) {
+				if (Scores[PlayerCards] >= PointsToWin) {
 					LatestGameNews += "------\n" + BoardState() + "\n";
 					LatestGameNews += "&GYou win the game!";
 					Popup.Show(LatestGameNews);
