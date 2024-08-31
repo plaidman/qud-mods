@@ -19,8 +19,7 @@
 		<part Name="Render" Tile="items/SSR_Card.png" DetailColor="M" ColorString="&amp;c" />
 		<part Name="SSR_Card" />
 		<part Name="Description" Short="A Salt Shuffle card. Fingerprint smudges make it hard to read." />
-		<part Name="Physics" Weight="0" Category="Trading Cards" IsReal="False" />
-		<intproperty Name="Natural" Value="1" />
+		<part Name="Physics" Weight="0" Category="Trading Cards" />
 		<tag Name="ExcludeFromDynamicEncounters" />
 		<tag Name="NoSparkingQuest" />
 		<part Name="NoRust" />
