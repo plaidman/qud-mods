@@ -66,8 +66,7 @@ namespace Plaidman.SaltShuffleRevival {
 					LatestGameNews += "&GYou win the game!";
 					Popup.Show(LatestGameNews);
 
-					var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
-					card.GetPart<SSR_Card>().SetCreature(Opponent);
+					var card = SSR_Card.CreateCard(Opponent);
 					Popup.Show("You get a card as a souvenir of your victory:\n\n" + card.DisplayName);
 					The.Player.TakeObject(card);
 					break;

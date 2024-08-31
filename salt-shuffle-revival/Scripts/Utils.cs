@@ -101,8 +101,7 @@ namespace Plaidman.SaltShuffleRevival {
 
 			for(int i = 0; i < 12; i++) {
 				string faction = factions.GetRandomElementCosmetic();
-				GameObject card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
-				card.GetPart<SSR_Card>().SetFactionCreature(faction);
+				var card = SSR_Card.CreateCard(faction);
 				creature.TakeObject(card, NoStack: true, Silent: true);
 			}
 		}

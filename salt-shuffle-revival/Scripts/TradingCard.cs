@@ -23,15 +23,28 @@ namespace XRL.World.Parts {
 			return base.HandleEvent(e);
 		}
 
-		public void SetAnyCreature() {
-			SetCreature(EncountersAPI.GetASampleCreature());
+		public static GameObject CreateCard() {
+			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
+			var part = card.GetPart<SSR_Card>();
+			part.SetCreature(EncountersAPI.GetASampleCreature());
+			return card;
 		}
 
-		public void SetFactionCreature(string faction) {
-			SetCreature(FactionUtils.GetRandomSampleCreatureFromFaction(faction));
+		public static GameObject CreateCard(string faction) {
+			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
+			var part = card.GetPart<SSR_Card>();
+			part.SetCreature(FactionUtils.GetRandomSampleCreatureFromFaction(faction));
+			return card;
 		}
 
-		public void SetCreature(GameObject go) {
+		public static GameObject CreateCard(GameObject go) {
+			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
+			var part = card.GetPart<SSR_Card>();
+			part.SetCreature(go);
+			return card;
+		}
+
+		private void SetCreature(GameObject go) {
 			go ??= EncountersAPI.GetACreature();
 
 			float sunScore = 2;

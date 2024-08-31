@@ -48,14 +48,9 @@ namespace XRL.World.Parts {
 
 			var qty = Starter ? 12 : 5;
 			for (int i = 0; i < qty; i++) {
-				var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
-				var part = card.GetPart<SSR_Card>();
-
-				if (Starter) {
-					part.SetAnyCreature();
-				} else {
-					part.SetFactionCreature(Faction.Name);
-				}
+				var card = Starter
+					? SSR_Card.CreateCard()
+					: SSR_Card.CreateCard(Faction.Name);
 
 				The.Player.TakeObject(card, NoStack: true);
 				tally += card.DisplayName + "\n";
