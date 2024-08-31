@@ -5,6 +5,7 @@
 		<part Name="SSR_BoosterPack" />
 		<part Name="Description" Short="A pack of five Salt Shuffle cards, all belonging to one specific faction." />
 		<part Name="Commerce" Value="10" />
+		<part Name="NoRust" />
 	</object>
 	<object Name="Plaidman_SSR_Starter" Inherits="Item">
 		<part Name="Render" Tile="items/SSR_Booster.png" DetailColor="W" ColorString="&amp;y" />
@@ -12,6 +13,7 @@
 		<part Name="SSR_BoosterPack" Starter="true" />
 		<part Name="Description" Short="A pack of twelve random Salt Shuffle cards, enough to get started playing the game." />
 		<part Name="Commerce" Value="0" />
+		<part Name="NoRust" />
 	</object>
 	<object Name="Plaidman_SSR_Card" Inherits="Item">
 		<part Name="Render" Tile="items/SSR_Card.png" DetailColor="M" ColorString="&amp;c" />
@@ -21,6 +23,7 @@
 		<intproperty Name="Natural" Value="1" />
 		<tag Name="ExcludeFromDynamicEncounters" />
 		<tag Name="NoSparkingQuest" />
+		<part Name="NoRust" />
 	</object>
 	<object Name="Plaidman_SSR_BoosterBox" Inherits="Chest">
 		<inventoryobject Blueprint="SSR_Booster" Number="10" />
