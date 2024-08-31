@@ -1,9 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
+using XRL;
 using XRL.World;
 using XRL.World.Parts;
 
 namespace Plaidman.SaltShuffleRevival {
+	[HasModSensitiveStaticCache]
+	class CacheInit {
+		[ModSensitiveCacheInit]
+		public static void SetTradingCardCategoryIcon() {
+			Qud.UI.FilterBarCategoryButton.categoryImageMap["Trading Cards"] = "Items/SSR_Card.png";
+		}
+	}
+
 	class FactionUtils {
 		private static readonly Dictionary<string, List<GameObjectBlueprint>> FactionMemberCache = new();
 
