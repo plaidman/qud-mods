@@ -33,7 +33,7 @@ namespace XRL.World.Parts {
 				Name: "Unwrap",
 				Key: 'o',
 				FireOnActor: false,
-				Display: "&Wo&ypen",
+				Display: "{{W|o}}pen",
 				Command: "InvCommandUnwrap",
 				Default: 2
 			);
