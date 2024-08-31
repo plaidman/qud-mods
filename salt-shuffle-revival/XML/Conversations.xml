@@ -1,7 +1,18 @@
 <conversations>
 	<conversation ID="BaseConversation">
 		<choice ID="SSR_PlaySaltShuffle" SSR_CanPlayCards="" SSR_StartGame="" >
-			<text>Care for a game of {{cloudy|Salt Shuffle}}?</text>
+			<text>
+				Care for a game of {{cloudy|Salt Shuffle}}?~
+				Have time for a round of {{cloudy|Salt Shuffle}}?~
+				Want to play {{cloudy|Salt Shuffle}}?
+			</text>
+			<text IfHavePart="SociallyRepugnant" Priority="1">
+				Wanna play some gwent? {{g|[Salt Shuffle]}}~
+				Wanna play some triple triad? {{g|[Salt Shuffle]}}~
+				Wanna play some inscription? {{g|[Salt Shuffle]}}~
+				Play with me! {{g|[Salt Shuffle]}}~
+				Check out my ultra rare shiny Argyve! {{g|[Salt Shuffle]}}
+			</text>
 		</choice>
 	</conversation>
 </conversations>
