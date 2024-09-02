@@ -44,30 +44,31 @@ namespace XRL.World.Parts {
 			return card;
 		}
 
+		private int GetStat(GameObject go, string stat) {
+            var score = go.GetStatValue(stat);
+            int[] fudgeAdj = score switch {
+                0 => new int[] { 0, 0, 1, 1, 1, 2 }, // 33% 0, 50% 1, 17% 2
+                1 => new int[] { -1, 0, 0, 0, 1, 1, 2 }, // 14% 0, 42% 1, 28% 2, 14% 3
+                _ => new int[] { -2, -1, -1, 0, 0, 0, 0, 0, 1, 1, 1, 2 }, // 9% 0, 17% 1, 42% 2, 25% 3, 9% 4
+            };
+
+            return Math.Max(0, score + fudgeAdj.GetRandomElementCosmetic());
+		}
+
 		private void SetCreature(GameObject go) {
 			go ??= EncountersAPI.GetACreature();
 
 			float sunScore = 2;
 			float moonScore = 2;
 			float starScore = 2;
-			int xpLevel = 5;
 
-			if (go.Statistics.ContainsKey("Strength"))
-				sunScore += go.Statistics["Strength"].Value;
-			if (go.Statistics.ContainsKey("Ego"))
-				starScore += go.Statistics["Ego"].Value;
-			if (go.Statistics.ContainsKey("Toughness"))
-				sunScore += go.Statistics["Toughness"].Value;
-			if (go.Statistics.ContainsKey("Willpower"))
-				starScore += go.Statistics["Willpower"].Value;
-			if (go.Statistics.ContainsKey("Intelligence"))
-				moonScore += go.Statistics["Intelligence"].Value;
-			if (go.Statistics.ContainsKey("Agility"))
-				moonScore += go.Statistics["Agility"].Value;
-
-			if (go.Statistics.ContainsKey("Level"))
-				xpLevel = Math.Max(5, go.Statistics["Level"].Value);
-
+			int xpLevel = Math.Max(5, go.GetStatValue("Level"));
+			sunScore += GetStat(go, "Strength");
+			starScore += GetStat(go, "Ego");
+			sunScore += GetStat(go, "Toughness");
+			starScore += GetStat(go, "Willpower");
+			moonScore += GetStat(go, "Intelligence");
+			moonScore += GetStat(go, "Agility");
 			float minScore = new float[]{ sunScore, moonScore, starScore }.Min();
 
 			sunScore -= minScore * 2 / 3;
