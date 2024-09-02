@@ -211,7 +211,7 @@ namespace Plaidman.SaltShuffleRevival {
 					// banished from play
 					enemyField.RemoveAt(foeCardIndex);
 
-					points = foeCard.PointValue;
+					points = 1 + foeCard.PointValue - yourCard.PointValue;
 					verb = " {{O|topples}} ";
 				} else {
 					// returned to hand
@@ -257,8 +257,8 @@ namespace Plaidman.SaltShuffleRevival {
 			}
 
 			if (margin == 2) {
-				if (foe.PointValue > card.PointValue) return foe.PointValue;
-				else return 1;
+				if (foe.PointValue <= card.PointValue) return 1;
+				else return 1 + foe.PointValue - card.PointValue;
 			}
 
 			return 0;
