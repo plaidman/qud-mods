@@ -7,11 +7,9 @@
 				Want to play {{cloudy|Salt Shuffle}}?
 			</text>
 			<text IfHavePart="SociallyRepugnant" Priority="1">
-				Wanna play some gwent? {{g|[Salt Shuffle]}}~
-				Wanna play some triple triad? {{g|[Salt Shuffle]}}~
-				Wanna play some inscription? {{g|[Salt Shuffle]}}~
+				Wanna play some gwent?.. Err triple triad? {{g|[Salt Shuffle]}}~
 				Play with me! {{g|[Salt Shuffle]}}~
-				Check out my ultra rare shiny Argyve! {{g|[Salt Shuffle]}}
+				Don't touch my ultra rare shiny Argyve! {{g|[Salt Shuffle]}}
 			</text>
 		</choice>
 	</conversation>
