@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using XRL;
 using XRL.Language;
 using XRL.Rules;
@@ -17,7 +18,9 @@ namespace Plaidman.SaltShuffleRevival {
 		private const int FieldZone = 2;
 
 		private static GameObject Opponent = null;
-		private static string LatestGameNews = "";
+		private static string OppoNameLower = "";
+		private static string OppoNameUpper = "";
+		private static StringBuilder LatestGameNews = new();
 		private static readonly List<SSR_Card>[,] CardZones = new List<SSR_Card>[2,3];
 		private static readonly int[] Scores = new int[2];
 
@@ -33,7 +36,8 @@ namespace Plaidman.SaltShuffleRevival {
 			}
 
 			Opponent = opponent;
-			LatestGameNews = "";
+			OppoNameUpper = Opponent.The + Opponent.DisplayNameStripped;
+			OppoNameLower = Opponent.the + Opponent.DisplayNameStripped;
 
 			CardZones[PlayerCards, DeckZone] = DeckUtils.CardList(The.Player);
 			CardZones[PlayerCards, HandZone] = new();
@@ -52,19 +56,22 @@ namespace Plaidman.SaltShuffleRevival {
 
 			while (true) {
 				ResolveOpponentTurn();
-
+				
 				if (Scores[OpponentCards] >= PointsToWin) {
-					LatestGameNews += "&R" + Opponent.The + Opponent.DisplayNameStripped + " wins the game!\n";
-					Popup.Show(LatestGameNews);
+					LatestGameNews.Clear();
+					LatestGameNews.Append(BoardState());
+					LatestGameNews.Append("{{R|").Append(OppoNameUpper).Append(" wins the game!}}");
+					Popup.Show(LatestGameNews.ToString());
 					break;
 				}
 
 				ResolvePlayerTurn();
 
 				if (Scores[PlayerCards] >= PointsToWin) {
-					LatestGameNews += "------\n" + BoardState() + "\n";
-					LatestGameNews += "&GYou win the game!";
-					Popup.Show(LatestGameNews);
+					LatestGameNews.Clear();
+					LatestGameNews.Append(BoardState());
+					LatestGameNews.Append("{{G|You win the game!}}");
+					Popup.Show(LatestGameNews.ToString());
 
 					var card = SSR_Card.CreateCard(Opponent);
 					Popup.Show("You get a card as a souvenir of your victory:\n\n" + card.DisplayName);
@@ -72,17 +79,15 @@ namespace Plaidman.SaltShuffleRevival {
 					break;
 				}
 
-				Popup.Show(LatestGameNews);
-				LatestGameNews = "";
 			}
 
 			return true;
 		}
 
 		public static void ResolveOpponentTurn() {
+			LatestGameNews.Clear();
 			if (!Draw(OpponentCards)) {
-				LatestGameNews += "&C" + Opponent.The + Opponent.DisplayNameStripped
-					+ " can't draw from an empty deck.\n";
+				LatestGameNews.Append("{{C|").Append(OppoNameUpper).Append(" can't draw from an empty deck.}}\n");
 			}
 
 			var npcHand = CardZones[OpponentCards, HandZone];
@@ -104,53 +109,101 @@ namespace Plaidman.SaltShuffleRevival {
 			if (npcCard != -1) {
 				ResolveCardAgainstPlayer(npcCard, PlayerCards, OpponentCards);
 			} else {
-				LatestGameNews += "&C" + Opponent.The + Opponent.DisplayNameStripped
-					+ " can't play any cards.\n";
+				LatestGameNews.Append("{{C|").Append(OppoNameUpper).Append(" doesn't have any cards to play.}}\n\n");
 			}
 
 			var npcFieldCount = CardZones[OpponentCards, FieldZone].Count;
 			ScorePoints(OpponentCards, npcFieldCount);
-
-			LatestGameNews += "\n&y" + Opponent.The + Opponent.DisplayNameStripped + " scores "
-				+ npcFieldCount + " renown for " + Opponent.its + " fielded cards.\n";
+			LatestGameNews.Append(OppoNameUpper).Append(" scores {{Y|").Append(npcFieldCount)
+				.Append(" renown}} for ").Append(Opponent.its).Append(" fielded cards.");
+			
+			Popup.Show(LatestGameNews.ToString());
 		}
+
+		public static void ResolvePlayerTurn() {
+			LatestGameNews.Clear();
+			LatestGameNews.Append(BoardState());
+
+			if (!Draw(PlayerCards)) {
+				LatestGameNews.Append("{{R|You can't draw from an empty deck.}}\n");
+			}
+
+			var playerHand = CardZones[PlayerCards,HandZone];
+			int playerCard = -1;
+			if (playerHand.Count == 0) {
+				LatestGameNews.Append("{{R|You have no cards in your hand.}}");
+				Popup.Show(LatestGameNews.ToString());
+			} else {
+				LatestGameNews.Append("{{C|Play a card:}}");
+				var cardNames = playerHand.Select(c => c.ParentObject.DisplayName).ToArray();
+
+				playerCard = Popup.PickOption(
+					Options: cardNames,
+					Intro: LatestGameNews.ToString(),
+					MaxWidth: 78,
+					RespectOptionNewlines: true
+				);
+			}
+
+			LatestGameNews.Clear();
+			if (playerCard != -1) {
+				ResolveCardAgainstPlayer(playerCard, OpponentCards, PlayerCards);
+			}
+
+			var playerFieldCount = CardZones[PlayerCards, FieldZone].Count;
+			ScorePoints(PlayerCards, playerFieldCount);
+			LatestGameNews.Append("You score {{Y|").Append(playerFieldCount)
+				.Append(" renown}} for your fielded cards.");
+
+			Popup.Show(LatestGameNews.ToString());
+		}
+
 
 		public static void ResolveCardAgainstPlayer(int yourCardIndex, int foe, int you) {
 			var yourHand = CardZones[you, HandZone];
 			var yourCard = yourHand[yourCardIndex];
 
 			if (you == PlayerCards) {
-				LatestGameNews += "You play ";
+				LatestGameNews.Append("You play ");
 			} else {
-				LatestGameNews += Opponent.The + Opponent.DisplayNameStripped + " plays ";
+				LatestGameNews.Append(OppoNameUpper).Append(" plays ");
 			}
-			LatestGameNews += yourCard.ParentObject.DisplayName + "&y.\n\n";
+			LatestGameNews.Append("{{Y|").Append(yourCard.ParentObject.DisplayName)
+				.Append("}}.\n\n");
 
+			var cardOutput = new StringBuilder();
 			var enemyField = CardZones[foe, FieldZone];
 			for (var i = enemyField.Count-1; i >= 0; i--) {
-				LatestGameNews += ResolveCardAgainstCard(yourCard, i, foe, you);
+				cardOutput.Append(ResolveCardAgainstCard(yourCard, i, foe, you));
+			}
+
+			if (cardOutput.Length > 0) {
+				LatestGameNews.Append(cardOutput).Append("\n");
 			}
 
 			yourHand.RemoveAt(yourCardIndex);
 			CardZones[you, FieldZone].Add(yourCard);
 		}
 
-		public static string ResolveCardAgainstCard(SSR_Card yourCard, int foeCardIndex, int foe, int you) {
+		public static StringBuilder ResolveCardAgainstCard(SSR_Card yourCard, int foeCardIndex, int foe, int you) {
 			var enemyField = CardZones[foe, FieldZone];
 			var enemyDeck = CardZones[foe, DeckZone];
 			var foeCard = enemyField[foeCardIndex];
 			int margin = CardStatsAgainstCard(yourCard, foeCard);
+			int points = 0;
+			string verb = " doesn't affect ";
+			
+			if (margin < 2) {
+				return new();
+			}
 
 			if (margin == 3) {
 				// returned to hand
 				enemyField.RemoveAt(foeCardIndex);
 				enemyDeck.Add(foeCard);
 
-				int penalty = CardCrushPenalty(yourCard, foeCard);
-				ScorePoints(you, penalty * -1);
-				return NameWhose(you, yourCard) + " &rcrushes&y "
-					+ NameWhose(foe, foeCard, true)
-					+ "&y. (-" + penalty + " renown)\n";
+				points = CardCrushPenalty(yourCard, foeCard);
+				verb = " {{R|crushes}} ";
 			}
 
 			if (margin == 2) {
@@ -158,37 +211,32 @@ namespace Plaidman.SaltShuffleRevival {
 					// banished from play
 					enemyField.RemoveAt(foeCardIndex);
 
-					ScorePoints(you, foeCard.PointValue);
-					return NameWhose(you, yourCard) + " &rtopples&y "
-						+ NameWhose(foe, foeCard, true)
-						+ "&y. (+" + foeCard.PointValue + " renown)\n";
+					points = foeCard.PointValue;
+					verb = " {{O|topples}} ";
 				} else {
 					// returned to hand
 					enemyField.RemoveAt(foeCardIndex);
 					enemyDeck.Add(foeCard);
 
-					ScorePoints(you, 1);
-					return NameWhose(you, yourCard) + " &rvanquishes&y "
-						+ NameWhose(foe, foeCard, true)
-						+ "&y. (+1 renown)\n";
+					points = 1;
+					verb = " {{W|vanquishes}} ";
 				}
 			}
-
-			return "";
+			
+			ScorePoints(you, points);
+			return new StringBuilder("- ").Append(NamePoss(you)).Append(" ").Append(yourCard.ShortDisplayName)
+				.Append(verb).Append(NamePoss(foe)).Append(" ").Append(foeCard.ShortDisplayName)
+				.Append(". ({{Y|").Append(points.ToString("+0;-#")).Append(" renown}})\n");
 		}
-
-		public static string NameWhose(int who, SSR_Card card, bool lowercase = false) {
-			string prefix;
-
+		
+		public static string NamePoss(int who, bool lowercase = false) {
 			if (who == PlayerCards) {
-				prefix = lowercase ? "your" : "Your";
-			} else {
-				var ownerPossessive = Grammar.MakePossessive(Opponent.DisplayNameStripped);
-				prefix = lowercase ? Opponent.the : Opponent.The;
-				prefix += ownerPossessive;
+				return lowercase ? "your" : "Your";
 			}
 
-			return prefix + " " + card.ShortDisplayName;
+			return lowercase
+				? Grammar.MakePossessive(OppoNameLower)
+				: Grammar.MakePossessive(OppoNameUpper);
 		}
 
 		public static int CardScoreAgainstPlayer(SSR_Card card, int who) {
@@ -205,7 +253,7 @@ namespace Plaidman.SaltShuffleRevival {
 			int margin = CardStatsAgainstCard(card, foe);
 
 			if (margin == 3) {
-				return CardCrushPenalty(card, foe) * -1;
+				return CardCrushPenalty(card, foe);
 			}
 
 			if (margin == 2) {
@@ -231,7 +279,7 @@ namespace Plaidman.SaltShuffleRevival {
 				card.SunScore - foe.SunScore,
 				card.MoonScore - foe.MoonScore,
 				card.StarScore - foe.StarScore,
-			}.Min();
+			}.Min() * -1;
 		}
 
 		public static bool Draw(int who) {
@@ -252,56 +300,20 @@ namespace Plaidman.SaltShuffleRevival {
 			Scores[who] += points;
 		}
 
-		public static void ResolvePlayerTurn() {
-			if (!Draw(PlayerCards)) {
-				LatestGameNews += "&RYou can't draw from an empty deck.\n";
-			}
-
-			Popup.Show(LatestGameNews);
-			LatestGameNews = "";
-			LatestGameNews += BoardState();
-
-			var playerHand = CardZones[PlayerCards,HandZone];
-			int playerCard = -1;
-			if (playerHand.Count == 0) {
-				LatestGameNews += "&RYou have no cards in your hand.\n";
-				Popup.Show(LatestGameNews);
-			} else {
-				LatestGameNews += "\n\n&CPlay a card:";
-				var texts = playerHand.Select(c => c.ParentObject.DisplayName).ToArray();
-
-				playerCard = Popup.PickOption(
-					Options: texts,
-					Intro: LatestGameNews,
-					MaxWidth: 78,
-					RespectOptionNewlines: true
-				);
-			}
-
-			LatestGameNews = "";
-			if (playerCard != -1) {
-				ResolveCardAgainstPlayer(playerCard, OpponentCards, PlayerCards);
-			}
-
-			var playerField = CardZones[PlayerCards, FieldZone];
-			ScorePoints(PlayerCards, playerField.Count);
-			LatestGameNews += "\n&yYou score " + playerField.Count + " renown for your fielded cards.\n";
-		}
-
-		public static string BoardState() {
-			string output = "&Y" + Opponent.The + Opponent.DisplayNameStripped
-				+ " (" + Scores[OpponentCards] + " renown):\n";
+		public static StringBuilder BoardState() {
+			var boardState = new StringBuilder(OppoNameUpper).Append(" ({{Y|")
+				.Append(Scores[OpponentCards]).Append(" renown}}):\n");
 			foreach (var card in CardZones[OpponentCards, FieldZone]) {
-				output += card.ParentObject.DisplayName + "\n";
+				boardState.Append("- ").Append(card.ParentObject.DisplayName).Append("\n");
 			}
 
-			output += "\n&Y" + The.Player.DisplayNameStripped
-				+ " (" + Scores[PlayerCards] + " renown):\n";
+			boardState.Append("\n").Append(The.Player.DisplayNameStripped)
+				.Append(" ({{Y|").Append(Scores[PlayerCards]).Append(" renown}}):\n");
 			foreach (var card in CardZones[PlayerCards, FieldZone]) {
-				output += card.ParentObject.DisplayName + "\n";
+				boardState.Append("- ").Append(card.ParentObject.DisplayName).Append("\n");
 			}
 
-			return output;
+			return boardState.Append("\n");
 		}
 	}
 }
