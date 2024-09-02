@@ -91,7 +91,7 @@ namespace Plaidman.SaltShuffleRevival {
 			}
 
 			var npcHand = CardZones[OpponentCards, HandZone];
-			int npcCard = -1;
+			List<int> bestIndexes = new();
 			if (npcHand.Count > 0) {
 				int bestOutcome = int.MinValue;
 
@@ -100,13 +100,19 @@ namespace Plaidman.SaltShuffleRevival {
 					int value = CardScoreAgainstPlayer(candidate, PlayerCards);
 
 					if (value > bestOutcome) {
-						npcCard = i;
+						bestIndexes.Clear();
+						bestIndexes.Add(i);
 						bestOutcome = value;
+					}
+					
+					if (value == bestOutcome) {
+						bestIndexes.Add(i);
 					}
 				}
 			}
 
-			if (npcCard != -1) {
+			if (bestIndexes.Count > 0) {
+				var npcCard = bestIndexes.GetRandomElementCosmetic();
 				ResolveCardAgainstPlayer(npcCard, PlayerCards, OpponentCards);
 			} else {
 				LatestGameNews.Append("{{C|").Append(OppoNameUpper).Append(" doesn't have any cards to play.}}\n\n");
@@ -198,7 +204,7 @@ namespace Plaidman.SaltShuffleRevival {
 			}
 
 			if (margin == 3) {
-				// returned to hand
+				// returned to deck
 				enemyField.RemoveAt(foeCardIndex);
 				enemyDeck.Add(foeCard);
 
@@ -214,7 +220,7 @@ namespace Plaidman.SaltShuffleRevival {
 					points = 1 + foeCard.PointValue - yourCard.PointValue;
 					verb = " {{O|topples}} ";
 				} else {
-					// returned to hand
+					// returned to deck
 					enemyField.RemoveAt(foeCardIndex);
 					enemyDeck.Add(foeCard);
 
