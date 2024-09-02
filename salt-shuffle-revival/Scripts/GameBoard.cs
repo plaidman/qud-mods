@@ -84,7 +84,7 @@ namespace Plaidman.SaltShuffleRevival {
 			return true;
 		}
 
-		public static void ResolveOpponentTurn() {
+		private static void ResolveOpponentTurn() {
 			LatestGameNews.Clear();
 			if (!Draw(OpponentCards)) {
 				LatestGameNews.Append("{{C|").Append(OppoNameUpper).Append(" can't draw from an empty deck.}}\n");
@@ -97,7 +97,7 @@ namespace Plaidman.SaltShuffleRevival {
 
 				for (var i = 0; i < npcHand.Count; i++) {
 					var candidate = npcHand[i];
-					int value = CardScoreAgainstPlayer(candidate, PlayerCards);
+					int value = AICardScoreAgainstPlayer(candidate);
 
 					if (value > bestOutcome) {
 						bestIndexes.Clear();
@@ -126,7 +126,7 @@ namespace Plaidman.SaltShuffleRevival {
 			Popup.Show(LatestGameNews.ToString());
 		}
 
-		public static void ResolvePlayerTurn() {
+		private static void ResolvePlayerTurn() {
 			LatestGameNews.Clear();
 			LatestGameNews.Append(BoardState());
 
@@ -164,8 +164,7 @@ namespace Plaidman.SaltShuffleRevival {
 			Popup.Show(LatestGameNews.ToString());
 		}
 
-
-		public static void ResolveCardAgainstPlayer(int yourCardIndex, int foe, int you) {
+		private static void ResolveCardAgainstPlayer(int yourCardIndex, int foe, int you) {
 			var yourHand = CardZones[you, HandZone];
 			var yourCard = yourHand[yourCardIndex];
 
@@ -191,7 +190,7 @@ namespace Plaidman.SaltShuffleRevival {
 			CardZones[you, FieldZone].Add(yourCard);
 		}
 
-		public static StringBuilder ResolveCardAgainstCard(SSR_Card yourCard, int foeCardIndex, int foe, int you) {
+		private static StringBuilder ResolveCardAgainstCard(SSR_Card yourCard, int foeCardIndex, int foe, int you) {
 			var enemyField = CardZones[foe, FieldZone];
 			var enemyDeck = CardZones[foe, DeckZone];
 			var foeCard = enemyField[foeCardIndex];
@@ -235,7 +234,7 @@ namespace Plaidman.SaltShuffleRevival {
 				.Append(". ({{Y|").Append(points.ToString("+0;-#")).Append(" renown}})\n");
 		}
 		
-		public static string NamePoss(int who, bool lowercase = false) {
+		private static string NamePoss(int who, bool lowercase = false) {
 			if (who == PlayerCards) {
 				return lowercase ? "your" : "Your";
 			}
@@ -245,17 +244,17 @@ namespace Plaidman.SaltShuffleRevival {
 				: Grammar.MakePossessive(OppoNameUpper);
 		}
 
-		public static int CardScoreAgainstPlayer(SSR_Card card, int who) {
+		private static int AICardScoreAgainstPlayer(SSR_Card card) {
 			int total = 0;
 
-			foreach (var foe in CardZones[who, FieldZone]) {
-				total = CardScoreAgainstCard(card, foe);
+			foreach (var foe in CardZones[PlayerCards, FieldZone]) {
+				total = AICardScoreAgainstCard(card, foe);
 			}
 
 			return total;
 		}
 
-		public static int CardScoreAgainstCard(SSR_Card card, SSR_Card foe) {
+		private static int AICardScoreAgainstCard(SSR_Card card, SSR_Card foe) {
 			int margin = CardStatsAgainstCard(card, foe);
 
 			if (margin == 3) {
@@ -270,7 +269,7 @@ namespace Plaidman.SaltShuffleRevival {
 			return 0;
 		}
 
-		public static int CardStatsAgainstCard(SSR_Card card, SSR_Card foe) {
+		private static int CardStatsAgainstCard(SSR_Card card, SSR_Card foe) {
 			int margin = 0;
 
 			if (card.SunScore > foe.SunScore) margin += 1;
@@ -280,7 +279,7 @@ namespace Plaidman.SaltShuffleRevival {
 			return margin;
 		}
 
-		public static int CardCrushPenalty(SSR_Card card, SSR_Card foe) {
+		private static int CardCrushPenalty(SSR_Card card, SSR_Card foe) {
 			return new[]{
 				card.SunScore - foe.SunScore,
 				card.MoonScore - foe.MoonScore,
@@ -288,7 +287,7 @@ namespace Plaidman.SaltShuffleRevival {
 			}.Min() * -1;
 		}
 
-		public static bool Draw(int who) {
+		private static bool Draw(int who) {
 			var deck = CardZones[who, DeckZone];
 			if (deck.Count == 0) return false;
 
@@ -302,11 +301,11 @@ namespace Plaidman.SaltShuffleRevival {
 			return true;
 		}
 
-		public static void ScorePoints(int who, int points = 0) {
+		private static void ScorePoints(int who, int points = 0) {
 			Scores[who] += points;
 		}
 
-		public static StringBuilder BoardState() {
+		private static StringBuilder BoardState() {
 			var boardState = new StringBuilder(OppoNameUpper).Append(" ({{Y|")
 				.Append(Scores[OpponentCards]).Append(" renown}}):\n");
 			foreach (var card in CardZones[OpponentCards, FieldZone]) {
