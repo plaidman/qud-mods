@@ -141,7 +141,7 @@ namespace Plaidman.SaltShuffleRevival {
 				Popup.Show(LatestGameNews.ToString());
 			} else {
 				LatestGameNews.Append("{{C|Play a card:}}");
-				var cardNames = playerHand.Select(c => c.ParentObject.DisplayName).ToArray();
+				var cardNames = playerHand.Select(c => "{{|" + c.ParentObject.DisplayName + "}}").ToArray();
 
 				playerCard = Popup.PickOption(
 					Options: cardNames,
@@ -229,9 +229,9 @@ namespace Plaidman.SaltShuffleRevival {
 			}
 			
 			ScorePoints(you, points);
-			return new StringBuilder("- ").Append(NamePoss(you)).Append(" ").Append(yourCard.ShortDisplayName)
-				.Append(verb).Append(NamePoss(foe)).Append(" ").Append(foeCard.ShortDisplayName)
-				.Append(". ({{Y|").Append(points.ToString("+0;-#")).Append(" renown}})\n");
+			return new StringBuilder("- ").Append(NamePoss(you)).Append(" {{|").Append(yourCard.ShortDisplayName)
+				 .Append("}}").Append(verb).Append(NamePoss(foe)).Append(" {{|").Append(foeCard.ShortDisplayName)
+				.Append("}}. ({{Y|").Append(points.ToString("+0;-#")).Append(" renown}})\n");
 		}
 		
 		private static string NamePoss(int who, bool lowercase = false) {
@@ -339,13 +339,13 @@ namespace Plaidman.SaltShuffleRevival {
 			var boardState = new StringBuilder(OppoNameUpper).Append(" ({{Y|")
 				.Append(Scores[OpponentCards]).Append(" renown}}):\n");
 			foreach (var card in CardZones[OpponentCards, FieldZone]) {
-				boardState.Append("- ").Append(card.ParentObject.DisplayName).Append("\n");
+				boardState.Append("- {{|").Append(card.ParentObject.DisplayName).Append("}}\n");
 			}
 
 			boardState.Append("\n").Append(The.Player.DisplayNameStripped)
 				.Append(" ({{Y|").Append(Scores[PlayerCards]).Append(" renown}}):\n");
 			foreach (var card in CardZones[PlayerCards, FieldZone]) {
-				boardState.Append("- ").Append(card.ParentObject.DisplayName).Append("\n");
+				boardState.Append("- {{|").Append(card.ParentObject.DisplayName).Append("}}\n");
 			}
 
 			return boardState.Append("\n");
