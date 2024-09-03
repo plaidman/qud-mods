@@ -245,28 +245,58 @@ namespace Plaidman.SaltShuffleRevival {
 		}
 
 		private static int AICardScoreAgainstPlayer(SSR_Card card) {
-			int total = 0;
+			int totalPoints = 0;
+			// int totalRemoved = 0;
+			
+			var fieldCards = CardZones[PlayerCards, FieldZone];
+			// var curScore = Scores[PlayerCards];
+			// int numTurns = AINumTurnsLeft(curScore, fieldCards.Count);
 
-			foreach (var foe in CardZones[PlayerCards, FieldZone]) {
-				total = AICardScoreAgainstCard(card, foe);
+			foreach (var foe in fieldCards) {
+				(int points, int removed) = AICardScoreAgainstCard(card, foe);
+				totalPoints += points;
+				// totalRemoved += removed;
 			}
 
-			return total;
-		}
+			// int newNumTurns = AINumTurnsLeft(curScore, fieldCards.Count - totalRemoved);
+			// int turnsDiffPoints = (1 + newNumTurns - numTurns) * totalRemoved;
 
-		private static int AICardScoreAgainstCard(SSR_Card card, SSR_Card foe) {
+			// XRL.Messages.MessageQueue.AddPlayerMessage(card.ShortDisplayName);
+			// XRL.Messages.MessageQueue.AddPlayerMessage("  num turns " + numTurns);
+			// XRL.Messages.MessageQueue.AddPlayerMessage("  total removed " + totalRemoved);
+			// XRL.Messages.MessageQueue.AddPlayerMessage("  new num turns " + newNumTurns);
+			// XRL.Messages.MessageQueue.AddPlayerMessage("  turns diff points " + turnsDiffPoints);
+			// XRL.Messages.MessageQueue.AddPlayerMessage("  card points " + totalPoints);
+			// XRL.Messages.MessageQueue.AddPlayerMessage("  total points " + (totalPoints + turnsDiffPoints));
+			// XRL.Messages.MessageQueue.AddPlayerMessage(" ");
+
+			return totalPoints; // + turnsDiffPoints;
+		}
+		
+		// private static int AINumTurnsLeft(int score, int cards) {
+		// 	int turns = 0;
+
+		// 	while (score < 50) {
+		// 		turns++; cards++;
+		// 		score += cards;
+		// 	}
+		// 	
+		// 	return turns;
+		// }
+		
+		private static (int, int) AICardScoreAgainstCard(SSR_Card card, SSR_Card foe) {
 			int margin = CardStatsAgainstCard(card, foe);
 
 			if (margin == 3) {
-				return CardCrushPenalty(card, foe);
+				return (CardCrushPenalty(card, foe), 1);
 			}
 
 			if (margin == 2) {
-				if (foe.PointValue <= card.PointValue) return 1;
-				else return 1 + foe.PointValue - card.PointValue;
+				if (foe.PointValue <= card.PointValue) return (1, 1);
+				else return (1 + foe.PointValue - card.PointValue, 1);
 			}
 
-			return 0;
+			return (0, 0);
 		}
 
 		private static int CardStatsAgainstCard(SSR_Card card, SSR_Card foe) {

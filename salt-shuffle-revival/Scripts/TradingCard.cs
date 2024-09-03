@@ -44,37 +44,26 @@ namespace XRL.World.Parts {
 			return card;
 		}
 
-		private int GetStat(GameObject go, string stat) {
-            var score = go.GetStatValue(stat);
-            int[] fudgeAdj = score switch {
-                0 => new int[] { 0, 0, 1, 1, 1, 2 }, // 33% 0, 50% 1, 17% 2
-                1 => new int[] { -1, 0, 0, 0, 1, 1, 2 }, // 14% 0, 42% 1, 28% 2, 14% 3
-                _ => new int[] { -2, -1, -1, 0, 0, 0, 0, 0, 1, 1, 1, 2 }, // 9% 0, 17% 1, 42% 2, 25% 3, 9% 4
-            };
-
-            return Math.Max(0, score + fudgeAdj.GetRandomElementCosmetic());
-		}
-
 		private void SetCreature(GameObject go) {
 			go ??= EncountersAPI.GetACreature();
 
-			float sunScore = 2;
-			float moonScore = 2;
-			float starScore = 2;
+			float sunScore = 2;  // 38
+			float moonScore = 2; // 36
+			float starScore = 2; // 36
 
 			int xpLevel = Math.Max(5, go.GetStatValue("Level"));
-			sunScore += GetStat(go, "Strength");
-			starScore += GetStat(go, "Ego");
-			sunScore += GetStat(go, "Toughness");
-			starScore += GetStat(go, "Willpower");
-			moonScore += GetStat(go, "Intelligence");
-			moonScore += GetStat(go, "Agility");
-			float minScore = new float[]{ sunScore, moonScore, starScore }.Min();
+			sunScore += go.GetStatValue("Strength");      // 18
+			starScore += go.GetStatValue("Ego");          // 17
+			sunScore += go.GetStatValue("Toughness");     // 18
+			starScore += go.GetStatValue("Willpower");    // 17
+			moonScore += go.GetStatValue("Intelligence"); // 17
+			moonScore += go.GetStatValue("Agility");      // 17
+			float minScore = new float[]{ sunScore, moonScore, starScore }.Min(); // 36
 
-			sunScore -= minScore * 2 / 3;
-			moonScore -= minScore * 2 / 3;
-			starScore -= minScore * 2 / 3;
-			float total = sunScore + moonScore + starScore;
+			sunScore -= minScore * 2 / 3; // 14
+			moonScore -= minScore * 2 / 3; // 12
+			starScore -= minScore * 2 / 3; // 12
+			float total = sunScore + moonScore + starScore; // 38
 
 			SunScore = (int) Math.Round(sunScore * xpLevel / total);
 			MoonScore = (int) Math.Round(moonScore * xpLevel / total);
