@@ -93,28 +93,29 @@ namespace XRL.World.Parts {
 
 			var factions = FactionUtils.GetCreatureFactions(go);
 			if (factions.Count > 0) {
-				builder.AppendColored("G", "Allegiance: " + string.Join(", ", factions) + "\n");
+				builder.Append("{{G|Allegiance: " + string.Join(", ", factions) + "}}\n");
 			}
 
-			builder.Append("{{W|Sun:}} ").AppendColored("Y", SunScore.ToString()).Append("\xff\xff\xff")
-				.Append("{{C|Moon:}} ").AppendColored("Y", MoonScore.ToString()).Append("\xff\xff\xff")
-				.Append("{{M|Star:}} ").AppendColored("Y", StarScore.ToString()).Append("\n");
+			builder.Append("{{W|Sun:}} {{Y|").Append(SunScore).Append("}}\xff\xff\xff")
+				.Append("{{C|Moon:}} {{Y|").Append(MoonScore).Append("}}\xff\xff\xff")
+				.Append("{{M|Star:}} {{Y|").Append(StarScore).Append("}}\n");
 
 			Mutations muts = go.GetPart<Mutations>();
 			if (muts != null) {
-				builder.AppendColored("c", muts.ToString()).Append("\n");
+				builder.Append("{{c|").Append(muts.ToString()).Append("}}\n");
 			}
 
-			builder.AppendColored("K", ConsoleLib.Console.ColorUtility.StripFormatting(go.GetPart<Description>().Short));
+			var goDesc = go.GetPart<Description>().Short;
+			var strippedDesc = ConsoleLib.Console.ColorUtility.StripFormatting(goDesc);
+			builder.Append("{{K|").Append(strippedDesc).Append("}}");
 
 			ParentObject.GetPart<Description>().Short = builder.ToString();
 		}
 
 		private void SetDisplayName(GameObject go) {
-			var builder = new StringBuilder(go.DisplayNameStripped).Append(" ")
-				.AppendColored("W", SunScore.ToString()).Append("/")
-				.AppendColored("C", MoonScore.ToString()).Append("/")
-				.AppendColored("M", StarScore.ToString());
+			var builder = new StringBuilder(go.DisplayNameStripped).Append(" {{W|")
+				.Append(SunScore).Append("}}/{{C|").Append(MoonScore).Append("}}/{{M|")
+				.Append(StarScore).Append("}}");
 
 			ShortDisplayName = builder.ToString();
 			ParentObject.DisplayName = ShortDisplayName + " {{K|(Lv " + PointValue + ")}}";
