@@ -246,43 +246,34 @@ namespace Plaidman.SaltShuffleRevival {
 
 		private static int AICardScoreAgainstPlayer(SSR_Card card) {
 			int totalPoints = 0;
-			// int totalRemoved = 0;
+			int totalRemoved = 0;
 			
 			var fieldCards = CardZones[PlayerCards, FieldZone];
-			// var curScore = Scores[PlayerCards];
-			// int numTurns = AINumTurnsLeft(curScore, fieldCards.Count);
+			var curScore = Scores[PlayerCards];
+			int numTurns = AINumTurnsLeft(curScore, fieldCards.Count);
 
 			foreach (var foe in fieldCards) {
 				(int points, int removed) = AICardScoreAgainstCard(card, foe);
 				totalPoints += points;
-				// totalRemoved += removed;
+				totalRemoved += removed;
 			}
+			
+			int newNumTurns = AINumTurnsLeft(curScore, fieldCards.Count - totalRemoved);
+			int turnsDiffPoints = (newNumTurns - numTurns) * totalRemoved;
 
-			// int newNumTurns = AINumTurnsLeft(curScore, fieldCards.Count - totalRemoved);
-			// int turnsDiffPoints = (1 + newNumTurns - numTurns) * totalRemoved;
-
-			// XRL.Messages.MessageQueue.AddPlayerMessage(card.ShortDisplayName);
-			// XRL.Messages.MessageQueue.AddPlayerMessage("  num turns " + numTurns);
-			// XRL.Messages.MessageQueue.AddPlayerMessage("  total removed " + totalRemoved);
-			// XRL.Messages.MessageQueue.AddPlayerMessage("  new num turns " + newNumTurns);
-			// XRL.Messages.MessageQueue.AddPlayerMessage("  turns diff points " + turnsDiffPoints);
-			// XRL.Messages.MessageQueue.AddPlayerMessage("  card points " + totalPoints);
-			// XRL.Messages.MessageQueue.AddPlayerMessage("  total points " + (totalPoints + turnsDiffPoints));
-			// XRL.Messages.MessageQueue.AddPlayerMessage(" ");
-
-			return totalPoints; // + turnsDiffPoints;
+			return totalPoints + turnsDiffPoints;
 		}
 		
-		// private static int AINumTurnsLeft(int score, int cards) {
-		// 	int turns = 0;
+		private static int AINumTurnsLeft(int score, int cards) {
+			int turns = 0;
 
-		// 	while (score < 50) {
-		// 		turns++; cards++;
-		// 		score += cards;
-		// 	}
-		// 	
-		// 	return turns;
-		// }
+			while (score < 50) {
+				turns++; cards++;
+				score += cards;
+			}
+			
+			return turns;
+		}
 		
 		private static (int, int) AICardScoreAgainstCard(SSR_Card card, SSR_Card foe) {
 			int margin = CardStatsAgainstCard(card, foe);
