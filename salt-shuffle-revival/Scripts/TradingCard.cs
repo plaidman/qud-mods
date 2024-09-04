@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using Plaidman.SaltShuffleRevival;
 using Qud.API;
+using XRL.Rules;
 
 namespace XRL.World.Parts {
 	[Serializable]
@@ -47,23 +48,23 @@ namespace XRL.World.Parts {
 		private void SetCreature(GameObject go) {
 			go ??= EncountersAPI.GetACreature();
 
-			float sunScore = 2;  // 38
-			float moonScore = 2; // 36
-			float starScore = 2; // 36
+			float sunScore = 2;
+			float moonScore = 2;
+			float starScore = 2;
 
 			int xpLevel = Math.Max(5, go.GetStatValue("Level"));
-			sunScore += go.GetStatValue("Strength");      // 18
-			starScore += go.GetStatValue("Ego");          // 17
-			sunScore += go.GetStatValue("Toughness");     // 18
-			starScore += go.GetStatValue("Willpower");    // 17
-			moonScore += go.GetStatValue("Intelligence"); // 17
-			moonScore += go.GetStatValue("Agility");      // 17
-			float minScore = new float[]{ sunScore, moonScore, starScore }.Min(); // 36
+			sunScore += go.GetStatValue("Strength");
+			starScore += go.GetStatValue("Ego");
+			sunScore += go.GetStatValue("Toughness");
+			starScore += go.GetStatValue("Willpower");
+			moonScore += go.GetStatValue("Intelligence");
+			moonScore += go.GetStatValue("Agility");
+			float minScore = new float[]{ sunScore, moonScore, starScore }.Min();
 
-			sunScore -= minScore * 2 / 3; // 14
-			moonScore -= minScore * 2 / 3; // 12
-			starScore -= minScore * 2 / 3; // 12
-			float total = sunScore + moonScore + starScore; // 38
+			sunScore -= minScore * 2 / 3;
+			moonScore -= minScore * 2 / 3;
+			starScore -= minScore * 2 / 3;
+			float total = sunScore + moonScore + starScore;
 
 			SunScore = (int) Math.Round(sunScore * xpLevel / total);
 			MoonScore = (int) Math.Round(moonScore * xpLevel / total);
@@ -71,6 +72,17 @@ namespace XRL.World.Parts {
 
 			int error = xpLevel - (SunScore + MoonScore + StarScore);
 			SunScore += error;
+
+			var boost = Stat.Rnd2.Next(2) + 3;
+			while (MoonScore + StarScore + SunScore < 9) {
+				var stat = Stat.Rnd2.Next(3);
+				switch (stat) {
+					case 1: MoonScore += boost; break;
+					case 2: SunScore += boost; break;
+					case 3: StarScore += boost; break;
+				}
+				if (boost > 1) boost--;
+			}
 
 			if (go.Brain != null && go.Brain.GetPrimaryFaction() == "Baetyl") {
 				SunScore = -5;
