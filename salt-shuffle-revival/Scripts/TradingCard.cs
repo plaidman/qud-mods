@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text;
+using ConsoleLib.Console;
 using Plaidman.SaltShuffleRevival;
 using Qud.API;
 using XRL.Rules;
@@ -73,16 +74,7 @@ namespace XRL.World.Parts {
 			int error = xpLevel - (SunScore + MoonScore + StarScore);
 			SunScore += error;
 
-			var boost = Stat.Rnd2.Next(2) + 3;
-			while (MoonScore + StarScore + SunScore < 9) {
-				var stat = Stat.Rnd2.Next(3);
-				switch (stat) {
-					case 1: MoonScore += boost; break;
-					case 2: SunScore += boost; break;
-					case 3: StarScore += boost; break;
-				}
-				if (boost > 1) boost--;
-			}
+			BoostLowLevel();
 
 			if (go.Brain != null && go.Brain.GetPrimaryFaction() == "Baetyl") {
 				SunScore = -5;
@@ -92,10 +84,33 @@ namespace XRL.World.Parts {
 
 			PointValue = SunScore + MoonScore + StarScore;
 
-			ParentObject.Render.ColorString = ConsoleLib.Console.ColorUtility.StripBackgroundFormatting(go.Render.ColorString);
+			ParentObject.Render.ColorString = ColorUtility.StripBackgroundFormatting(go.Render.ColorString);
 			ParentObject.Render.DetailColor = go.Render.DetailColor;
 			SetDescription(go);
 			SetDisplayName(go);
+		}
+		
+		// make low level cards more interesting by boosting a couple stats
+		// some get 3 or 4 points in a single stats
+		// some get 4 then 2, and some get 3 then 2
+		private void BoostLowLevel() {
+			if (MoonScore + StarScore + SunScore >= 10) return;
+
+			var boost = Stat.Rnd2.Next(2) + 3; // start with 3 or 4 point boost
+			var times = Stat.Rnd2.Next(2) + 1; // do the loop 1 or 2 times
+			for (int i = 0; i < times; i++) {
+				var stat = Stat.Rnd2.Next(3);
+				switch (stat) {
+					case 0: MoonScore += boost; break;
+					case 1: SunScore += boost; break;
+					case 2: StarScore += boost; break;
+				}
+
+				// if total stats is more than ten after a loop, never do the second loop
+				if (MoonScore + StarScore + SunScore >= 10) return;
+				// second loop will always boost a stat by 2
+				boost = 2;
+			}
 		}
 
 		private void SetDescription(GameObject go) {
@@ -118,7 +133,7 @@ namespace XRL.World.Parts {
 			}
 
 			var goDesc = go.GetPart<Description>().Short;
-			var strippedDesc = ConsoleLib.Console.ColorUtility.StripFormatting(goDesc);
+			var strippedDesc = ColorUtility.StripFormatting(goDesc);
 			builder.Append("{{K|").Append(strippedDesc).Append("}}");
 
 			ParentObject.GetPart<Description>().Short = builder.ToString();

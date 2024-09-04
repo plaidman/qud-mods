@@ -20,7 +20,7 @@ namespace Plaidman.SaltShuffleRevival {
 		private static GameObject Opponent = null;
 		private static string OppoNameLower = "";
 		private static string OppoNameUpper = "";
-		private static StringBuilder LatestGameNews = new();
+		private static readonly StringBuilder LatestGameNews = new();
 		private static readonly List<SSR_Card>[,] CardZones = new List<SSR_Card>[2,3];
 		private static readonly int[] Scores = new int[2];
 
@@ -48,7 +48,7 @@ namespace Plaidman.SaltShuffleRevival {
 			CardZones[OpponentCards, HandZone] = new();
 			CardZones[OpponentCards, FieldZone] = new();
 			Scores[OpponentCards] = 0;
-
+			
 			for (int i = 0; i < 2; i++) {
 				Draw(PlayerCards);
 				Draw(OpponentCards);
@@ -258,6 +258,11 @@ namespace Plaidman.SaltShuffleRevival {
 				totalRemoved += removed;
 			}
 			
+			// crushing will be preferred if the time to win is reduced by more than the penalty per card 
+			// e.g.
+			//   if the player has 2 turns to win from fielded renown,
+			//   removing enemies will raise that to 5 turns to win,
+			//   but average -2 points per card removed, then choose to crush
 			int newNumTurns = AINumTurnsLeft(curScore, fieldCards.Count - totalRemoved);
 			int turnsDiffPoints = (newNumTurns - numTurns) * totalRemoved;
 
