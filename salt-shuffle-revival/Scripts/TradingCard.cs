@@ -114,38 +114,40 @@ namespace XRL.World.Parts {
 		}
 
 		private void SetDescription(GameObject go) {
-			var builder = new StringBuilder("A trading card with a stylized illustration of ")
-				.Append(go.a).Append(go.DisplayNameStripped)
-				.Append(" plus various cryptic statistics.\n\n");
+			var builder = new StringBuilder("A trading card with a stylized illustration of =a==name= plus various cryptic statistics.\n\n");
+			var replacer = builder.StartReplace()
+				.AddReplacer("a", go.a)
+				.AddReplacer("name", go.DisplayNameStripped);
 
 			var factions = FactionUtils.GetCreatureFactions(go);
 			if (factions.Count > 0) {
-				builder.Append("{{G|Allegiance: " + string.Join(", ", factions) + "}}\n");
+				builder.Append("{{G|Allegiance: =factions=}}\n");
+				replacer.AddReplacer("factions", string.Join(", ", factions));
 			}
 
-			builder.Append("{{W|Sun:}} {{Y|").Append(SunScore).Append("}}\xff\xff\xff")
-				.Append("{{C|Moon:}} {{Y|").Append(MoonScore).Append("}}\xff\xff\xff")
-				.Append("{{M|Star:}} {{Y|").Append(StarScore).Append("}}\n");
-
-			Mutations muts = go.GetPart<Mutations>();
-			if (muts != null) {
-				builder.Append("{{c|").Append(muts.ToString()).Append("}}\n");
-			}
-
-			var goDesc = go.GetPart<Description>().Short;
-			var strippedDesc = ColorUtility.StripFormatting(goDesc);
-			builder.Append("{{K|").Append(strippedDesc).Append("}}");
-
-			ParentObject.GetPart<Description>().Short = builder.ToString();
+			builder.Append("{{W|Sun:}} {{Y|=sun=}}\xff\xff\xff{{C|Moon:}} {{Y|=moon=}}\xff\xff\xff{{M|Star:}} {{Y|=star=}}\n\n{{K|=desc=}}");
+			replacer.AddReplacer("sun", SunScore.ToString())
+				.AddReplacer("moon", MoonScore.ToString())
+				.AddReplacer("star", StarScore.ToString())
+				.AddReplacer("desc", ColorUtility.StripFormatting(go.GetPart<Description>().Short));
+			
+			ParentObject.GetPart<Description>().Short = replacer.ToString();
 		}
 
 		private void SetDisplayName(GameObject go) {
-			var builder = new StringBuilder(go.DisplayNameStripped).Append(" {{W|")
-				.Append(SunScore).Append("}}/{{C|").Append(MoonScore).Append("}}/{{M|")
-				.Append(StarScore).Append("}}");
-
-			ShortDisplayName = builder.ToString();
-			ParentObject.DisplayName = ShortDisplayName + " {{K|(Lv " + PointValue + ")}}";
+			ShortDisplayName = new StringBuilder("=name= {{W|=sun=}}/{{C|=moon=}}/{{M|=star=}}")
+				.StartReplace()
+				.AddReplacer("name", go.DisplayNameStripped)
+				.AddReplacer("sun", SunScore.ToString())
+				.AddReplacer("moon", MoonScore.ToString())
+				.AddReplacer("star", StarScore.ToString())
+				.ToString();
+			
+			ParentObject.DisplayName = new StringBuilder(ShortDisplayName)
+				.Append(" {{K|(Lv =lv=)}}")
+				.StartReplace()
+				.AddReplacer("lv", PointValue.ToString())
+				.ToString();
 		}
 	}
 }
