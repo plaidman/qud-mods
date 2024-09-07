@@ -18,9 +18,8 @@ namespace Plaidman.SaltShuffleRevival {
 		private const int FieldZone = 2;
 
 		private static GameObject Opponent = null;
-		private static string OppoNameLower = "";
-		private static string OppoNameUpper = "";
-		private static readonly StringBuilder LatestGameNews = new();
+		private static string OppName = "";
+		private static readonly StringBuilder NewsBuilder = new();
 		private static readonly List<SSR_Card>[,] CardZones = new List<SSR_Card>[2,3];
 		private static readonly int[] Scores = new int[2];
 
@@ -36,8 +35,7 @@ namespace Plaidman.SaltShuffleRevival {
 			}
 
 			Opponent = opponent;
-			OppoNameUpper = Opponent.The + Opponent.DisplayNameStripped;
-			OppoNameLower = Opponent.the + Opponent.DisplayNameStripped;
+			OppName = Opponent.The + Opponent.DisplayNameStripped;
 
 			CardZones[PlayerCards, DeckZone] = DeckUtils.CardList(The.Player);
 			CardZones[PlayerCards, HandZone] = new();
@@ -48,7 +46,7 @@ namespace Plaidman.SaltShuffleRevival {
 			CardZones[OpponentCards, HandZone] = new();
 			CardZones[OpponentCards, FieldZone] = new();
 			Scores[OpponentCards] = 0;
-			
+
 			for (int i = 0; i < 2; i++) {
 				Draw(PlayerCards);
 				Draw(OpponentCards);
@@ -56,38 +54,39 @@ namespace Plaidman.SaltShuffleRevival {
 
 			while (true) {
 				ResolveOpponentTurn();
-				
+
 				if (Scores[OpponentCards] >= PointsToWin) {
-					LatestGameNews.Clear();
-					LatestGameNews.Append(BoardState());
-					LatestGameNews.Append("{{R|").Append(OppoNameUpper).Append(" wins the game!}}");
-					Popup.Show(LatestGameNews.ToString());
+					NewsBuilder.Clear();
+					NewsBuilder.Append(BoardState()).Append("{{R|=oppName= wins the game!}}");
+					NewsBuilder.StartReplace()
+						.AddReplacer("oppName", OppName)
+						.Execute();
+					Popup.Show(NewsBuilder.ToString());
 					break;
 				}
 
 				ResolvePlayerTurn();
 
 				if (Scores[PlayerCards] >= PointsToWin) {
-					LatestGameNews.Clear();
-					LatestGameNews.Append(BoardState());
-					LatestGameNews.Append("{{G|You win the game!}}");
-					Popup.Show(LatestGameNews.ToString());
+					NewsBuilder.Clear();
+					NewsBuilder.Append(BoardState()).Append("{{G|You win the game!}}");
+					Popup.Show(NewsBuilder.ToString());
 
 					var card = SSR_Card.CreateCard(Opponent);
 					Popup.Show("You get a card as a souvenir of your victory:\n\n" + card.DisplayName);
 					The.Player.TakeObject(card);
 					break;
 				}
-
 			}
 
 			return true;
 		}
 
 		private static void ResolveOpponentTurn() {
-			LatestGameNews.Clear();
+			NewsBuilder.Clear();
+
 			if (!Draw(OpponentCards)) {
-				LatestGameNews.Append("{{C|").Append(OppoNameUpper).Append(" can't draw from an empty deck.}}\n");
+				NewsBuilder.Append("{{C|=oppName= can't draw from an empty deck.}}\n");
 			}
 
 			var npcHand = CardZones[OpponentCards, HandZone];
@@ -104,7 +103,7 @@ namespace Plaidman.SaltShuffleRevival {
 						bestIndexes.Add(i);
 						bestOutcome = value;
 					}
-					
+
 					if (value == bestOutcome) {
 						bestIndexes.Add(i);
 					}
@@ -113,81 +112,101 @@ namespace Plaidman.SaltShuffleRevival {
 
 			if (bestIndexes.Count > 0) {
 				var npcCard = bestIndexes.GetRandomElementCosmetic();
-				ResolveCardAgainstPlayer(npcCard, PlayerCards, OpponentCards);
+				NewsBuilder.Append(ResolveCardAgainstPlayer(npcCard, PlayerCards, OpponentCards));
 			} else {
-				LatestGameNews.Append("{{C|").Append(OppoNameUpper).Append(" doesn't have any cards to play.}}\n\n");
+				NewsBuilder.Append("{{C|=oppName= doesn't have any cards to play.}}\n\n");
 			}
 
 			var npcFieldCount = CardZones[OpponentCards, FieldZone].Count;
 			ScorePoints(OpponentCards, npcFieldCount);
-			LatestGameNews.Append(OppoNameUpper).Append(" scores {{Y|").Append(npcFieldCount)
-				.Append(" renown}} for ").Append(Opponent.its).Append(" fielded cards.");
-			
-			Popup.Show(LatestGameNews.ToString());
+			NewsBuilder.Append("=oppName= scores {{Y|=fieldCount= renown}} for =oppIts= fielded cards.");
+
+			NewsBuilder.StartReplace()
+				.AddReplacer("oppName", OppName)
+				.AddReplacer("fieldCount", npcFieldCount.ToString())
+				.AddReplacer("oppIts", Opponent.its)
+				.Execute();
+			Popup.Show(NewsBuilder.ToString());
 		}
 
 		private static void ResolvePlayerTurn() {
-			LatestGameNews.Clear();
-			LatestGameNews.Append(BoardState());
+			NewsBuilder.Clear();
+			NewsBuilder.Append(BoardState());
 
 			if (!Draw(PlayerCards)) {
-				LatestGameNews.Append("{{R|You can't draw from an empty deck.}}\n");
+				NewsBuilder.Append("{{R|You can't draw from an empty deck.}}\n\n");
 			}
 
 			var playerHand = CardZones[PlayerCards,HandZone];
 			int playerCard = -1;
 			if (playerHand.Count == 0) {
-				LatestGameNews.Append("{{R|You have no cards in your hand.}}");
-				Popup.Show(LatestGameNews.ToString());
+				NewsBuilder.Append("{{R|You have no cards in your hand.}}");
+				Popup.Show(NewsBuilder.ToString());
 			} else {
-				LatestGameNews.Append("{{C|Play a card:}}");
-				var cardNames = playerHand.Select(c => "{{|" + c.ParentObject.DisplayName + "}}").ToArray();
+				NewsBuilder.Append("{{C|Play a card:}}");
+				var cardNames = playerHand
+					.Select(c => "{{|" + c.ParentObject.DisplayName + "}}")
+					.ToArray();
 
 				playerCard = Popup.PickOption(
 					Options: cardNames,
-					Intro: LatestGameNews.ToString(),
+					Intro: NewsBuilder.ToString(),
 					MaxWidth: 78,
 					RespectOptionNewlines: true
 				);
 			}
 
-			LatestGameNews.Clear();
+			NewsBuilder.Clear();
+
 			if (playerCard != -1) {
-				ResolveCardAgainstPlayer(playerCard, OpponentCards, PlayerCards);
+				NewsBuilder.Append(ResolveCardAgainstPlayer(playerCard, OpponentCards, PlayerCards));
 			}
 
 			var playerFieldCount = CardZones[PlayerCards, FieldZone].Count;
 			ScorePoints(PlayerCards, playerFieldCount);
-			LatestGameNews.Append("You score {{Y|").Append(playerFieldCount)
-				.Append(" renown}} for your fielded cards.");
+			NewsBuilder.Append("You score {{Y|=fieldCount= renown}} for your fielded cards.");
 
-			Popup.Show(LatestGameNews.ToString());
+			NewsBuilder.StartReplace()
+				.AddReplacer("fieldCount", playerFieldCount.ToString())
+				.Execute();
+			Popup.Show(NewsBuilder.ToString());
 		}
 
-		private static void ResolveCardAgainstPlayer(int yourCardIndex, int foe, int you) {
+		private static StringBuilder ResolveCardAgainstPlayer(int yourCardIndex, int foe, int you) {
+			var builder = new StringBuilder();
 			var yourHand = CardZones[you, HandZone];
 			var yourCard = yourHand[yourCardIndex];
 
 			if (you == PlayerCards) {
-				LatestGameNews.Append("You play ");
+				builder.Append("You play");
 			} else {
-				LatestGameNews.Append(OppoNameUpper).Append(" plays ");
+				builder.Append("=oppName= plays");
 			}
-			LatestGameNews.Append("{{Y|").Append(yourCard.ParentObject.DisplayName)
-				.Append("}}.\n\n");
+			builder.Append(" {{Y|=cardName=}}.\n\n");
 
-			var cardOutput = new StringBuilder();
 			var enemyField = CardZones[foe, FieldZone];
+			var hasCardResults = false;
 			for (var i = enemyField.Count-1; i >= 0; i--) {
-				cardOutput.Append(ResolveCardAgainstCard(yourCard, i, foe, you));
+				var cardResult = ResolveCardAgainstCard(yourCard, i, foe, you);
+
+				if (cardResult == null) continue;
+
+				builder.Append(cardResult);
+				hasCardResults = true;
 			}
 
-			if (cardOutput.Length > 0) {
-				LatestGameNews.Append(cardOutput).Append("\n");
+			if (hasCardResults) {
+				builder.Append("\n");
 			}
 
 			yourHand.RemoveAt(yourCardIndex);
 			CardZones[you, FieldZone].Add(yourCard);
+
+			builder.StartReplace()
+				.AddReplacer("oppName", OppName)
+				.AddReplacer("cardName", yourCard.ParentObject.DisplayName)
+				.Execute();
+			return builder;
 		}
 
 		private static StringBuilder ResolveCardAgainstCard(SSR_Card yourCard, int foeCardIndex, int foe, int you) {
@@ -197,9 +216,9 @@ namespace Plaidman.SaltShuffleRevival {
 			int margin = CardStatsAgainstCard(yourCard, foeCard);
 			int points = 0;
 			string verb = " doesn't affect ";
-			
+
 			if (margin < 2) {
-				return new();
+				return null;
 			}
 
 			if (margin == 3) {
@@ -208,7 +227,7 @@ namespace Plaidman.SaltShuffleRevival {
 				enemyDeck.Add(foeCard);
 
 				points = CardCrushPenalty(yourCard, foeCard);
-				verb = " {{R|crushes}} ";
+				verb = "{{R|crushes}}";
 			}
 
 			if (margin == 2) {
@@ -217,37 +236,65 @@ namespace Plaidman.SaltShuffleRevival {
 					enemyField.RemoveAt(foeCardIndex);
 
 					points = 1 + foeCard.PointValue - yourCard.PointValue;
-					verb = " {{O|topples}} ";
+					verb = "{{O|topples}}";
 				} else {
 					// returned to deck
 					enemyField.RemoveAt(foeCardIndex);
 					enemyDeck.Add(foeCard);
 
 					points = 1;
-					verb = " {{W|vanquishes}} ";
+					verb = "{{W|vanquishes}}";
 				}
 			}
-			
+
 			ScorePoints(you, points);
-			return new StringBuilder("- ").Append(NamePoss(you)).Append(" {{|").Append(yourCard.ShortDisplayName)
-				 .Append("}}").Append(verb).Append(NamePoss(foe)).Append(" {{|").Append(foeCard.ShortDisplayName)
-				.Append("}}. ({{Y|").Append(points.ToString("+0;-#")).Append(" renown}})\n");
+			var builder = new StringBuilder("- =youPoss= {{|=yourCard=}} =verb= =foePoss= {{|=foeCard=}}. ({{Y|=points= renown}})\n");
+			builder.StartReplace()
+				.AddReplacer("youPoss", NamePoss(you))
+				.AddReplacer("yourCard", yourCard.ShortDisplayName)
+				.AddReplacer("verb", verb)
+				.AddReplacer("foePoss", NamePoss(foe, true))
+				.AddReplacer("foeCard", foeCard.ShortDisplayName)
+				.AddReplacer("points", points.ToString("+0;-#"))
+				.Execute();
+			return builder;
 		}
-		
+
+		private static StringBuilder BoardState() {
+			var boardState = new StringBuilder("=oppName= ({{Y|=oppScore= renown}}):\n");
+			foreach (var card in CardZones[OpponentCards, FieldZone]) {
+				boardState.Append("- {{|").Append(card.ParentObject.DisplayName).Append("}}\n");
+			}
+
+			boardState.Append("\n=playerName= ({{Y|=playerScore= renown}}):\n");
+			foreach (var card in CardZones[PlayerCards, FieldZone]) {
+				boardState.Append("- {{|").Append(card.ParentObject.DisplayName).Append("}}\n");
+			}
+
+			boardState.StartReplace()
+				.AddReplacer("oppName", OppName)
+				.AddReplacer("oppScore", Scores[OpponentCards].ToString())
+				.AddReplacer("playerName", The.Player.DisplayNameStripped)
+				.AddReplacer("playerScore", Scores[PlayerCards].ToString())
+				.Execute();
+
+			return boardState.Append("\n");
+		}
+
 		private static string NamePoss(int who, bool lowercase = false) {
 			if (who == PlayerCards) {
 				return lowercase ? "your" : "Your";
 			}
 
 			return lowercase
-				? Grammar.MakePossessive(OppoNameLower)
-				: Grammar.MakePossessive(OppoNameUpper);
+				? Grammar.MakePossessive(Opponent.the + Opponent.DisplayNameStripped)
+				: Grammar.MakePossessive(OppName);
 		}
 
 		private static int AICardScoreAgainstPlayer(SSR_Card card) {
 			int totalPoints = 0;
 			int totalRemoved = 0;
-			
+
 			var fieldCards = CardZones[PlayerCards, FieldZone];
 			var curScore = Scores[PlayerCards];
 			int numTurns = AINumTurnsLeft(curScore, fieldCards.Count);
@@ -257,8 +304,8 @@ namespace Plaidman.SaltShuffleRevival {
 				totalPoints += points;
 				totalRemoved += removed;
 			}
-			
-			// crushing will be preferred if the time to win is reduced by more than the penalty per card 
+
+			// crushing will be preferred if the time to win is reduced by more than the penalty per card
 			// e.g.
 			//   if the player has 2 turns to win from fielded renown,
 			//   removing enemies will raise that to 5 turns to win,
@@ -268,7 +315,7 @@ namespace Plaidman.SaltShuffleRevival {
 
 			return totalPoints + turnsDiffPoints;
 		}
-		
+
 		private static int AINumTurnsLeft(int score, int cards) {
 			int turns = 0;
 
@@ -276,10 +323,10 @@ namespace Plaidman.SaltShuffleRevival {
 				turns++; cards++;
 				score += cards;
 			}
-			
+
 			return turns;
 		}
-		
+
 		private static (int, int) AICardScoreAgainstCard(SSR_Card card, SSR_Card foe) {
 			int margin = CardStatsAgainstCard(card, foe);
 
@@ -329,22 +376,6 @@ namespace Plaidman.SaltShuffleRevival {
 
 		private static void ScorePoints(int who, int points = 0) {
 			Scores[who] += points;
-		}
-
-		private static StringBuilder BoardState() {
-			var boardState = new StringBuilder(OppoNameUpper).Append(" ({{Y|")
-				.Append(Scores[OpponentCards]).Append(" renown}}):\n");
-			foreach (var card in CardZones[OpponentCards, FieldZone]) {
-				boardState.Append("- {{|").Append(card.ParentObject.DisplayName).Append("}}\n");
-			}
-
-			boardState.Append("\n").Append(The.Player.DisplayNameStripped)
-				.Append(" ({{Y|").Append(Scores[PlayerCards]).Append(" renown}}):\n");
-			foreach (var card in CardZones[PlayerCards, FieldZone]) {
-				boardState.Append("- {{|").Append(card.ParentObject.DisplayName).Append("}}\n");
-			}
-
-			return boardState.Append("\n");
 		}
 	}
 }

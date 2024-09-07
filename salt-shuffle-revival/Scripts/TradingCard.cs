@@ -24,7 +24,7 @@ namespace XRL.World.Parts {
 			ParentObject.SetIntProperty("NeverStack", 1);
 			return base.HandleEvent(e);
 		}
-		
+
 		public static GameObject CreateCard() {
 			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
 			var part = card.GetPart<SSR_Card>();
@@ -38,7 +38,7 @@ namespace XRL.World.Parts {
 			part.SetCreature(FactionUtils.GetRandomSampleCreatureFromFaction(faction));
 			return card;
 		}
-		
+
 		public static GameObject CreateCard(GameObject go) {
 			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
 			var part = card.GetPart<SSR_Card>();
@@ -89,7 +89,7 @@ namespace XRL.World.Parts {
 			SetDescription(go);
 			SetDisplayName(go);
 		}
-		
+
 		// make low level cards more interesting by boosting a couple stats
 		// some get 3 or 4 points in a single stats
 		// some get 4 then 2, and some get 3 then 2
@@ -115,39 +115,42 @@ namespace XRL.World.Parts {
 
 		private void SetDescription(GameObject go) {
 			var builder = new StringBuilder("A trading card with a stylized illustration of =a==name= plus various cryptic statistics.\n\n");
-			var replacer = builder.StartReplace()
-				.AddReplacer("a", go.a)
-				.AddReplacer("name", go.DisplayNameStripped);
 
 			var factions = FactionUtils.GetCreatureFactions(go);
 			if (factions.Count > 0) {
 				builder.Append("{{G|Allegiance: =factions=}}\n");
-				replacer.AddReplacer("factions", string.Join(", ", factions));
 			}
 
 			builder.Append("{{W|Sun:}} {{Y|=sun=}}\xff\xff\xff{{C|Moon:}} {{Y|=moon=}}\xff\xff\xff{{M|Star:}} {{Y|=star=}}\n\n{{K|=desc=}}");
-			replacer.AddReplacer("sun", SunScore.ToString())
+
+			builder.StartReplace()
+				.AddReplacer("a", go.a)
+				.AddReplacer("name", go.DisplayNameStripped)
+				.AddReplacer("factions", string.Join(", ", factions))
+				.AddReplacer("sun", SunScore.ToString())
 				.AddReplacer("moon", MoonScore.ToString())
 				.AddReplacer("star", StarScore.ToString())
-				.AddReplacer("desc", ColorUtility.StripFormatting(go.GetPart<Description>().Short));
-			
-			ParentObject.GetPart<Description>().Short = replacer.ToString();
+				.AddReplacer("desc", ColorUtility.StripFormatting(go.GetPart<Description>().Short))
+				.Execute();
+
+			ParentObject.GetPart<Description>().Short = builder.ToString();
 		}
 
 		private void SetDisplayName(GameObject go) {
-			ShortDisplayName = new StringBuilder("=name= {{W|=sun=}}/{{C|=moon=}}/{{M|=star=}}")
-				.StartReplace()
+			var builder = new StringBuilder("=name= {{W|=sun=}}/{{C|=moon=}}/{{M|=star=}}");
+			builder.StartReplace()
 				.AddReplacer("name", go.DisplayNameStripped)
 				.AddReplacer("sun", SunScore.ToString())
 				.AddReplacer("moon", MoonScore.ToString())
 				.AddReplacer("star", StarScore.ToString())
-				.ToString();
-			
-			ParentObject.DisplayName = new StringBuilder(ShortDisplayName)
-				.Append(" {{K|(Lv =lv=)}}")
-				.StartReplace()
+				.Execute();
+			ShortDisplayName = builder.ToString();
+
+			builder.Append(" {{K|(Lv =lv=)}}");
+			builder.StartReplace()
 				.AddReplacer("lv", PointValue.ToString())
-				.ToString();
+				.Execute();
+			ParentObject.DisplayName = builder.ToString();
 		}
 	}
 }

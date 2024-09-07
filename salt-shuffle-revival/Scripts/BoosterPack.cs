@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using Plaidman.SaltShuffleRevival;
 using XRL.UI;
 
@@ -44,7 +45,7 @@ namespace XRL.World.Parts {
 		public override bool HandleEvent(InventoryActionEvent e) {
 			if (e.Command != "InvCommandUnwrap") return base.HandleEvent(e);
 
-			var tally = "You unwrap " + ParentObject.the + ParentObject.DisplayName + " and get:\n";
+			var tally = new StringBuilder("You unwrap the =pack= and get:\n");
 
 			var qty = Starter ? 12 : 5;
 			for (int i = 0; i < qty; i++) {
@@ -53,10 +54,14 @@ namespace XRL.World.Parts {
 					: SSR_Card.CreateCard(Faction.Name);
 
 				The.Player.TakeObject(card, NoStack: true);
-				tally += card.DisplayName + "\n";
+				tally.Append("- {{|").Append(card.DisplayName).Append("}}\n");
 			}
 
-			Popup.Show(Message: tally, LogMessage: false);
+			tally.StartReplace()
+				.AddReplacer("pack", ParentObject.DisplayName)
+				.Execute();
+
+			Popup.Show(Message: tally.ToString(), LogMessage: false);
 			ParentObject.Destroy("Unwrapped", true);
 
 			return base.HandleEvent(e);
