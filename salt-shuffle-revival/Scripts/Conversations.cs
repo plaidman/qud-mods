@@ -8,18 +8,18 @@ namespace XRL.World.Conversations.Parts {
 	class SSR_Conversation : IConversationPart {
 		private bool Rematch = false;
 
-        public override bool WantEvent(int id, int propagation) {		
-            return base.WantEvent(id, propagation)
+		public override bool WantEvent(int id, int propagation) {
+			return base.WantEvent(id, propagation)
 				|| id == IsElementVisibleEvent.ID
 				|| id == ColorTextEvent.ID
 				|| id == GetChoiceTagEvent.ID
 				|| id == HideElementEvent.ID
 				|| id == PrepareTextEvent.ID
 				|| id == EnteredElementEvent.ID;
-        }
-		
+		}
+
 		private Reason CanPlay() {
-			if (!DeckUtils.HasCards(The.Player, 10)) return Reason.CardCount; 
+			if (!DeckUtils.HasCards(The.Player, 10)) return Reason.CardCount;
 
 			if (The.Speaker.Brain == null) return Reason.NoBrain;
 			if (The.Speaker.Brain.IsHostileTowards(The.Player)) return Reason.HatePlayer;
@@ -28,36 +28,36 @@ namespace XRL.World.Conversations.Parts {
 
 			return Reason.CanPlay;
 		}
-		
+
 		private bool SociallyRepugnant() {
 			return The.Player.TryGetPart(out Mutations part)
 				&& part.HasMutation("SociallyRepugnant");
 		}
-		
-        public override bool HandleEvent(GetChoiceTagEvent e) {
+
+		public override bool HandleEvent(GetChoiceTagEvent e) {
 			if (Rematch || SociallyRepugnant()) {
 				e.Tag = "[Salt Shuffle]".WithColor(CanPlay() == Reason.CanPlay ? "g" : "K");
 			}
 
-            return true;
-        }
+			return true;
+		}
 
-        public override bool HandleEvent(ColorTextEvent e) {
+		public override bool HandleEvent(ColorTextEvent e) {
 			e.Color = CanPlay() == Reason.CanPlay ? "G" : "K";
-            return base.HandleEvent(e);
-        }
+			return base.HandleEvent(e);
+		}
 
 		// never hide the option after being selected
-        public override bool HandleEvent(HideElementEvent e) {
+		public override bool HandleEvent(HideElementEvent e) {
 			return false;
-        }
+		}
 
-        public override bool HandleEvent(IsElementVisibleEvent e) {
+		public override bool HandleEvent(IsElementVisibleEvent e) {
 			var reason = CanPlay();
 			return reason != Reason.NoBrain && reason != Reason.NoFactions;
-        }
+		}
 
-        public override bool HandleEvent(PrepareTextEvent e) {
+		public override bool HandleEvent(PrepareTextEvent e) {
 			if (!Rematch) return base.HandleEvent(e);
 
 			if (SociallyRepugnant()) {
@@ -66,19 +66,19 @@ namespace XRL.World.Conversations.Parts {
 			}
 
 			e.Text.Clear().Append("Rematch?");
-            return base.HandleEvent(e);
-        }
+			return base.HandleEvent(e);
+		}
 
-        public override bool HandleEvent(EnteredElementEvent e) {
+		public override bool HandleEvent(EnteredElementEvent e) {
 			switch (CanPlay()) {
 				case Reason.Busy:
 					Popup.Show(The.Speaker.It + The.Speaker.GetVerb("look") + " too busy to play cards.");
 					return base.HandleEvent(e);
-					
+
 				case Reason.CardCount:
 					Popup.Show("You need at least 10 cards to play.\n\n{{K|You may have a starter pack in your inventory.\nYou can also find booster packs around the world.}}");
 					return base.HandleEvent(e);
-					
+
 				case Reason.HatePlayer:
 					Popup.Show(The.Speaker.It + The.Speaker.GetVerb("glare") + " at you with hatred.");
 					return base.HandleEvent(e);
@@ -91,6 +91,6 @@ namespace XRL.World.Conversations.Parts {
 
 			Rematch = true;
 			return base.HandleEvent(e);
-        }
-    }
+		}
+	}
 }
