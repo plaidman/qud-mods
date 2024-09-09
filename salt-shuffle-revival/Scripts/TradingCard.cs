@@ -91,14 +91,16 @@ namespace XRL.World.Parts {
 		}
 
 		// make low level cards more interesting by boosting a couple stats
-		// some get 3 or 4 points in a single stats
+		// some get 3 or 4 points in a single stat
 		// some get 4 then 2, and some get 3 then 2
 		private void BoostLowLevel() {
-			const int LowLevel = 8;
+			const int LowLevel = 9;
 			if (MoonScore + StarScore + SunScore >= LowLevel) return;
 
+			var times = Stat.Rnd2.Next(4); // do the loop 0-3 times
+			if (times > 1) times--; // this will take 0,1,2,3 and shift it to 0,1,1,2
+
 			var boost = Stat.Rnd2.Next(2) + 3; // start with 3 or 4 point boost
-			var times = Stat.Rnd2.Next(2) + 1; // do the loop 1 or 2 times
 			for (int i = 0; i < times; i++) {
 				var stat = Stat.Rnd2.Next(3);
 				switch (stat) {
@@ -107,7 +109,7 @@ namespace XRL.World.Parts {
 					case 2: StarScore += boost; break;
 				}
 
-				// if total stats is more than ten after a loop, never do the second loop
+				// if card level is high enough after a loop, never do the second loop
 				if (MoonScore + StarScore + SunScore >= LowLevel) return;
 				// second loop will always boost a stat by 2
 				boost = 2;
