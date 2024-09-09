@@ -185,17 +185,16 @@ namespace Plaidman.SaltShuffleRevival {
 			builder.Append(" {{Y|=cardName=}}.\n\n");
 
 			var enemyField = CardZones[foe, FieldZone];
-			var hasCardResults = false;
+			var cardResults = new StringBuilder();
 			for (var i = enemyField.Count-1; i >= 0; i--) {
 				var cardResult = ResolveCardAgainstCard(yourCard, i, foe, you);
-
 				if (cardResult == null) continue;
-
-				builder.Append(cardResult);
-				hasCardResults = true;
+				cardResults.Append(cardResult);
 			}
 
-			if (hasCardResults) {
+			if (cardResults.Length > 0) {
+				builder.Append("=youPoss= card:\n");
+				builder.Append(cardResults);
 				builder.Append("\n");
 			}
 
@@ -205,6 +204,7 @@ namespace Plaidman.SaltShuffleRevival {
 			builder.StartReplace()
 				.AddReplacer("oppName", OppName)
 				.AddReplacer("cardName", yourCard.ParentObject.DisplayName)
+				.AddReplacer("youPoss", NamePoss(you))
 				.Execute();
 			return builder;
 		}
@@ -248,10 +248,8 @@ namespace Plaidman.SaltShuffleRevival {
 			}
 
 			ScorePoints(you, points);
-			var builder = new StringBuilder("- =youPoss= {{|=yourCard=}} =verb= =foePoss= {{|=foeCard=}}. ({{Y|=points= renown}})\n");
+			var builder = new StringBuilder("~ =verb= =foePoss= {{|=foeCard=}}. ({{Y|=points= renown}})\n");
 			builder.StartReplace()
-				.AddReplacer("youPoss", NamePoss(you))
-				.AddReplacer("yourCard", yourCard.ShortDisplayName)
 				.AddReplacer("verb", verb)
 				.AddReplacer("foePoss", NamePoss(foe, true))
 				.AddReplacer("foeCard", foeCard.ShortDisplayName)
