@@ -94,7 +94,8 @@ namespace XRL.World.Parts {
 		// some get 3 or 4 points in a single stats
 		// some get 4 then 2, and some get 3 then 2
 		private void BoostLowLevel() {
-			if (MoonScore + StarScore + SunScore >= 10) return;
+			const int LowLevel = 8;
+			if (MoonScore + StarScore + SunScore >= LowLevel) return;
 
 			var boost = Stat.Rnd2.Next(2) + 3; // start with 3 or 4 point boost
 			var times = Stat.Rnd2.Next(2) + 1; // do the loop 1 or 2 times
@@ -107,7 +108,7 @@ namespace XRL.World.Parts {
 				}
 
 				// if total stats is more than ten after a loop, never do the second loop
-				if (MoonScore + StarScore + SunScore >= 10) return;
+				if (MoonScore + StarScore + SunScore >= LowLevel) return;
 				// second loop will always boost a stat by 2
 				boost = 2;
 			}
