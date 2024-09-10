@@ -35,7 +35,7 @@ namespace Plaidman.SaltShuffleRevival {
 			}
 
 			Opponent = opponent;
-			OppName = Opponent.The + Opponent.DisplayNameStripped;
+			OppName = Opponent.The + Opponent.DisplayNameOnlyDirectAndStripped;
 
 			CardZones[PlayerCards, DeckZone] = DeckUtils.CardList(The.Player);
 			CardZones[PlayerCards, HandZone] = new();
@@ -272,7 +272,7 @@ namespace Plaidman.SaltShuffleRevival {
 			boardState.StartReplace()
 				.AddReplacer("oppName", OppName)
 				.AddReplacer("oppScore", Scores[OpponentCards].ToString())
-				.AddReplacer("playerName", The.Player.DisplayNameStripped)
+				.AddReplacer("playerName", The.Player.DisplayNameOnlyDirectAndStripped)
 				.AddReplacer("playerScore", Scores[PlayerCards].ToString())
 				.Execute();
 
@@ -285,7 +285,7 @@ namespace Plaidman.SaltShuffleRevival {
 			}
 
 			return lowercase
-				? Grammar.MakePossessive(Opponent.the + Opponent.DisplayNameStripped)
+				? Grammar.MakePossessive(Opponent.the + Opponent.DisplayNameOnlyDirectAndStripped)
 				: Grammar.MakePossessive(OppName);
 		}
 
