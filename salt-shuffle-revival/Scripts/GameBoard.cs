@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Qud.UI;
 using XRL;
 using XRL.Language;
 using XRL.Rules;
@@ -65,7 +66,20 @@ namespace Plaidman.SaltShuffleRevival {
 					break;
 				}
 
-				ResolvePlayerTurn();
+				var playerCard = PickPlayerCard();
+
+				if (playerCard == -3) {
+					NewsBuilder.Clear();
+					NewsBuilder.Append(BoardState())
+						.Append("You throw your cards on the table.\n{{R|=oppName= wins the game!}}");
+					NewsBuilder.StartReplace()
+						.AddReplacer("oppName", OppName)
+						.Execute();
+					Popup.Show(NewsBuilder.ToString());
+					break;
+				}
+
+				ResolvePlayerTurn(playerCard);
 
 				if (Scores[PlayerCards] >= PointsToWin) {
 					NewsBuilder.Clear();
@@ -129,7 +143,7 @@ namespace Plaidman.SaltShuffleRevival {
 			Popup.Show(NewsBuilder.ToString());
 		}
 
-		private static void ResolvePlayerTurn() {
+		private static int PickPlayerCard() {
 			NewsBuilder.Clear();
 			NewsBuilder.Append(BoardState());
 
@@ -137,25 +151,55 @@ namespace Plaidman.SaltShuffleRevival {
 				NewsBuilder.Append("{{R|You can't draw from an empty deck.}}\n\n");
 			}
 
-			var playerHand = CardZones[PlayerCards,HandZone];
-			int playerCard = -1;
+			var playerHand = CardZones[PlayerCards, HandZone];
 			if (playerHand.Count == 0) {
 				NewsBuilder.Append("{{R|You have no cards in your hand.}}");
 				Popup.Show(NewsBuilder.ToString());
-			} else {
-				NewsBuilder.Append("{{C|Play a card:}}");
-				var cardNames = playerHand
-					.Select(c => "{{|" + c.ParentObject.DisplayName + "}}")
-					.ToArray();
+				return -1;
+			}
 
+			NewsBuilder.Append("{{C|Play a card:}}");
+
+			var cardNames = playerHand
+				.Select(c => "{{|" + c.ParentObject.DisplayName + "}}")
+				.ToArray();
+			var forfeitButton = new QudMenuItem[] {
+				new() {
+					text = "Forfeit Game",
+					command = "option:-2",
+					hotkey = "Cancel",
+				},
+			};
+			var confirmButtons = new List<QudMenuItem> {
+				PopupMessage.YesNoButton[1],
+				PopupMessage.YesNoButton[0],
+			};
+
+			int playerCard = -2;
+			while (playerCard == -2) {
 				playerCard = Popup.PickOption(
 					Options: cardNames,
 					Intro: NewsBuilder.ToString(),
 					MaxWidth: 78,
-					RespectOptionNewlines: true
+					RespectOptionNewlines: true,
+					Buttons: forfeitButton
 				);
-			}
 
+				if (playerCard == -2 || playerCard == -1) {
+					Popup.WaitNewPopupMessage(
+						message: "Really quit playing?",
+						buttons: confirmButtons,
+						callback: delegate (QudMenuItem item) {
+							if (item.command == "Yes") playerCard = -3;
+						}
+					);
+				}
+			}
+			
+			return playerCard;
+		}
+		
+		private static void ResolvePlayerTurn(int playerCard) {
 			NewsBuilder.Clear();
 
 			if (playerCard != -1) {
