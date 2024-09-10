@@ -43,8 +43,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 			var toggleKey = ControlManager.getCommandInputFormatted(XMLStrings.ToggleCommand);
 			var sortKey = ControlManager.getCommandInputFormatted(XMLStrings.ZoneSortCommand);
 			var pickupKey = ControlManager.getCommandInputFormatted(XMLStrings.PickupCommand);
-			QudMenuItem[] menuCommands = new QudMenuItem[]
-			{
+			var menuCommands = new QudMenuItem[] {
 				new() {
 					text = "{{W|[" + toggleKey + "]}} {{y|Toggle All}}",
 					command = "option:-2",

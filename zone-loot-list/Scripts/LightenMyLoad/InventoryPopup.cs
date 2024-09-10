@@ -31,8 +31,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 
 			var dropKey = ControlManager.getCommandInputFormatted(XMLStrings.DropCommand);
 			var sortKey = ControlManager.getCommandInputFormatted(XMLStrings.InvSortCommand);
-			QudMenuItem[] menuCommands = new QudMenuItem[]
-			{
+			var menuCommands = new QudMenuItem[] {
 				new() {
 					text = "{{W|[" + dropKey + "]}} {{y|Drop Items}}",
 					command = "option:-2",
