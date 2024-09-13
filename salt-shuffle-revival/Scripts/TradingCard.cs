@@ -97,9 +97,7 @@ namespace XRL.World.Parts {
 			const int LowLevel = 9;
 			if (MoonScore + StarScore + SunScore >= LowLevel) return;
 
-			var times = Stat.Rnd2.Next(4); // do the loop 0-3 times
-			if (times > 1) times--; // this will take 0,1,2,3 and shift it to 0,1,1,2
-
+			var times = Stat.Rnd2.Next(2) + Stat.Rnd2.Next(2); // 2d2-2 = distribution 0,1,1,2
 			var boost = Stat.Rnd2.Next(2) + 3; // start with 3 or 4 point boost
 			for (int i = 0; i < times; i++) {
 				var stat = Stat.Rnd2.Next(3);
