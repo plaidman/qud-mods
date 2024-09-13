@@ -1,9 +1,7 @@
 using System;
 using System.Linq;
 using System.Text;
-using ConsoleLib.Console;
 using Plaidman.SaltShuffleRevival;
-using Qud.API;
 using XRL.Rules;
 
 namespace XRL.World.Parts {
@@ -25,41 +23,44 @@ namespace XRL.World.Parts {
 			return base.HandleEvent(e);
 		}
 
+		// opening a starter deck
 		public static GameObject CreateCard() {
 			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
 			var part = card.GetPart<SSR_Card>();
-			part.SetCreature(EncountersAPI.GetASampleCreature());
+			part.SetCreature(FactionUtils.GetRandomCreature());
 			return card;
 		}
 
+		// opening a booster and generate a deck for an opponent
 		public static GameObject CreateCard(string faction) {
 			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
 			var part = card.GetPart<SSR_Card>();
-			part.SetCreature(FactionUtils.GetRandomSampleCreatureFromFaction(faction));
+			part.SetCreature(FactionUtils.GetRandomCreature(faction));
 			return card;
 		}
 
+		// when the opponent is bested in card combat	
 		public static GameObject CreateCard(GameObject go) {
 			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
 			var part = card.GetPart<SSR_Card>();
-			part.SetCreature(go);
+			part.SetCreature(new FactionEntity(go, false));
 			return card;
 		}
 
-		private void SetCreature(GameObject go) {
-			go ??= EncountersAPI.GetACreature();
+		private void SetCreature(FactionEntity fe) {
+			fe ??= FactionUtils.GetRandomCreature();
 
 			float sunScore = 2;
 			float moonScore = 2;
 			float starScore = 2;
 
-			int xpLevel = Math.Max(5, go.GetStatValue("Level"));
-			sunScore += go.GetStatValue("Strength");
-			starScore += go.GetStatValue("Ego");
-			sunScore += go.GetStatValue("Toughness");
-			starScore += go.GetStatValue("Willpower");
-			moonScore += go.GetStatValue("Intelligence");
-			moonScore += go.GetStatValue("Agility");
+			int xpLevel = Math.Max(5, fe.Level);
+			sunScore += fe.Strength;
+			starScore += fe.Ego;
+			sunScore += fe.Toughness;
+			starScore += fe.Willpower;
+			moonScore += fe.Intelligence;
+			moonScore += fe.Agility;
 			float minScore = new float[]{ sunScore, moonScore, starScore }.Min();
 
 			sunScore -= minScore * 2 / 3;
@@ -76,7 +77,7 @@ namespace XRL.World.Parts {
 
 			BoostLowLevel();
 
-			if (go.Brain != null && go.Brain.GetPrimaryFaction() == "Baetyl") {
+			if (fe.IsBaetyl) {
 				SunScore = -5;
 				MoonScore = -5;
 				StarScore = -5;
@@ -84,10 +85,10 @@ namespace XRL.World.Parts {
 
 			PointValue = SunScore + MoonScore + StarScore;
 
-			ParentObject.Render.ColorString = ColorUtility.StripBackgroundFormatting(go.Render.ColorString);
-			ParentObject.Render.DetailColor = go.Render.DetailColor;
-			SetDescription(go);
-			SetDisplayName(go);
+			ParentObject.Render.ColorString = fe.FgColor;
+			ParentObject.Render.DetailColor = fe.DetailColor;
+			SetDescription(fe);
+			SetDisplayName(fe);
 		}
 
 		// make low level cards more interesting by boosting a couple stats
@@ -114,10 +115,10 @@ namespace XRL.World.Parts {
 			}
 		}
 
-		private void SetDescription(GameObject go) {
+		private void SetDescription(FactionEntity fe) {
 			var builder = new StringBuilder("A trading card with a stylized illustration of =a==name= plus various cryptic statistics.\n\n");
 
-			var factions = FactionUtils.GetCreatureFactions(go);
+			var factions = fe.Factions;
 			if (factions.Count > 0) {
 				builder.Append("{{G|Allegiance: =factions=}}\n");
 			}
@@ -125,22 +126,22 @@ namespace XRL.World.Parts {
 			builder.Append("{{W|Sun:}} {{Y|=sun=}}\xff\xff\xff{{C|Moon:}} {{Y|=moon=}}\xff\xff\xff{{M|Star:}} {{Y|=star=}}\n\n{{K|=desc=}}");
 
 			builder.StartReplace()
-				.AddReplacer("a", go.a)
-				.AddReplacer("name", go.DisplayNameStripped)
+				.AddReplacer("a", fe.a)
+				.AddReplacer("name", fe.Name)
 				.AddReplacer("factions", string.Join(", ", factions))
 				.AddReplacer("sun", SunScore.ToString())
 				.AddReplacer("moon", MoonScore.ToString())
 				.AddReplacer("star", StarScore.ToString())
-				.AddReplacer("desc", ColorUtility.StripFormatting(go.GetPart<Description>().Short))
+				.AddReplacer("desc", fe.Desc)
 				.Execute();
 
 			ParentObject.GetPart<Description>().Short = builder.ToString();
 		}
 
-		private void SetDisplayName(GameObject go) {
+		private void SetDisplayName(FactionEntity fe) {
 			var builder = new StringBuilder("=name= {{W|=sun=}}/{{C|=moon=}}/{{M|=star=}}");
 			builder.StartReplace()
-				.AddReplacer("name", go.DisplayNameStripped)
+				.AddReplacer("name", fe.Name)
 				.AddReplacer("sun", SunScore.ToString())
 				.AddReplacer("moon", MoonScore.ToString())
 				.AddReplacer("star", StarScore.ToString())

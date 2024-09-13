@@ -6,10 +6,10 @@ using XRL.UI;
 namespace XRL.World.Parts {
 	[Serializable]
 	public class SSR_BoosterPack : IPart {
-		public Faction Faction;
+		public string Faction;
 		public bool Starter = false;
 
-		public override void Register(GameObject go, IEventRegistrar registrar) {
+        public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(GetInventoryActionsEvent.ID);
 			registrar.Register(InventoryActionEvent.ID);
 			registrar.Register(ObjectCreatedEvent.ID);
@@ -23,7 +23,7 @@ namespace XRL.World.Parts {
 				ParentObject.DisplayName = "Salt Shuffle starter deck";
 			} else {
 				Faction = FactionUtils.GetRandomFaction();
-				ParentObject.DisplayName = "pack of Salt Shuffle cards: " + Faction.DisplayName;
+				ParentObject.DisplayName = "pack of Salt Shuffle cards: " + Factions.Get(Faction).DisplayName;
 			}
 
 			return base.HandleEvent(e);
@@ -51,7 +51,7 @@ namespace XRL.World.Parts {
 			for (int i = 0; i < qty; i++) {
 				var card = Starter
 					? SSR_Card.CreateCard()
-					: SSR_Card.CreateCard(Faction.Name);
+					: SSR_Card.CreateCard(Faction);
 
 				The.Player.TakeObject(card, NoStack: true);
 				tally.Append("- {{|").Append(card.DisplayName).Append("}}\n");
