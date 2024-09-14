@@ -77,6 +77,8 @@ namespace Plaidman.SaltShuffleRevival {
 
 		[GameBasedCacheInit]
 		public static void InitFactionMemberCache() {
+			FactionMemberCache.Clear();
+
 			var factionList = Factions.GetList().Where(f => {
 				return f.Visible && GameObjectFactory.Factory.AnyFactionMembers(f.Name);
 			});
