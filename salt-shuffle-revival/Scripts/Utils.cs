@@ -72,7 +72,7 @@ namespace Plaidman.SaltShuffleRevival {
 
 	[HasGameBasedStaticCache]
 	class FactionUtils {
-		const int MinEntities = 4;
+		const int MinEntities = 1;
 		private static readonly Dictionary<string, List<FactionEntity>> FactionMemberCache = new();
 
 		[GameBasedCacheInit]
