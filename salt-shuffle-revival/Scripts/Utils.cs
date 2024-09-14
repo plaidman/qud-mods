@@ -37,7 +37,7 @@ namespace Plaidman.SaltShuffleRevival {
 		public FactionEntity(string blueprint) {
 			Blueprint = blueprint;
 			FromBlueprint = true;
-			Name = GameObjectFactory.Factory.GetBlueprint("blueprint").CachedDisplayNameStripped;
+			Name = GameObjectFactory.Factory.GetBlueprint(blueprint).CachedDisplayNameStripped;
 		}
 		
 		public FactionEntity(GameObject go, bool fromBlueprint) {
