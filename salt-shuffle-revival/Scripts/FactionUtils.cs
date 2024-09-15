@@ -32,14 +32,13 @@ namespace Plaidman.SaltShuffleRevival {
 		
 		public FactionEntity(string blueprint) {
 			Blueprint = blueprint;
-			FromBlueprint = true;
 			Name = GameObjectFactory.Factory.GetBlueprint(blueprint).CachedDisplayNameStripped;
 		}
 		
 		public FactionEntity(GameObject go, bool fromBlueprint) {
 			Blueprint = null;
 
-			Name = go.DisplayNameStripped;
+			Name = go.DisplayNameOnlyDirectAndStripped;
 			Factions = FactionUtils.GetCreatureFactions(go, false);
 			Strength = go.GetStatValue("Strength");
 			Agility = go.GetStatValue("Agility");
@@ -67,7 +66,7 @@ namespace Plaidman.SaltShuffleRevival {
 
 		public FactionEntity GetCreature() {
 			if (Blueprint != null) {
-				// create a new one each time to factor in dice rolls for blueprints
+				// create a new FE based on a GO so we can take advantage of BP dice rolls for stats
 				return new(GameObjectFactory.Factory.CreateSampleObject(Blueprint), true);
 			}
 			
@@ -77,7 +76,6 @@ namespace Plaidman.SaltShuffleRevival {
 
 	[HasGameBasedStaticCache]
 	class FactionUtils {
-		const int MinEntities = 1;
 		private static readonly Dictionary<string, List<FactionEntity>> FactionMemberCache = new();
 
 		[GameBasedCacheInit]
@@ -107,14 +105,21 @@ namespace Plaidman.SaltShuffleRevival {
 			return factionMembers;
 		}
 
-		public static void AddFactionMember(string faction, FactionEntity fe) {
+		public static void AddFactionMember(GameObject go) {
 			// TODO don't include the same tier/name object more than once
-			GetFactionMembers(faction).Add(fe);
+			if (go.GetBlueprint().IsBaseBlueprint()) {
+				return;
+			}
+			
+			var entity = new FactionEntity(go, false);
+			foreach (var faction in entity.Factions) {
+				GetFactionMembers(faction).Add(entity);
+			}
 		}
 
 		public static string GetRandomFaction() {
 			return FactionMemberCache
-				.Where(kvp => kvp.Value.Count >= MinEntities)
+				.Where(kvp => kvp.Value.Count > 0)
 				.Select(kvp => kvp.Key)
 				.GetRandomElementCosmetic();
 		}
@@ -126,24 +131,13 @@ namespace Plaidman.SaltShuffleRevival {
 
 		// used when creating a deck for a creature
 		public static List<string> GetCreatureFactions(GameObject go, bool onlyPopulated) {
-			UnityEngine.Debug.Log("- gathering factions");
-			if (go.Brain == null) {
-				return new();
-			}
+			if (go.Brain == null) return new();
 
 			return go.Brain.Allegiance
 				.Where(kvp => {
-					UnityEngine.Debug.Log("  - testing " + kvp.Key);
 					var factionMembers = GetFactionMembers(kvp.Key).Count;
-					if (onlyPopulated && factionMembers < MinEntities) {
-						UnityEngine.Debug.Log("  - not enough members " + factionMembers);
-						return false;
-					}
-
-					var level = Brain.GetAllegianceLevel(kvp.Value);
-					UnityEngine.Debug.Log("  - allegiance level " + level);
-					
-					return level == Brain.AllegianceLevel.Member;
+					if (onlyPopulated && factionMembers == 0) return false;
+					return Brain.GetAllegianceLevel(kvp.Value) == Brain.AllegianceLevel.Member;
 				})
 				.Select(kvp => kvp.Key)
 				.ToList();

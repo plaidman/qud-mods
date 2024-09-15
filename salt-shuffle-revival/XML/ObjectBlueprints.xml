@@ -29,7 +29,4 @@
 		<tag Name="ExcludeFromDynamicEncounters" />
 		<tag Name="NoSparkingQuest" />
 	</object>
-	<object Name="Creature" Load="Merge">
-		<part Name="SSR_Creature" />
-	</object>
 </objects>
