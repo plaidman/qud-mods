@@ -50,6 +50,9 @@ namespace XRL.World.Parts {
 		private void SetCreature(FactionEntity fe) {
 			fe ??= FactionUtils.GetRandomCreature();
 
+			// TODO "hero" or named creature gets more chance to be shiny
+			// TODO shiny cards get an extra boost in stats?
+
 			float sunScore = 2;
 			float moonScore = 2;
 			float starScore = 2;

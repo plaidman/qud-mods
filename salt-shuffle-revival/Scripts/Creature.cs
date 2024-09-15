@@ -1,37 +1,53 @@
-
 using Plaidman.SaltShuffleRevival;
 
 namespace XRL.World.Parts {
 	class SSR_Creature : IPart {
         public override void Register(GameObject go, IEventRegistrar registrar) {
-			registrar.Register(ObjectCreatedEvent.ID);
+			registrar.Register(AfterObjectCreatedEvent.ID);
+			registrar.Register(TakeOnRoleEvent.ID);
+			registrar.Register("MadeHero");
             base.Register(go, registrar);
         }
-        public override bool HandleEvent(ObjectCreatedEvent e) {
-			UnityEngine.Debug.Log("created: " + ParentObject.DisplayNameStripped);
+
+        public override bool FireEvent(Event e) {
+			if (e.ID == "MadeHero") {
+				UnityEngine.Debug.Log(ParentObject.DisplayNameStripped + " made hero");
+				OutputStuff();
+			}
+
+            return base.FireEvent(e);
+        }
+
+        public override bool HandleEvent(TakeOnRoleEvent e) {
+			UnityEngine.Debug.Log(ParentObject.DisplayNameStripped + " took on role " + e.Role);
+			OutputStuff();
+            return base.HandleEvent(e);
+        }
+
+        public override bool HandleEvent(AfterObjectCreatedEvent e) {
+			UnityEngine.Debug.Log(ParentObject.DisplayNameStripped + " created");
+			OutputStuff();
+            return base.HandleEvent(e);
+        }
+		
+		private void OutputStuff() {
 			UnityEngine.Debug.Log("- level: " + ParentObject.GetStatValue("Level"));
 			UnityEngine.Debug.Log("- proper: " + ParentObject.HasProperName);
 			
-			// TODO exclude base objects
-			// TODO don't include the same tier/name object more than once
+			var role = ParentObject.GetTag("Role", "None");
+			UnityEngine.Debug.Log("- role: " + role);
+			// TODO whitespaces before deploy
 			
-			var factions = FactionUtils.GetCreatureFactions(ParentObject, false);
-			if (factions.Count == 0) {
-				UnityEngine.Debug.Log("- zero factions");
-				return base.HandleEvent(e);
+			if (ParentObject.GetBlueprint().IsBaseBlueprint()) {
+				return;
 			}
-
+			
 			var entity = new FactionEntity(ParentObject, false);
-			foreach (var faction in factions) {
+			foreach (var faction in entity.Factions) {
 				UnityEngine.Debug.Log("- faction: " + faction);
-				FactionUtils.AddFactionMembers(faction, entity);
 			}
 
 			UnityEngine.Debug.Log("");
-			
-			ParentObject.RemovePart(this);
-
-            return base.HandleEvent(e);
-        }
+		}
     }
 }

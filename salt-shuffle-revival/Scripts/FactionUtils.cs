@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ConsoleLib.Console;
@@ -10,11 +11,11 @@ namespace Plaidman.SaltShuffleRevival {
 		private readonly string Blueprint;
 		public bool FromBlueprint;
 		public string Name;
-		public string Desc;
 		public List<string> Factions;
 		public bool IsBaetyl;
 		public bool IsNamed;
 		public int Tier;
+		public bool IsHero;
 
 		public int Strength;
 		public int Agility;
@@ -27,17 +28,18 @@ namespace Plaidman.SaltShuffleRevival {
 		public string a;
 		public string DetailColor;
 		public string FgColor;
+		public string Desc;
 		
 		public FactionEntity(string blueprint) {
 			Blueprint = blueprint;
 			FromBlueprint = true;
+			Name = GameObjectFactory.Factory.GetBlueprint(blueprint).CachedDisplayNameStripped;
 		}
 		
 		public FactionEntity(GameObject go, bool fromBlueprint) {
 			Blueprint = null;
 
 			Name = go.DisplayNameStripped;
-			Desc = ColorUtility.StripFormatting(go.GetPart<Description>().Short);
 			Factions = FactionUtils.GetCreatureFactions(go, false);
 			Strength = go.GetStatValue("Strength");
 			Agility = go.GetStatValue("Agility");
@@ -53,6 +55,14 @@ namespace Plaidman.SaltShuffleRevival {
 			FgColor = ColorUtility.StripBackgroundFormatting(go.Render.ColorString);
 			FromBlueprint = fromBlueprint;
 			IsNamed = go.HasProperName;
+			IsHero = go.GetTag("Role", "None") == "Hero";
+
+			try {
+				Desc = ColorUtility.StripFormatting(go.GetPart<Description>().GetShortDescription(true, true));
+			} catch (Exception) {
+				// traipsing mortar was having issues getting description in game init, so we just default to the non-minevented short description
+				Desc = ColorUtility.StripFormatting(go.GetPart<Description>()._Short);
+			}
 		}
 
 		public FactionEntity GetCreature() {
@@ -97,8 +107,8 @@ namespace Plaidman.SaltShuffleRevival {
 			return factionMembers;
 		}
 
-		public static void AddFactionMembers(string faction, FactionEntity fe) {
-			// TODO check to see if there is already an object with the matching name and value
+		public static void AddFactionMember(string faction, FactionEntity fe) {
+			// TODO don't include the same tier/name object more than once
 			GetFactionMembers(faction).Add(fe);
 		}
 
@@ -116,14 +126,24 @@ namespace Plaidman.SaltShuffleRevival {
 
 		// used when creating a deck for a creature
 		public static List<string> GetCreatureFactions(GameObject go, bool onlyPopulated) {
+			UnityEngine.Debug.Log("- gathering factions");
 			if (go.Brain == null) {
 				return new();
 			}
 
 			return go.Brain.Allegiance
 				.Where(kvp => {
-					if (onlyPopulated && GetFactionMembers(kvp.Key).Count < MinEntities) return false;
-					return Brain.GetAllegianceLevel(kvp.Value) == Brain.AllegianceLevel.Member;
+					UnityEngine.Debug.Log("  - testing " + kvp.Key);
+					var factionMembers = GetFactionMembers(kvp.Key).Count;
+					if (onlyPopulated && factionMembers < MinEntities) {
+						UnityEngine.Debug.Log("  - not enough members " + factionMembers);
+						return false;
+					}
+
+					var level = Brain.GetAllegianceLevel(kvp.Value);
+					UnityEngine.Debug.Log("  - allegiance level " + level);
+					
+					return level == Brain.AllegianceLevel.Member;
 				})
 				.Select(kvp => kvp.Key)
 				.ToList();
