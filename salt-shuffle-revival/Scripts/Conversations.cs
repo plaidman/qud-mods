@@ -23,7 +23,7 @@ namespace XRL.World.Conversations.Parts {
 
 			if (The.Speaker.Brain == null) return Reason.NoBrain;
 			if (The.Speaker.Brain.IsHostileTowards(The.Player)) return Reason.HatePlayer;
-			if (FactionUtils.GetCreatureFactions(The.Speaker, true).Count == 0) return Reason.NoFactions;
+			if (FactionTracker.GetCreatureFactions(The.Speaker, true).Count == 0) return Reason.NoFactions;
 			if (The.Speaker.IsEngagedInMelee()) return Reason.Busy;
 
 			return Reason.CanPlay;

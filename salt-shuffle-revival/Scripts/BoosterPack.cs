@@ -38,7 +38,7 @@ namespace XRL.World.Parts {
 				Faction = null;
 				ParentObject.DisplayName = "Salt Shuffle starter deck";
 			} else {
-				Faction = FactionUtils.GetRandomFaction();
+				Faction = FactionTracker.GetRandomFaction();
 				ParentObject.DisplayName = "pack of Salt Shuffle cards: " + Factions.Get(Faction).DisplayName;
 			}
 

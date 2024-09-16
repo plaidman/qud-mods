@@ -27,7 +27,7 @@ namespace XRL.World.Parts {
 		public static GameObject CreateCard() {
 			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
 			var part = card.GetPart<SSR_Card>();
-			part.SetCreature(FactionUtils.GetRandomCreature());
+			part.SetCreature(FactionTracker.GetRandomCreature());
 			return card;
 		}
 
@@ -35,7 +35,7 @@ namespace XRL.World.Parts {
 		public static GameObject CreateCard(string faction) {
 			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
 			var part = card.GetPart<SSR_Card>();
-			part.SetCreature(FactionUtils.GetRandomCreature(faction));
+			part.SetCreature(FactionTracker.GetRandomCreature(faction));
 			return card;
 		}
 
@@ -48,7 +48,7 @@ namespace XRL.World.Parts {
 		}
 
 		private void SetCreature(FactionEntity fe) {
-			fe ??= FactionUtils.GetRandomCreature();
+			fe ??= FactionTracker.GetRandomCreature();
 
 			// TODO "hero" or named creature gets more chance to be shiny
 			// TODO shiny cards get an extra boost in stats?
