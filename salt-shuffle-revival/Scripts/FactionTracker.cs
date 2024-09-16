@@ -11,17 +11,17 @@ namespace Plaidman.SaltShuffleRevival {
 		public void mutate(GameObject go) {
 			var system = The.Game.RequireSystem<FactionTracker>();
 			system.InitFactionMemberCache();
-			FactionTracker.Instance = system;
+			FactionTracker.InitInstance();
 		}
 	}
 	
 	[Serializable]
 	class FactionTracker : IGameSystem {
 		[NonSerialized]
-		public static FactionTracker Instance;
-		private Dictionary<string, List<FactionEntity>> FactionMemberCache = null;
+		private static FactionTracker Instance;
+		public Dictionary<string, List<FactionEntity>> FactionMemberCache;
 
-		private static void InitInstance() {
+		public static void InitInstance() {
 			Instance ??= The.Game.GetSystem<FactionTracker>();
 		}
 
@@ -59,6 +59,7 @@ namespace Plaidman.SaltShuffleRevival {
 			if (go.GetBlueprint().IsBaseBlueprint()) {
 				return;
 			}
+			
 			
 			var entity = new FactionEntity(go, false);
 			foreach (var faction in entity.Factions) {
@@ -99,8 +100,6 @@ namespace Plaidman.SaltShuffleRevival {
         }
 
         public override bool HandleEvent(AfterZoneBuiltEvent e) {
-			XRL.Messages.MessageQueue.AddPlayerMessage("after zone built event");
-
 			// TODO whitespaces before deploy
 			var creatures = e.Zone.GetObjectsThatInheritFrom("Creature");
 			foreach (var creature in creatures) {

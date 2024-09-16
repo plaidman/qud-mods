@@ -5,10 +5,12 @@ using XRL.World;
 using XRL.World.Parts;
 
 namespace Plaidman.SaltShuffleRevival {
-	public class FactionEntity {
-		private readonly string Blueprint;
+	[Serializable]
+	public class FactionEntity : IComposite {
+		public readonly string Blueprint;
 		public bool FromBlueprint;
 		public string Name;
+
 		public List<string> Factions;
 		public bool IsBaetyl;
 		public bool IsNamed;
@@ -27,6 +29,8 @@ namespace Plaidman.SaltShuffleRevival {
 		public string DetailColor;
 		public string FgColor;
 		public string Desc;
+		
+		public FactionEntity() {}
 		
 		public FactionEntity(string blueprint) {
 			Blueprint = blueprint;
