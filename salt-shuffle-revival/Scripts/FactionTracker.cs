@@ -55,7 +55,6 @@ namespace Plaidman.SaltShuffleRevival {
 		}
 
 		private static void AddFactionMember(GameObject go) {
-			// TODO don't include the same tier/name object more than once
 			if (go.GetBlueprint().IsBaseBlueprint()) {
 				return;
 			}
@@ -63,7 +62,10 @@ namespace Plaidman.SaltShuffleRevival {
 			
 			var entity = new FactionEntity(go, false);
 			foreach (var faction in entity.Factions) {
-				GetFactionMembers(faction).Add(entity);
+				var factionMembers = GetFactionMembers(faction);
+				if (factionMembers.Any(member => member.Equals(entity)))
+					continue;
+				factionMembers.Add(entity);
 			}
 		}
 

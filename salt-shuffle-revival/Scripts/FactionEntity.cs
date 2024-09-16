@@ -74,5 +74,9 @@ namespace Plaidman.SaltShuffleRevival {
 			
 			return this;
 		}
+		
+		public bool Equals(FactionEntity other) {
+			return Name == other.Name && Tier == other.Tier;
+		}
 	}
 }
