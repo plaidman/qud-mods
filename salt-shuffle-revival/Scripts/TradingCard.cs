@@ -115,8 +115,7 @@ namespace XRL.World.Parts {
 
 			PointValue = SunScore + MoonScore + StarScore;
 
-			ParentObject.Render.ColorString = fe.FgColor;
-			ParentObject.Render.DetailColor = fe.DetailColor;
+			SetColors(fe);
 			SetDescription(fe);
 			SetDisplayName(fe);
 		}
@@ -160,6 +159,11 @@ namespace XRL.World.Parts {
 				case 1: SunScore += boost; break;
 				case 2: StarScore += boost; break;
 			}
+		}
+
+		private void SetColors(FactionEntity fe) {
+			ParentObject.Render.ColorString = fe.FgColor;
+			ParentObject.Render.DetailColor = fe.DetailColor;
 		}
 
 		private void SetDescription(FactionEntity fe) {

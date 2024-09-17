@@ -182,14 +182,9 @@ namespace Plaidman.SaltShuffleRevival {
 				);
 
 				if (playerCard == -2 || playerCard == -1) {
-					Popup.WaitNewPopupMessage(
-						message: "Really quit playing?",
-						buttons: PopupMessage.YesNoButton,
-						DefaultSelected: 1,
-						callback: delegate (QudMenuItem item) {
-							if (item.command == "Yes") playerCard = -3;
-						}
-					);
+					if (Confirm.ShowNoYes("Really quit playing?")) {
+						playerCard = -3;
+					}
 				}
 			}
 			
