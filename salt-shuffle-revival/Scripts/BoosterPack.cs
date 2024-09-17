@@ -5,7 +5,7 @@ using XRL.UI;
 
 namespace XRL.World.Parts {
 	[Serializable]
-	public class SSR_BoosterPack : IPart {
+	public class SSR_BoosterPack : IPart, IModEventHandler<SSR_UninstallEvent> {
 		public string Faction;
 		public bool Starter = false;
 
@@ -23,8 +23,14 @@ namespace XRL.World.Parts {
 			registrar.Register(GetInventoryActionsEvent.ID);
 			registrar.Register(InventoryActionEvent.ID);
 			registrar.Register(ObjectCreatedEvent.ID);
+			registrar.Register(The.Game, SSR_UninstallEvent.ID);
 
 			base.Register(go, registrar);
+		}
+
+		public bool HandleEvent(SSR_UninstallEvent e) {
+			ParentObject.Destroy("uninstall", true);
+			return base.HandleEvent(e);
 		}
 
 		public override bool HandleEvent(ObjectCreatedEvent e) {

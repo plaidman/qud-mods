@@ -6,7 +6,7 @@ using XRL.Rules;
 
 namespace XRL.World.Parts {
 	[Serializable]
-	public class SSR_Card : IPart {
+	public class SSR_Card : IPart, IModEventHandler<SSR_UninstallEvent> {
 		public int SunScore = 0;
 		public int MoonScore = 0;
 		public int StarScore = 0;
@@ -35,6 +35,7 @@ namespace XRL.World.Parts {
         public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(ObjectCreatedEvent.ID);
 			registrar.Register(GetIntrinsicValueEvent.ID);
+			registrar.Register(The.Game, SSR_UninstallEvent.ID);
 			base.Register(go, registrar);
 		}
 
@@ -43,6 +44,11 @@ namespace XRL.World.Parts {
             return base.HandleEvent(e);
         }
 
+		public bool HandleEvent(SSR_UninstallEvent e) {
+			ParentObject.Destroy("uninstall", true);
+			return base.HandleEvent(e);
+		}
+
         public override bool HandleEvent(ObjectCreatedEvent e) {
 			ParentObject.SetIntProperty("NeverStack", 1);
 			return base.HandleEvent(e);
@@ -50,7 +56,7 @@ namespace XRL.World.Parts {
 
 		// opening a starter deck
 		public static GameObject CreateCard() {
-			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
+			var card = GameObjectFactory.Factory.CreateObject("SSR_Card");
 			var part = card.GetPart<SSR_Card>();
 			part.SetCreature(FactionTracker.GetRandomCreature());
 			return card;
@@ -58,7 +64,7 @@ namespace XRL.World.Parts {
 
 		// opening a booster and generate a deck for an opponent
 		public static GameObject CreateCard(string faction) {
-			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
+			var card = GameObjectFactory.Factory.CreateObject("SSR_Card");
 			var part = card.GetPart<SSR_Card>();
 			part.SetCreature(FactionTracker.GetRandomCreature(faction));
 			return card;
@@ -66,7 +72,7 @@ namespace XRL.World.Parts {
 
 		// when the opponent is bested in card combat	
 		public static GameObject CreateCard(GameObject go) {
-			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
+			var card = GameObjectFactory.Factory.CreateObject("SSR_Card");
 			var part = card.GetPart<SSR_Card>();
 			part.SetCreature(new FactionEntity(go, false));
 			return card;

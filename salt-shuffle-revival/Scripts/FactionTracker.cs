@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using XRL;
+using XRL.UI;
 using XRL.World;
 using XRL.World.Parts;
 
@@ -19,6 +20,8 @@ namespace Plaidman.SaltShuffleRevival {
 	class FactionTracker : IGameSystem {
 		[NonSerialized]
 		private static FactionTracker Instance;
+		[NonSerialized]
+		const string UninstallCommand = "Plaidman_SaltShuffleRevival_Command_Uninstall";
 		public Dictionary<string, List<FactionEntity>> FactionMemberCache;
 
 		public static void InitInstance() {
@@ -98,6 +101,7 @@ namespace Plaidman.SaltShuffleRevival {
 
         public override void Register(XRLGame game, IEventRegistrar registrar) {
 			registrar.Register(AfterZoneBuiltEvent.ID);
+			registrar.Register(CommandEvent.ID);
             base.Register(game, registrar);
         }
 
@@ -109,5 +113,25 @@ namespace Plaidman.SaltShuffleRevival {
 			
             return base.HandleEvent(e);
         }
+
+		public override bool HandleEvent(CommandEvent e) {
+			if (e.Command == UninstallCommand) {
+				UninstallParts();
+			}
+
+			return base.HandleEvent(e);
+		}
+
+		public void UninstallParts() {
+			if (!Confirm.ShowNoYes("Are you sure you want to uninstall {{W|Salt Shuffle Revival}}? All cards and booster packs will be removed.")) {
+				XRL.Messages.MessageQueue.AddPlayerMessage("{{W|Salt Shuffle Revival}} uninstall was cancelled.");
+				return;
+			}
+
+			The.Game.HandleEvent(new SSR_UninstallEvent());
+			The.Game.RemoveSystem(this);
+
+			Popup.Show("Finished removing {{W|Salt Shuffle Revival}}. Please save and quit, then you can remove this mod.");
+		}
     }
 }
