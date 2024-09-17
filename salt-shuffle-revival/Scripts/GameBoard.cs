@@ -170,10 +170,6 @@ namespace Plaidman.SaltShuffleRevival {
 					hotkey = "Cancel",
 				},
 			};
-			var confirmButtons = new List<QudMenuItem> {
-				PopupMessage.YesNoButton[1],
-				PopupMessage.YesNoButton[0],
-			};
 
 			int playerCard = -2;
 			while (playerCard == -2) {
@@ -188,7 +184,8 @@ namespace Plaidman.SaltShuffleRevival {
 				if (playerCard == -2 || playerCard == -1) {
 					Popup.WaitNewPopupMessage(
 						message: "Really quit playing?",
-						buttons: confirmButtons,
+						buttons: PopupMessage.YesNoButton,
+						DefaultSelected: 1,
 						callback: delegate (QudMenuItem item) {
 							if (item.command == "Yes") playerCard = -3;
 						}
