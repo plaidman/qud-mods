@@ -75,8 +75,6 @@ namespace XRL.World.Parts {
 		private void SetCreature(FactionEntity fe) {
 			fe ??= FactionTracker.GetRandomCreature();
 
-			// TODO shiny cards flash
-			
 			int foilChance = 10;
 			if (fe.IsNamed) foilChance = 5;
 			if (Stat.Rnd2.Next(foilChance) == 0) Foil = true;

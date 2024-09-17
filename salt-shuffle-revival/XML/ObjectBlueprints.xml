@@ -26,7 +26,17 @@
 		<part Name="NoRust" />
 	</object>
 	<object Name="Plaidman_SSR_BoosterBox" Inherits="Chest">
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="10" />
+		<!-- Number="10" was generating 10x of the same faction -->
+		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
 		<tag Name="ExcludeFromDynamicEncounters" />
 		<tag Name="NoSparkingQuest" />
 	</object>
