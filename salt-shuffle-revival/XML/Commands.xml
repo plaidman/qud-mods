@@ -1,0 +1,3 @@
+<commands>
+	<command ID="Plaidman_SaltShuffleRevival_Command_Uninstall" DisplayText="Uninstall Mod" Category="Mod: Salt Shuffle Revival" Layer="Adventure" Auto="Down"></command>
+</commands>
