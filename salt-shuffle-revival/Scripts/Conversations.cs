@@ -53,8 +53,7 @@ namespace XRL.World.Conversations.Parts {
 		}
 
 		public override bool HandleEvent(IsElementVisibleEvent e) {
-			var reason = CanPlay();
-			return reason != Reason.NoBrain && reason != Reason.NoFactions;
+			return CanPlay() != Reason.NoBrain;
 		}
 
 		public override bool HandleEvent(PrepareTextEvent e) {
@@ -77,6 +76,10 @@ namespace XRL.World.Conversations.Parts {
 
 				case Reason.CardCount:
 					Popup.Show("You need at least 10 cards to play.\n\n{{K|You may have a starter pack in your inventory.\nYou can also find booster packs around the world.}}");
+					return base.HandleEvent(e);
+
+				case Reason.NoFactions:
+					Popup.Show(The.Speaker.It + The.Speaker.GetVerb("do") + "n't have any cards.");
 					return base.HandleEvent(e);
 
 				case Reason.HatePlayer:
