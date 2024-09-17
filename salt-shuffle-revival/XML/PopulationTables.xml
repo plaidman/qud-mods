@@ -1,48 +1,48 @@
 <populations>
 	<population Name="StartingGear_Common" Load="Merge">
 		<group Name="Items" Style="pickeach">
-			<object Blueprint="Plaidman_SSR_Starter" Number="1"></object>
+			<object Blueprint="SSR_Starter" Number="1"></object>
 		</group>
 	</population>
 
 	<population Name="Trinkets 1">
 		<group Name="Items" Style="pickone">
-			<object Weight="35" Number="1" Blueprint="Plaidman_SSR_Booster" />
+			<object Weight="35" Number="1" Blueprint="SSR_Booster" />
 		</group>
 	</population>
 	<population Name="Trinkets 2">
 		<group Name="Items" Style="pickone">
-			<object Weight="35" Number="1" Blueprint="Plaidman_SSR_Booster" />
+			<object Weight="35" Number="1" Blueprint="SSR_Booster" />
 		</group>
 	</population>
 	<population Name="Trinkets 3">
 		<group Name="Items" Style="pickone">
-			<object Weight="35" Number="1" Blueprint="Plaidman_SSR_Booster" />
+			<object Weight="35" Number="1" Blueprint="SSR_Booster" />
 		</group>
 	</population>
 	<population Name="Trinkets 4">
 		<group Name="Items" Style="pickone">
-			<object Weight="35" Number="1" Blueprint="Plaidman_SSR_Booster" />
+			<object Weight="35" Number="1" Blueprint="SSR_Booster" />
 		</group>
 	</population>
 	<population Name="Trinkets 5">
 		<group Name="Items" Style="pickone">
-			<object Weight="35" Number="1" Blueprint="Plaidman_SSR_Booster" />
+			<object Weight="35" Number="1" Blueprint="SSR_Booster" />
 		</group>
 	</population>
 	<population Name="Trinkets 6">
 		<group Name="Items" Style="pickone">
-			<object Weight="35" Number="1" Blueprint="Plaidman_SSR_Booster" />
+			<object Weight="35" Number="1" Blueprint="SSR_Booster" />
 		</group>
 	</population>
 	<population Name="Trinkets 7">
 		<group Name="Items" Style="pickone">
-			<object Weight="35" Number="1" Blueprint="Plaidman_SSR_Booster" />
+			<object Weight="35" Number="1" Blueprint="SSR_Booster" />
 		</group>
 	</population>
 	<population Name="Trinkets 8">
 		<group Name="Items" Style="pickone">
-			<object Weight="35" Number="1" Blueprint="Plaidman_SSR_Booster" />
+			<object Weight="35" Number="1" Blueprint="SSR_Booster" />
 		</group>
 	</population>
 </populations>

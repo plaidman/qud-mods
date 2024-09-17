@@ -1,5 +1,5 @@
 <objects>
-	<object Name="Plaidman_SSR_Booster" Inherits="Item">
+	<object Name="SSR_Booster" Inherits="Item">
 		<part Name="Render" Tile="items/SSR_Booster.png" DetailColor="O" ColorString="&amp;C" />
 		<part Name="Physics" Weight="1" Category="Trading Cards" />
 		<part Name="SSR_BoosterPack" />
@@ -7,7 +7,7 @@
 		<part Name="Commerce" Value="10" />
 		<part Name="NoRust" />
 	</object>
-	<object Name="Plaidman_SSR_Starter" Inherits="Item">
+	<object Name="SSR_Starter" Inherits="Item">
 		<part Name="Render" Tile="items/SSR_Booster.png" DetailColor="W" ColorString="&amp;y" />
 		<part Name="Physics" Weight="1" Category="Trading Cards" />
 		<part Name="SSR_BoosterPack" Starter="true" />
@@ -15,7 +15,7 @@
 		<part Name="Commerce" Value="0" />
 		<part Name="NoRust" />
 	</object>
-	<object Name="Plaidman_SSR_Card" Inherits="Item">
+	<object Name="SSR_Card" Inherits="Item">
 		<part Name="Render" Tile="items/SSR_Card.png" DetailColor="M" ColorString="&amp;c" />
 		<part Name="SSR_Card" />
 		<part Name="Description" Short="A Salt Shuffle card. Fingerprint smudges make it hard to read." />
@@ -25,18 +25,18 @@
 		<tag Name="NoSparkingQuest" />
 		<part Name="NoRust" />
 	</object>
-	<object Name="Plaidman_SSR_BoosterBox" Inherits="Chest">
+	<object Name="SSR_BoosterBox" Inherits="Chest">
 		<!-- Number="10" was generating 10x of the same faction -->
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="SSR_Booster" Number="1" />
+		<inventoryobject Blueprint="SSR_Booster" Number="1" />
 		<tag Name="ExcludeFromDynamicEncounters" />
 		<tag Name="NoSparkingQuest" />
 	</object>
