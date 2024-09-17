@@ -20,12 +20,13 @@
 		<part Name="SSR_Card" />
 		<part Name="Description" Short="A Salt Shuffle card. Fingerprint smudges make it hard to read." />
 		<part Name="Physics" Weight="0" Category="Trading Cards" />
+		<part Name="Commerce" Value="1" />
 		<tag Name="ExcludeFromDynamicEncounters" />
 		<tag Name="NoSparkingQuest" />
 		<part Name="NoRust" />
 	</object>
 	<object Name="Plaidman_SSR_BoosterBox" Inherits="Chest">
-		<inventoryobject Blueprint="SSR_Booster" Number="10" />
+		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="10" />
 		<tag Name="ExcludeFromDynamicEncounters" />
 		<tag Name="NoSparkingQuest" />
 	</object>

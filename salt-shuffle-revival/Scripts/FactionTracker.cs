@@ -103,6 +103,14 @@ namespace Plaidman.SaltShuffleRevival {
 
         public override bool HandleEvent(AfterZoneBuiltEvent e) {
 			// TODO whitespaces before deploy
+			// TODO test old save vs new load with starter pack
+			// TODO test old save vs new load with cards
+			// TODO error when saving game FactionEntity saving as binary
+			//   maybe already fixed
+			// TODO replace read/write code with namedfields
+			// TODO default button on forfeit game confirmation should be no, but it should be the 2nd option
+			// TODO boosterbox should have a chance to spawn
+			// TODO boosterbox only spawns 10x one faction - it should spawn 10x different random factions
 			var creatures = e.Zone.GetObjectsThatInheritFrom("Creature");
 			foreach (var creature in creatures) {
 				AddFactionMember(creature);

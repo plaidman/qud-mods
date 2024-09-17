@@ -12,13 +12,38 @@ namespace XRL.World.Parts {
 		public int StarScore = 0;
 		public int PointValue = 0;
 		public string ShortDisplayName = "";
+		public bool Foil = false;
 
-		public override void Register(GameObject go, IEventRegistrar registrar) {
+        public override void Write(GameObject basis, SerializationWriter writer) {
+			writer.WriteNamedFields(this, GetType());
+        }
+
+        public override void Read(GameObject basis, SerializationReader reader) {
+			if (reader.ModVersions["Plaidman_SaltShuffleRevival"] == new Version("1.0.0")) {
+				SunScore = reader.ReadInt32();
+				MoonScore = reader.ReadInt32();
+				StarScore = reader.ReadInt32();
+				PointValue = reader.ReadInt32();
+				ShortDisplayName = reader.ReadOptimizedString();
+				Foil = false;
+				return;
+			}
+			
+            reader.ReadNamedFields(this, GetType());
+        }
+
+        public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(ObjectCreatedEvent.ID);
+			registrar.Register(GetIntrinsicValueEvent.ID);
 			base.Register(go, registrar);
 		}
 
-		public override bool HandleEvent(ObjectCreatedEvent e) {
+        public override bool HandleEvent(GetIntrinsicValueEvent e) {
+			e.Value = Foil ? 3 : 1;
+            return base.HandleEvent(e);
+        }
+
+        public override bool HandleEvent(ObjectCreatedEvent e) {
 			ParentObject.SetIntProperty("NeverStack", 1);
 			return base.HandleEvent(e);
 		}
@@ -50,8 +75,11 @@ namespace XRL.World.Parts {
 		private void SetCreature(FactionEntity fe) {
 			fe ??= FactionTracker.GetRandomCreature();
 
-			// TODO "hero" or named creature gets more chance to be shiny
-			// TODO shiny cards get an extra boost in stats?
+			// TODO shiny cards flash
+			
+			int foilChance = 10;
+			if (fe.IsNamed) foilChance = 5;
+			if (Stat.Rnd2.Next(foilChance) == 0) Foil = true;
 
 			float sunScore = 2;
 			float moonScore = 2;
@@ -79,6 +107,7 @@ namespace XRL.World.Parts {
 			SunScore += error;
 
 			BoostLowLevel();
+			BoostFoil();
 
 			if (fe.IsBaetyl) {
 				SunScore = -5;
@@ -105,11 +134,7 @@ namespace XRL.World.Parts {
 			var boost = Stat.Rnd2.Next(2) + 3; // start with 3 or 4 point boost
 			for (int i = 0; i < times; i++) {
 				var stat = Stat.Rnd2.Next(3);
-				switch (stat) {
-					case 0: MoonScore += boost; break;
-					case 1: SunScore += boost; break;
-					case 2: StarScore += boost; break;
-				}
+				BoostStat(stat, boost);
 
 				// if card level is high enough after a loop, never do the second loop
 				if (MoonScore + StarScore + SunScore >= LowLevel) return;
@@ -117,9 +142,36 @@ namespace XRL.World.Parts {
 				boost = 2;
 			}
 		}
+		
+		private void BoostFoil() {
+			if (!Foil) return;
+
+			var first = Stat.Rnd2.Next(3);
+			var second = Stat.Rnd2.Next(2);
+			if (second == first) {
+				second = 2; // 0 => 2/1, 1 => 0/2, 2 => 0/1
+			}
+
+			BoostStat(first, 2);
+			BoostStat(second, 1);
+		}
+
+		private void BoostStat(int stat, int boost) {
+			switch (stat) {
+				case 0: MoonScore += boost; break;
+				case 1: SunScore += boost; break;
+				case 2: StarScore += boost; break;
+			}
+		}
 
 		private void SetDescription(FactionEntity fe) {
-			var builder = new StringBuilder("A trading card with a stylized illustration of =a==name= plus various cryptic statistics.\n\n");
+			var builder = new StringBuilder();
+
+			if (Foil) {
+				builder.Append("A reflective trading card with an animated illustration of =a==name= plus various cryptic statistics. The card shimmers when viewed at different angles.\n\n");
+			} else {
+				builder.Append("A trading card with a stylized illustration of =a==name= plus various cryptic statistics.\n\n");
+			}
 
 			var factions = fe.Factions;
 			if (factions.Count > 0) {
@@ -151,9 +203,10 @@ namespace XRL.World.Parts {
 				.Execute();
 			ShortDisplayName = builder.ToString();
 
-			builder.Append(" {{K|(Lv =lv=)}}");
+			builder.Append(" {{K|(Lv =lv==foil=)}}");
 			builder.StartReplace()
 				.AddReplacer("lv", PointValue.ToString())
+				.AddReplacer("foil", Foil ? "\xf7" : "")
 				.Execute();
 			ParentObject.DisplayName = builder.ToString();
 		}
