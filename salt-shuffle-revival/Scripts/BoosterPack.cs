@@ -29,7 +29,8 @@ namespace XRL.World.Parts {
 		}
 
 		public bool HandleEvent(SSR_UninstallEvent e) {
-			ParentObject.Destroy("uninstall", true);
+			ParentObject.Count = 1;
+			ParentObject.Obliterate("uninstall", true);
 			return base.HandleEvent(e);
 		}
 
