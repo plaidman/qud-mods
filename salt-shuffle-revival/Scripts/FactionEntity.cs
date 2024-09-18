@@ -27,18 +27,18 @@ namespace Plaidman.SaltShuffleRevival {
 		public string DetailColor;
 		public string FgColor;
 		public string Desc;
-		
+
 		public bool WantFieldReflection => false;
 		public void Write(SerializationWriter writer) { writer.WriteNamedFields(this, GetType()); }
 		public void Read(SerializationReader reader) { reader.ReadNamedFields(this, GetType()); }
-		
+
 		public FactionEntity() {}
-		
+
 		public FactionEntity(string blueprint) {
 			Blueprint = blueprint;
 			Name = GameObjectFactory.Factory.GetBlueprint(blueprint).CachedDisplayNameStripped;
 		}
-		
+
 		public FactionEntity(GameObject go, bool fromBlueprint) {
 			Blueprint = null;
 
@@ -71,10 +71,10 @@ namespace Plaidman.SaltShuffleRevival {
 				// create a new FE based on a GO so we can take advantage of BP dice rolls for stats
 				return new(GameObjectFactory.Factory.CreateSampleObject(Blueprint), true);
 			}
-			
+
 			return this;
 		}
-		
+
 		public bool Equals(FactionEntity other) {
 			return Name == other.Name && Tier == other.Tier;
 		}

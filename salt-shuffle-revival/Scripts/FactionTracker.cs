@@ -13,7 +13,7 @@ namespace Plaidman.SaltShuffleRevival {
 			FactionTracker.GetInstance();
 		}
 	}
-	
+
 	[Serializable]
 	class FactionTracker : IPlayerSystem {
 		[NonSerialized]
@@ -23,10 +23,10 @@ namespace Plaidman.SaltShuffleRevival {
 		public Dictionary<string, List<FactionEntity>> FactionMemberCache;
 
 		public override bool WantFieldReflection => false;
-        public override void Write(SerializationWriter writer) { writer.WriteNamedFields(this, GetType()); }
-        public override void Read(SerializationReader reader) { reader.ReadNamedFields(this, GetType()); }
+		public override void Write(SerializationWriter writer) { writer.WriteNamedFields(this, GetType()); }
+		public override void Read(SerializationReader reader) { reader.ReadNamedFields(this, GetType()); }
 
-        public static FactionTracker GetInstance() {
+		public static FactionTracker GetInstance() {
 			if (Instance != null) return Instance;
 			if (The.Game == null) return new();
 
@@ -53,25 +53,25 @@ namespace Plaidman.SaltShuffleRevival {
 			}
 		}
 
-        public override void Register(XRLGame game, IEventRegistrar registrar) {
+		public override void Register(XRLGame game, IEventRegistrar registrar) {
 			registrar.Register(AfterZoneBuiltEvent.ID);
-            base.Register(game, registrar);
-        }
-		
-        public override void RegisterPlayer(GameObject player, IEventRegistrar registrar) {
-			registrar.Register(CommandEvent.ID);
-            base.RegisterPlayer(player, registrar);
-        }
+			base.Register(game, registrar);
+		}
 
-        public override bool HandleEvent(AfterZoneBuiltEvent e) {
+		public override void RegisterPlayer(GameObject player, IEventRegistrar registrar) {
+			registrar.Register(CommandEvent.ID);
+			base.RegisterPlayer(player, registrar);
+		}
+
+		public override bool HandleEvent(AfterZoneBuiltEvent e) {
 			var creatures = e.Zone.GetObjectsThatInheritFrom("Creature");
 			foreach (var creature in creatures) {
 				AddFactionMember(creature);
 			}
-			
-            return base.HandleEvent(e);
-        }
-		
+
+			return base.HandleEvent(e);
+		}
+
 		public override bool HandleEvent(CommandEvent e) {
 			if (e.Command == UninstallCommand) {
 				UninstallParts();
@@ -98,7 +98,7 @@ namespace Plaidman.SaltShuffleRevival {
 			if (instance.FactionMemberCache.TryGetValue(faction, out List<FactionEntity> factionMembers)) {
 				return factionMembers;
 			}
-			
+
 			factionMembers = new();
 			instance.FactionMemberCache.Add(faction, factionMembers);
 			return factionMembers;
@@ -108,7 +108,7 @@ namespace Plaidman.SaltShuffleRevival {
 			if (go.GetBlueprint().IsBaseBlueprint()) {
 				return;
 			}
-			
+
 			var entity = new FactionEntity(go, false);
 			foreach (var faction in entity.Factions) {
 				var factionMembers = GetFactionMembers(faction);
@@ -123,7 +123,7 @@ namespace Plaidman.SaltShuffleRevival {
 				.Select(kvp => kvp.Key)
 				.GetRandomElementCosmetic();
 		}
-		
+
 		public static FactionEntity GetRandomCreature(string faction = null) {
 			faction ??= GetRandomFaction();
 			return GetFactionMembers(faction).GetRandomElementCosmetic().GetCreature();
@@ -141,5 +141,5 @@ namespace Plaidman.SaltShuffleRevival {
 				.Select(kvp => kvp.Key)
 				.ToList();
 		}
-    }
+	}
 }

@@ -187,10 +187,10 @@ namespace Plaidman.SaltShuffleRevival {
 					}
 				}
 			}
-			
+
 			return playerCard;
 		}
-		
+
 		private static void ResolvePlayerTurn(int playerCard) {
 			NewsBuilder.Clear();
 

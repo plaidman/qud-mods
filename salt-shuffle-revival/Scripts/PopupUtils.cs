@@ -14,7 +14,7 @@ namespace Plaidman.SaltShuffleRevival {
 					if (item.command == "Yes") result = true;
 				}
 			);
-			
+
 			return result;
 		}
 	}

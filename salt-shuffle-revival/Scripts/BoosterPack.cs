@@ -9,7 +9,7 @@ namespace XRL.World.Parts {
 		public string Faction;
 		public bool Starter = false;
 
-        public override void Read(GameObject basis, SerializationReader reader) {
+		public override void Read(GameObject basis, SerializationReader reader) {
 			if (reader.ModVersions["Plaidman_SaltShuffleRevival"] == new Version("1.0.0")) {
 				Faction = (reader.ReadObject() as Faction)?.Name ?? null;
 				Starter = reader.ReadBoolean();
@@ -17,9 +17,9 @@ namespace XRL.World.Parts {
 			}
 
 			base.Read(basis, reader);
-        }
+		}
 
-        public override void Register(GameObject go, IEventRegistrar registrar) {
+		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(GetInventoryActionsEvent.ID);
 			registrar.Register(InventoryActionEvent.ID);
 			registrar.Register(ObjectCreatedEvent.ID);

@@ -14,7 +14,7 @@ namespace XRL.World.Parts {
 		public string ShortDisplayName = "";
 		public bool Foil = false;
 
-        public override void Read(GameObject basis, SerializationReader reader) {
+		public override void Read(GameObject basis, SerializationReader reader) {
 			if (reader.ModVersions["Plaidman_SaltShuffleRevival"] == new Version("1.0.0")) {
 				SunScore = reader.ReadInt32();
 				MoonScore = reader.ReadInt32();
@@ -24,30 +24,30 @@ namespace XRL.World.Parts {
 				Foil = false;
 				return;
 			}
-			
-			base.Read(basis, reader);
-        }
 
-        public override void Register(GameObject go, IEventRegistrar registrar) {
+			base.Read(basis, reader);
+		}
+
+		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(ObjectCreatedEvent.ID);
 			registrar.Register(GetIntrinsicValueEvent.ID);
 			registrar.Register(The.Game, SSR_UninstallEvent.ID);
 			base.Register(go, registrar);
 		}
 
-        public override bool HandleEvent(GetIntrinsicValueEvent e) {
+		public override bool HandleEvent(GetIntrinsicValueEvent e) {
 			e.Value = .75;
 			if (Foil) e.Value *= 4;
 
-            return base.HandleEvent(e);
-        }
+			return base.HandleEvent(e);
+		}
 
 		public bool HandleEvent(SSR_UninstallEvent e) {
 			ParentObject.Obliterate("uninstall", true);
 			return base.HandleEvent(e);
 		}
 
-        public override bool HandleEvent(ObjectCreatedEvent e) {
+		public override bool HandleEvent(ObjectCreatedEvent e) {
 			ParentObject.SetIntProperty("NeverStack", 1);
 			return base.HandleEvent(e);
 		}
@@ -68,7 +68,7 @@ namespace XRL.World.Parts {
 			return card;
 		}
 
-		// when the opponent is bested in card combat	
+		// when the opponent is bested in card combat
 		public static GameObject CreateCard(GameObject go) {
 			var card = GameObjectFactory.Factory.CreateObject("SSR_Card");
 			var part = card.GetPart<SSR_Card>();
@@ -162,7 +162,7 @@ namespace XRL.World.Parts {
 				boost = 2;
 			}
 		}
-		
+
 		private void BoostFoil() {
 			if (!Foil) return;
 
