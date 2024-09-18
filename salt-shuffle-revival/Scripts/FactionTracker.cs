@@ -10,9 +10,7 @@ namespace Plaidman.SaltShuffleRevival {
 	[PlayerMutator]
 	class FactionTrackerInit : IPlayerMutator {
 		public void mutate(GameObject go) {
-			var system = The.Game.RequireSystem<FactionTracker>();
-			system.InitFactionMemberCache();
-			FactionTracker.InitInstance();
+			FactionTracker.GetInstance();
 		}
 	}
 	
@@ -24,13 +22,19 @@ namespace Plaidman.SaltShuffleRevival {
 		const string UninstallCommand = "Plaidman_SaltShuffleRevival_Command_Uninstall";
 		public Dictionary<string, List<FactionEntity>> FactionMemberCache;
 
-		public static void InitInstance() {
-			Instance ??= The.Game.GetSystem<FactionTracker>();
+		public static FactionTracker GetInstance() {
+			if (Instance != null) return Instance;
+			if (The.Game == null) return new();
+
+			Instance = The.Game.GetSystem<FactionTracker>();
+			if (Instance != null) return Instance;
+
+			Instance = new();
+			The.Game.AddSystem(Instance);
+			return Instance;
 		}
 
-		public void InitFactionMemberCache() {
-			if (FactionMemberCache != null) return;
-
+		public FactionTracker() {
 			FactionMemberCache = new();
 
 			var factionList = Factions.GetList().Where(f => {
@@ -85,14 +89,14 @@ namespace Plaidman.SaltShuffleRevival {
 		}
 
 		private static List<FactionEntity> GetFactionMembers(string faction) {
-			InitInstance();
-			
-			if (Instance.FactionMemberCache.TryGetValue(faction, out List<FactionEntity> factionMembers)) {
+			var instance = GetInstance();
+
+			if (instance.FactionMemberCache.TryGetValue(faction, out List<FactionEntity> factionMembers)) {
 				return factionMembers;
 			}
 			
 			factionMembers = new();
-			Instance.FactionMemberCache.Add(faction, factionMembers);
+			instance.FactionMemberCache.Add(faction, factionMembers);
 			return factionMembers;
 		}
 
@@ -101,20 +105,16 @@ namespace Plaidman.SaltShuffleRevival {
 				return;
 			}
 			
-			
 			var entity = new FactionEntity(go, false);
 			foreach (var faction in entity.Factions) {
 				var factionMembers = GetFactionMembers(faction);
-				if (factionMembers.Any(member => member.Equals(entity)))
-					continue;
+				if (factionMembers.Any(member => member.Equals(entity))) continue;
 				factionMembers.Add(entity);
 			}
 		}
 
 		public static string GetRandomFaction() {
-			InitInstance();
-			
-			return Instance.FactionMemberCache
+			return GetInstance().FactionMemberCache
 				.Where(kvp => kvp.Value.Count > 0)
 				.Select(kvp => kvp.Key)
 				.GetRandomElementCosmetic();
