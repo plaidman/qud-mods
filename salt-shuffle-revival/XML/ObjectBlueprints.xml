@@ -4,7 +4,7 @@
 		<part Name="Physics" Weight="1" Category="Trading Cards" />
 		<part Name="SSR_BoosterPack" />
 		<part Name="Description" Short="A pack of five Salt Shuffle cards, all belonging to one specific faction." />
-		<part Name="Commerce" Value="10" />
+		<part Name="Commerce" Value="6" />
 		<part Name="NoRust" />
 	</object>
 	<object Name="SSR_Starter" Inherits="Item">

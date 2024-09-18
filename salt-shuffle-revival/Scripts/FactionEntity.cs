@@ -13,9 +13,7 @@ namespace Plaidman.SaltShuffleRevival {
 
 		public List<string> Factions;
 		public bool IsBaetyl;
-		public bool IsNamed;
 		public int Tier;
-		public bool IsHero;
 
 		public int Strength;
 		public int Agility;
@@ -59,8 +57,6 @@ namespace Plaidman.SaltShuffleRevival {
 			DetailColor = go.Render.DetailColor;
 			FgColor = ColorUtility.StripBackgroundFormatting(go.Render.ColorString);
 			FromBlueprint = fromBlueprint;
-			IsNamed = go.HasProperName;
-			IsHero = go.GetTag("Role", "None") == "Hero";
 
 			try {
 				Desc = ColorUtility.StripFormatting(go.GetPart<Description>().GetShortDescription(true, true));

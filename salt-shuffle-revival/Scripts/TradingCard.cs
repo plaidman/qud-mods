@@ -36,7 +36,9 @@ namespace XRL.World.Parts {
 		}
 
         public override bool HandleEvent(GetIntrinsicValueEvent e) {
-			e.Value = Foil ? 3 : 1;
+			e.Value = .75;
+			if (Foil) e.Value *= 4;
+
             return base.HandleEvent(e);
         }
 
@@ -77,10 +79,6 @@ namespace XRL.World.Parts {
 		private void SetCreature(FactionEntity fe) {
 			fe ??= FactionTracker.GetRandomCreature();
 
-			int foilChance = 10;
-			if (fe.IsNamed) foilChance = 5;
-			if (Stat.Rnd2.Next(foilChance) == 0) Foil = true;
-
 			float sunScore = 2;
 			float moonScore = 2;
 			float starScore = 2;
@@ -106,6 +104,7 @@ namespace XRL.World.Parts {
 			int error = xpLevel - (SunScore + MoonScore + StarScore);
 			SunScore += error;
 
+			if (Stat.Rnd2.Next(10) == 0) Foil = true;
 			NonBlueprintVariance(fe);
 			BoostLowLevel();
 			BoostFoil();
