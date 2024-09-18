@@ -110,6 +110,7 @@ namespace XRL.World.Parts {
 			int error = xpLevel - (SunScore + MoonScore + StarScore);
 			SunScore += error;
 
+			NonBlueprintVariance(fe);
 			BoostLowLevel();
 			BoostFoil();
 
@@ -124,6 +125,27 @@ namespace XRL.World.Parts {
 			SetColors(fe);
 			SetDescription(fe);
 			SetDisplayName(fe);
+		}
+
+		private void NonBlueprintVariance(FactionEntity fe) {
+			if (fe.FromBlueprint) return;
+
+			// blueprint entities have some natural variance in their dice rolls
+			// FEs that are generated from GOs are set in stone, so we artificially add some variance
+			// adjust each stat by 2d3 - 2 => -2,-1,-1,0,0,0,1,1,2
+			// if that would reduce the stat to zero or less, just use the old stat
+
+			var oldMoon = MoonScore;
+			MoonScore += Stat.Rnd2.Next(3) + Stat.Rnd2.Next(3) - 2;
+			if (MoonScore < 1) MoonScore = oldMoon;
+
+			var oldStar = StarScore;
+			StarScore += Stat.Rnd2.Next(3) + Stat.Rnd2.Next(3) - 2;
+			if (StarScore < 1) StarScore = oldStar;
+
+			var oldSun = SunScore;
+			SunScore += Stat.Rnd2.Next(3) + Stat.Rnd2.Next(3) - 2;
+			if (SunScore < 1) SunScore = oldSun;
 		}
 
 		// make low level cards more interesting by boosting a couple stats
