@@ -22,7 +22,11 @@ namespace Plaidman.SaltShuffleRevival {
 		const string UninstallCommand = "Plaidman_SaltShuffleRevival_Command_Uninstall";
 		public Dictionary<string, List<FactionEntity>> FactionMemberCache;
 
-		public static FactionTracker GetInstance() {
+		public override bool WantFieldReflection => false;
+        public override void Write(SerializationWriter writer) { writer.WriteNamedFields(this, GetType()); }
+        public override void Read(SerializationReader reader) { reader.ReadNamedFields(this, GetType()); }
+
+        public static FactionTracker GetInstance() {
 			if (Instance != null) return Instance;
 			if (The.Game == null) return new();
 

@@ -30,6 +30,10 @@ namespace Plaidman.SaltShuffleRevival {
 		public string FgColor;
 		public string Desc;
 		
+		public bool WantFieldReflection => false;
+		public void Write(SerializationWriter writer) { writer.WriteNamedFields(this, GetType()); }
+		public void Read(SerializationReader reader) { reader.ReadNamedFields(this, GetType()); }
+		
 		public FactionEntity() {}
 		
 		public FactionEntity(string blueprint) {

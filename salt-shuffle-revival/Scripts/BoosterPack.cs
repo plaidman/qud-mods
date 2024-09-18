@@ -5,7 +5,7 @@ using XRL.UI;
 
 namespace XRL.World.Parts {
 	[Serializable]
-	public class SSR_BoosterPack : IPart, IModEventHandler<SSR_UninstallEvent> {
+	public class SSR_BoosterPack : IScribedPart, IModEventHandler<SSR_UninstallEvent> {
 		public string Faction;
 		public bool Starter = false;
 

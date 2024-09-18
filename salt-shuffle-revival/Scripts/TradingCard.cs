@@ -6,17 +6,13 @@ using XRL.Rules;
 
 namespace XRL.World.Parts {
 	[Serializable]
-	public class SSR_Card : IPart, IModEventHandler<SSR_UninstallEvent> {
+	public class SSR_Card : IScribedPart, IModEventHandler<SSR_UninstallEvent> {
 		public int SunScore = 0;
 		public int MoonScore = 0;
 		public int StarScore = 0;
 		public int PointValue = 0;
 		public string ShortDisplayName = "";
 		public bool Foil = false;
-
-        public override void Write(GameObject basis, SerializationWriter writer) {
-			writer.WriteNamedFields(this, GetType());
-        }
 
         public override void Read(GameObject basis, SerializationReader reader) {
 			if (reader.ModVersions["Plaidman_SaltShuffleRevival"] == new Version("1.0.0")) {
@@ -29,7 +25,7 @@ namespace XRL.World.Parts {
 				return;
 			}
 			
-            reader.ReadNamedFields(this, GetType());
+			base.Read(basis, reader);
         }
 
         public override void Register(GameObject go, IEventRegistrar registrar) {
