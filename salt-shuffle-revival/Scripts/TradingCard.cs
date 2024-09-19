@@ -54,7 +54,7 @@ namespace XRL.World.Parts {
 
 		// opening a starter deck
 		public static GameObject CreateCard() {
-			var card = GameObjectFactory.Factory.CreateObject("SSR_Card");
+			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
 			var part = card.GetPart<SSR_Card>();
 			part.SetCreature(FactionTracker.GetRandomCreature());
 			return card;
@@ -62,7 +62,7 @@ namespace XRL.World.Parts {
 
 		// opening a booster and generate a deck for an opponent
 		public static GameObject CreateCard(string faction) {
-			var card = GameObjectFactory.Factory.CreateObject("SSR_Card");
+			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
 			var part = card.GetPart<SSR_Card>();
 			part.SetCreature(FactionTracker.GetRandomCreature(faction));
 			return card;
@@ -70,7 +70,7 @@ namespace XRL.World.Parts {
 
 		// when the opponent is bested in card combat
 		public static GameObject CreateCard(GameObject go) {
-			var card = GameObjectFactory.Factory.CreateObject("SSR_Card");
+			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
 			var part = card.GetPart<SSR_Card>();
 			part.SetCreature(new FactionEntity(go, false));
 			return card;
