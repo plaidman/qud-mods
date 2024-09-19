@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using XRL;
+using XRL.Language;
 using XRL.UI;
 using XRL.World;
 using XRL.World.Parts;
@@ -52,7 +53,7 @@ namespace Plaidman.SaltShuffleRevival {
 				FactionMemberCache.Add(faction.Name, factionMembers);
 			}
 		}
-
+		
 		public override void Register(XRLGame game, IEventRegistrar registrar) {
 			registrar.Register(AfterZoneBuiltEvent.ID);
 			base.Register(game, registrar);
@@ -115,6 +116,28 @@ namespace Plaidman.SaltShuffleRevival {
 				if (factionMembers.Any(member => member.Equals(entity))) continue;
 				factionMembers.Add(entity);
 			}
+		}
+		
+		public static string ClosestFaction(string faction) {
+			var keys = GetInstance().FactionMemberCache.Keys;
+			var factionToLower = faction.ToLower();
+			var closest = "";
+			var min = int.MaxValue;
+
+			foreach (var key in keys) {
+				var keyToLower = key.ToLower();
+				if (keyToLower.StartsWith("villagers of ")) {
+					keyToLower = keyToLower[13..];
+				}
+
+				var dist = Grammar.LevenshteinDistance(factionToLower, keyToLower, false);
+				if (dist >= min) continue;
+
+				closest = key;
+				min = dist;
+			}
+			
+			return closest;
 		}
 
 		public static string GetRandomFaction() {

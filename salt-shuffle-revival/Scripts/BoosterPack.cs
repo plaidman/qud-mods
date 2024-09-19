@@ -39,11 +39,15 @@ namespace XRL.World.Parts {
 				Faction = null;
 				ParentObject.DisplayName = "Salt Shuffle starter deck";
 			} else {
-				Faction = FactionTracker.GetRandomFaction();
-				ParentObject.DisplayName = "pack of Salt Shuffle cards: " + Factions.Get(Faction).DisplayName;
+				OverrideFaction(FactionTracker.GetRandomFaction());
 			}
 
 			return base.HandleEvent(e);
+		}
+		
+		public void OverrideFaction(string faction) {
+			Faction = faction;
+			ParentObject.DisplayName = "pack of Salt Shuffle cards: " + Factions.Get(faction).DisplayName;
 		}
 
 		public override bool HandleEvent(GetInventoryActionsEvent e) {
