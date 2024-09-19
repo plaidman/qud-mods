@@ -44,7 +44,7 @@ namespace XRL.World.Parts {
 
 			return base.HandleEvent(e);
 		}
-		
+
 		public void OverrideFaction(string faction) {
 			Faction = faction;
 			ParentObject.DisplayName = "pack of Salt Shuffle cards: " + Factions.Get(faction).DisplayName;

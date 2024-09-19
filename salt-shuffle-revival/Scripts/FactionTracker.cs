@@ -53,7 +53,7 @@ namespace Plaidman.SaltShuffleRevival {
 				FactionMemberCache.Add(faction.Name, factionMembers);
 			}
 		}
-		
+
 		public override void Register(XRLGame game, IEventRegistrar registrar) {
 			registrar.Register(AfterZoneBuiltEvent.ID);
 			base.Register(game, registrar);
@@ -117,7 +117,7 @@ namespace Plaidman.SaltShuffleRevival {
 				factionMembers.Add(entity);
 			}
 		}
-		
+
 		public static string ClosestFaction(string faction) {
 			var keys = GetInstance().FactionMemberCache.Keys;
 			var factionToLower = faction.ToLower();
@@ -136,7 +136,7 @@ namespace Plaidman.SaltShuffleRevival {
 				closest = key;
 				min = dist;
 			}
-			
+
 			return closest;
 		}
 

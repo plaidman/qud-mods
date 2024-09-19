@@ -9,7 +9,7 @@ namespace XRL.Wish {
 		[WishCommand(Command = "ssr")]
 		public void HandleWish(string more) {
 			var split = more.Split(' ');
-			
+
 			switch (split[0].ToLower()) {
 				case "booster":
 					ParseFaction(split[1]);
@@ -28,13 +28,13 @@ namespace XRL.Wish {
 					break;
 			}
 		}
-		
+
 		private void ParseFaction(string faction) {
 			if (faction.ToLower() == "box") {
 				The.Player.TakeObject(GameObjectFactory.Factory.CreateObject("Plaidman_SSR_BoosterBox"));
 				return;
 			}
-			
+
 			var closest = FactionTracker.ClosestFaction(faction);
 			var go = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Booster");
 			go.GetPart<SSR_BoosterPack>().OverrideFaction(closest);

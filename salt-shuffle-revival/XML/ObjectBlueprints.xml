@@ -26,6 +26,9 @@
 		<part Name="NoRust" />
 	</object>
 	<object Name="Plaidman_SSR_BoosterBox" Inherits="Chest">
+		<part Name="Description" Short="A box of ten assorted Salt Shuffle card packs." />
+		<part Name="Render" DisplayName="Salt Shuffle booster box" Load="Merge" />
+		<part Name="Commerce" Value="55" />
 		<!-- Number="10" generates 10x of the same faction -->
 		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
 		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
