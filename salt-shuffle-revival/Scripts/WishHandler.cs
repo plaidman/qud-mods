@@ -12,7 +12,9 @@ namespace XRL.Wish {
 
 			switch (split[0].ToLower()) {
 				case "booster":
-					ParseFaction(split[1]);
+					if (split.Length == 1 || split[1].Length == 0)
+						ParseFaction(FactionTracker.GetRandomFaction());
+					else ParseFaction(split[1]);
 					break;
 
 				case "starter":
