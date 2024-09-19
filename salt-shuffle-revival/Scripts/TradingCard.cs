@@ -16,11 +16,11 @@ namespace XRL.World.Parts {
 
 		public override void Read(GameObject basis, SerializationReader reader) {
 			if (reader.ModVersions["Plaidman_SaltShuffleRevival"] == new Version("1.0.0")) {
-				SunScore = reader.ReadInt32();
-				MoonScore = reader.ReadInt32();
-				StarScore = reader.ReadInt32();
-				PointValue = reader.ReadInt32();
-				ShortDisplayName = reader.ReadOptimizedString();
+				SunScore = (int)reader.ReadObject();
+				MoonScore = (int)reader.ReadObject();
+				StarScore = (int)reader.ReadObject();
+				PointValue = (int)reader.ReadObject();
+				ShortDisplayName = (string)reader.ReadObject();
 				Foil = false;
 				return;
 			}
@@ -231,7 +231,7 @@ namespace XRL.World.Parts {
 			builder.Append(" {{K|(Lv =lv==foil=)}}");
 			builder.StartReplace()
 				.AddReplacer("lv", PointValue.ToString())
-				.AddReplacer("foil", Foil ? "\xf7" : "")
+				.AddReplacer("foil", "")
 				.Execute();
 			ParentObject.DisplayName = builder.ToString();
 		}
