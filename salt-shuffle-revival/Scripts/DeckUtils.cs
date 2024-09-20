@@ -41,8 +41,7 @@ namespace Plaidman.SaltShuffleRevival {
 		}
 
 		public static void GenerateDeckFor(GameObject creature) {
-			if (creature.Brain == null) return;
-			var factions = FactionTracker.GetCreatureFactions(creature, true);
+			var factions = FactionTracker.GetCreatureFactions(creature);
 			if (factions.Count == 0) return;
 
 			for(int i = 0; i < 12; i++) {

@@ -60,7 +60,7 @@ namespace Plaidman.SaltShuffleRevival {
 		}
 
 		public override bool HandleEvent(AfterZoneBuiltEvent e) {
-			var creatures = e.Zone.GetObjectsThatInheritFrom("Creature");
+			var creatures = e.Zone.GetObjects(go => GetCreatureFactions(go).Count > 0);
 			foreach (var creature in creatures) {
 				AddFactionMember(creature);
 			}
@@ -136,9 +136,8 @@ namespace Plaidman.SaltShuffleRevival {
 		}
 
 		public static string GetRandomFaction() {
-			return GetInstance().FactionMemberCache
-				.Where(kvp => kvp.Value.Count > 0)
-				.Select(kvp => kvp.Key)
+			return GetInstance()
+				.FactionMemberCache.Keys
 				.GetRandomElementCosmetic();
 		}
 
@@ -147,13 +146,11 @@ namespace Plaidman.SaltShuffleRevival {
 			return GetFactionMembers(faction).GetRandomElementCosmetic().GetCreature();
 		}
 
-		public static List<string> GetCreatureFactions(GameObject go, bool onlyPopulated) {
+		public static List<string> GetCreatureFactions(GameObject go) {
 			if (go.Brain == null) return new();
 
 			return go.Brain.Allegiance
 				.Where(kvp => {
-					var factionMembers = GetFactionMembers(kvp.Key).Count;
-					if (onlyPopulated && factionMembers == 0) return false;
 					return Brain.GetAllegianceLevel(kvp.Value) == Brain.AllegianceLevel.Member;
 				})
 				.Select(kvp => kvp.Key)

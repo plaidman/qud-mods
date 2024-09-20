@@ -3,7 +3,7 @@ using XRL.UI;
 using XRL.World.Parts;
 
 namespace XRL.World.Conversations.Parts {
-	enum Reason { CanPlay, NoBrain, HatePlayer, Busy, CardCount, NoFactions }
+	enum Reason { CanPlay, HatePlayer, Busy, CardCount, NoFactions }
 
 	class SSR_Conversation : IConversationPart {
 		private bool Rematch = false;
@@ -21,9 +21,9 @@ namespace XRL.World.Conversations.Parts {
 		private Reason CanPlay() {
 			if (!DeckUtils.HasCards(The.Player, 10)) return Reason.CardCount;
 
-			if (The.Speaker.Brain == null) return Reason.NoBrain;
+			if (FactionTracker.GetCreatureFactions(The.Speaker).Count == 0) return Reason.NoFactions;
+
 			if (The.Speaker.Brain.IsHostileTowards(The.Player)) return Reason.HatePlayer;
-			if (FactionTracker.GetCreatureFactions(The.Speaker, true).Count == 0) return Reason.NoFactions;
 			if (The.Speaker.IsEngagedInMelee()) return Reason.Busy;
 
 			return Reason.CanPlay;
@@ -53,7 +53,7 @@ namespace XRL.World.Conversations.Parts {
 		}
 
 		public override bool HandleEvent(IsElementVisibleEvent e) {
-			return CanPlay() != Reason.NoBrain;
+			return CanPlay() != Reason.NoFactions;
 		}
 
 		public override bool HandleEvent(PrepareTextEvent e) {
@@ -76,10 +76,6 @@ namespace XRL.World.Conversations.Parts {
 
 				case Reason.CardCount:
 					Popup.Show("You need at least 10 cards to play.\n\n{{K|You may have a starter pack in your inventory.\nYou can also find booster packs around the world.}}");
-					return base.HandleEvent(e);
-
-				case Reason.NoFactions:
-					Popup.Show(The.Speaker.It + The.Speaker.GetVerb("do") + "n't have any cards.");
 					return base.HandleEvent(e);
 
 				case Reason.HatePlayer:

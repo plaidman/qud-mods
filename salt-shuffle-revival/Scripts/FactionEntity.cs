@@ -43,7 +43,7 @@ namespace Plaidman.SaltShuffleRevival {
 			Blueprint = null;
 
 			Name = go.DisplayNameOnlyDirectAndStripped;
-			Factions = FactionTracker.GetCreatureFactions(go, false);
+			Factions = FactionTracker.GetCreatureFactions(go);
 			Strength = go.GetStatValue("Strength");
 			Agility = go.GetStatValue("Agility");
 			Toughness = go.GetStatValue("Toughness");
