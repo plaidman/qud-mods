@@ -29,14 +29,9 @@ namespace Plaidman.SaltShuffleRevival {
 
 		public static FactionTracker GetInstance() {
 			if (Instance != null) return Instance;
-			if (The.Game == null) return new();
-
-			Instance = The.Game.GetSystem<FactionTracker>();
-			if (Instance != null) return Instance;
-
-			Instance = new();
-			The.Game.AddSystem(Instance);
-			return Instance;
+			
+			Instance = The.Game?.RequireSystem<FactionTracker>();
+			return Instance ?? new();
 		}
 
 		public FactionTracker() {
