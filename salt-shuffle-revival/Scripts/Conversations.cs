@@ -19,7 +19,7 @@ namespace XRL.World.Conversations.Parts {
 		}
 
 		private Reason CanPlay() {
-			if (!DeckUtils.HasCards(The.Player, 10)) return Reason.CardCount;
+			if (!DeckUtils.PlayerHasTenCards()) return Reason.CardCount;
 
 			if (FactionTracker.GetCreatureFactions(The.Speaker).Count == 0) return Reason.NoFactions;
 
@@ -83,7 +83,7 @@ namespace XRL.World.Conversations.Parts {
 					return base.HandleEvent(e);
 			}
 
-			if (!DeckUtils.HasCards(The.Speaker)) {
+			if (!The.Speaker.HasPart<SSR_CardPouch>()) {
 				DeckUtils.GenerateDeckFor(The.Speaker);
 			}
 			GameBoard.NewGameWith(The.Speaker);

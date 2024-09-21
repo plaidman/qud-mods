@@ -25,12 +25,12 @@ namespace Plaidman.SaltShuffleRevival {
 		private static readonly int[] Scores = new int[2];
 
 		public static bool NewGameWith(GameObject opponent) {
-			if (!DeckUtils.HasCards(The.Player, 10)) {
+			if (!DeckUtils.PlayerHasTenCards()) {
 				Popup.Show("You need at least 10 cards in order to play.");
 				return false;
 			}
 
-			if (!DeckUtils.HasCards(opponent, 10)) {
+			if (!opponent.HasPart<SSR_CardPouch>()) {
 				Popup.Show("Your opponent needs at least 10 cards in order to play.");
 				return false;
 			}
@@ -38,12 +38,12 @@ namespace Plaidman.SaltShuffleRevival {
 			Opponent = opponent;
 			OppName = Opponent.The + Opponent.DisplayNameOnlyDirectAndStripped;
 
-			CardZones[PlayerCards, DeckZone] = DeckUtils.CardList(The.Player);
+			CardZones[PlayerCards, DeckZone] = DeckUtils.PlayerCardList();
 			CardZones[PlayerCards, HandZone] = new();
 			CardZones[PlayerCards, FieldZone] = new();
 			Scores[PlayerCards] = 0;
 
-			CardZones[OpponentCards, DeckZone] = DeckUtils.CardList(Opponent);
+			CardZones[OpponentCards, DeckZone] = opponent.GetPart<SSR_CardPouch>().GetPartList();
 			CardZones[OpponentCards, HandZone] = new();
 			CardZones[OpponentCards, FieldZone] = new();
 			Scores[OpponentCards] = 0;
