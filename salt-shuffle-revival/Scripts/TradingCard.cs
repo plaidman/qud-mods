@@ -147,7 +147,7 @@ namespace XRL.World.Parts {
 		// some get 3 or 4 points in a single stat
 		// some get 4 then 2, and some get 3 then 2
 		private void BoostLowLevel() {
-			const int LowLevel = 9;
+			const int LowLevel = 8;
 			if (MoonScore + StarScore + SunScore >= LowLevel) return;
 
 			var times = Stat.Rnd2.Next(2) + Stat.Rnd2.Next(2); // 2d2-2 = distribution 0,1,1,2
@@ -156,8 +156,6 @@ namespace XRL.World.Parts {
 				var stat = Stat.Rnd2.Next(3);
 				BoostStat(stat, boost);
 
-				// if card level is high enough after a loop, never do the second loop
-				if (MoonScore + StarScore + SunScore >= LowLevel) return;
 				// second loop will always boost a stat by 2
 				boost = 2;
 			}

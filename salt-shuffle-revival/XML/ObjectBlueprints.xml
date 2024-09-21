@@ -25,10 +25,17 @@
 		<tag Name="NoSparkingQuest" />
 		<part Name="NoRust" />
 	</object>
+	<object Name="Plaidman_SSR_CardPouch" Inherits="Chest">
+		<part Name="Description" Short="A small leather reusable pouch perfectly sized to store Salt Shuffle cards." />
+		<part Name="Render" Tile="items/SSR_Booster.png" DetailColor="o" ColorString="&amp;g" DisplayName="Salt Shuffle card pouch" />
+		<part Name="Physics" Weight="1" Category="Trading Cards" />
+		<tag Name="ExcludeFromDynamicEncounters" />
+		<tag Name="NoSparkingQuest" />
+	</object>
 	<object Name="Plaidman_SSR_BoosterBox" Inherits="Chest">
 		<part Name="Description" Short="A box of ten assorted Salt Shuffle card packs." />
 		<part Name="Render" DisplayName="Salt Shuffle booster box" Load="Merge" />
-		<part Name="Commerce" Value="55" />
+		<part Name="Physics" Weight="1" Category="Trading Cards" />
 		<!-- Number="10" generates 10x of the same faction -->
 		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
 		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
