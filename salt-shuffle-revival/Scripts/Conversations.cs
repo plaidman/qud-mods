@@ -3,10 +3,11 @@ using XRL.UI;
 using XRL.World.Parts;
 
 namespace XRL.World.Conversations.Parts {
-	enum Reason { CanPlay, HatePlayer, Busy, CardCount, NoFactions }
+	enum Reason { NoVal, CanPlay, HatePlayer, Busy, CardCount, NoFactions }
 
 	class SSR_Conversation : IConversationPart {
 		private bool Rematch = false;
+		private Reason CachedReason = Reason.NoVal;
 
 		public override bool WantEvent(int id, int propagation) {
 			return base.WantEvent(id, propagation)
@@ -19,14 +20,14 @@ namespace XRL.World.Conversations.Parts {
 		}
 
 		private Reason CanPlay() {
-			if (!DeckUtils.PlayerHasTenCards()) return Reason.CardCount;
+			if (CachedReason != Reason.NoVal) return CachedReason;
 
-			if (FactionTracker.GetCreatureFactions(The.Speaker).Count == 0) return Reason.NoFactions;
+			if (!DeckUtils.PlayerHasTenCards()) return CachedReason = Reason.CardCount;
+			if (FactionTracker.GetCreatureFactions(The.Speaker).Count == 0) return CachedReason = Reason.NoFactions;
+			if (The.Speaker.Brain.IsHostileTowards(The.Player)) return CachedReason = Reason.HatePlayer;
+			if (The.Speaker.IsEngagedInMelee()) return CachedReason = Reason.Busy;
 
-			if (The.Speaker.Brain.IsHostileTowards(The.Player)) return Reason.HatePlayer;
-			if (The.Speaker.IsEngagedInMelee()) return Reason.Busy;
-
-			return Reason.CanPlay;
+			return CachedReason = Reason.CanPlay;
 		}
 
 		private bool SociallyRepugnant() {
