@@ -10,7 +10,7 @@ namespace XRL.World.Parts {
 		public List<SSR_Card> GetPartList() {
 			return Cards.Select(card => card.GetPart<SSR_Card>()).ToList();
 		}
-		
+
 		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(BeforeDeathRemovalEvent.ID);
 			registrar.Register(The.Game, SSR_UninstallEvent.ID);
@@ -21,7 +21,7 @@ namespace XRL.World.Parts {
 			ParentObject.RemovePart(this);
 			return base.HandleEvent(e);
 		}
-		
+
 		public override bool HandleEvent(BeforeDeathRemovalEvent e) {
 			var pouch = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_CardPouch");
 

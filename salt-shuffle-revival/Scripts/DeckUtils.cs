@@ -33,7 +33,7 @@ namespace Plaidman.SaltShuffleRevival {
 					if (item.TryGetPart(out SSR_Card part)) {
 						list.Add(part);
 					}
-					
+
 					return list;
 				}
 			);
