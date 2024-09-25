@@ -28,6 +28,7 @@
 	<object Name="Plaidman_SSR_CardPouch" Inherits="Chest">
 		<part Name="Description" Short="A small leather reusable pouch perfectly sized to store Salt Shuffle cards." />
 		<part Name="Render" Tile="items/SSR_Booster.png" DetailColor="o" ColorString="&amp;g" DisplayName="Salt Shuffle card pouch" />
+		<part Name="RandomColors" MainColor="r,o,w,g,b,c,m" DetailColor="R,O,W,G,B,C,M" />
 		<part Name="Physics" Weight="1" Category="Trading Cards" />
 		<tag Name="ExcludeFromDynamicEncounters" />
 		<tag Name="NoSparkingQuest" />
