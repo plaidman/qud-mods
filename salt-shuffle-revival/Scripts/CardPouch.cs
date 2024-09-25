@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using XRL.Rules;
 
 namespace XRL.World.Parts {
 	[Serializable]
@@ -24,9 +25,10 @@ namespace XRL.World.Parts {
 
 		public override bool HandleEvent(BeforeDeathRemovalEvent e) {
 			var pouch = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_CardPouch");
-
-			foreach (var card in Cards) {
-				pouch.TakeObject(card);
+			var count = Stat.Rnd2.Next(4) + 2; // between 2 and 5 cards
+			
+			for (var i = 0; i < count; i++) {
+				pouch.TakeObject(Cards.RemoveRandomElement(Stat.Rnd2));
 			}
 
 			ParentObject.CurrentCell.AddObject(pouch);
