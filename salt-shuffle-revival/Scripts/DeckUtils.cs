@@ -44,7 +44,10 @@ namespace Plaidman.SaltShuffleRevival {
 				return;
 			}
 
-			var factions = FactionTracker.GetCreatureFactions(creature);
+			var factions = FactionTracker
+				.GetCreatureFactions(creature)
+				.Where(faction => FactionTracker.FactionHasMembers(faction))
+				.ToList();
 			if (factions.Count == 0) return;
 
 			var part = creature.AddPart<SSR_CardPouch>();

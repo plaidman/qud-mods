@@ -66,6 +66,12 @@ namespace XRL.World.Parts {
 		public override bool HandleEvent(InventoryActionEvent e) {
 			if (e.Command != "InvCommandUnwrap") return base.HandleEvent(e);
 
+			if (!Starter && !FactionTracker.FactionHasMembers(Faction)) {
+				Messages.MessageQueue.AddPlayerMessage("You opened the pack but it was empty. Weird.");
+				ParentObject.Destroy("Unwrapped", true);
+				return base.HandleEvent(e);
+			}
+
 			var tally = new StringBuilder("You unwrap the =pack= and get:\n");
 
 			var qty = Starter ? 12 : 5;

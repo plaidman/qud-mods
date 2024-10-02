@@ -88,6 +88,16 @@ namespace Plaidman.SaltShuffleRevival {
 			Popup.Show("Finished removing {{W|Salt Shuffle Revival}}. Please save and quit, then you can remove this mod.");
 		}
 
+		public static bool FactionHasMembers(string faction) {
+			var instance = GetInstance();
+
+			if (instance.FactionMemberCache.TryGetValue(faction, out List<FactionEntity> factionMembers)) {
+				return factionMembers.Count > 0;
+			}
+			
+			return false;
+		}
+
 		private static List<FactionEntity> GetFactionMembers(string faction) {
 			var instance = GetInstance();
 
@@ -113,8 +123,14 @@ namespace Plaidman.SaltShuffleRevival {
 			}
 		}
 
+		private static IEnumerable<string> GetNonEmptyFactions() {
+			return GetInstance().FactionMemberCache
+				.Where(kvp => kvp.Value.Count > 0)
+				.Select(kvp => kvp.Key);
+		}
+
 		public static string ClosestFaction(string faction) {
-			var keys = GetInstance().FactionMemberCache.Keys;
+			var keys = GetNonEmptyFactions();
 			var factionToLower = faction.ToLower();
 			var closest = "";
 			var min = int.MaxValue;
@@ -136,9 +152,7 @@ namespace Plaidman.SaltShuffleRevival {
 		}
 
 		public static string GetRandomFaction() {
-			return GetInstance()
-				.FactionMemberCache.Keys
-				.GetRandomElementCosmetic();
+			return GetNonEmptyFactions().GetRandomElementCosmetic();
 		}
 
 		public static FactionEntity GetRandomCreature(string faction = null) {
@@ -151,7 +165,8 @@ namespace Plaidman.SaltShuffleRevival {
 
 			return go.Brain.Allegiance
 				.Where(kvp => {
-					return Brain.GetAllegianceLevel(kvp.Value) == Brain.AllegianceLevel.Member;
+					if (Brain.GetAllegianceLevel(kvp.Value) != Brain.AllegianceLevel.Member) return false;
+					return Factions.Get(kvp.Key).Visible;
 				})
 				.Select(kvp => kvp.Key)
 				.ToList();
