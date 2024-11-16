@@ -76,8 +76,8 @@ namespace XRL.World.Parts {
 		}
 
 		public void UninstallParts() {
-			if (Popup.ShowYesNo("Are you sure you want to uninstall {{W|An Eye For Value}}?") == DialogResult.No) {
-				Messages.MessageQueue.AddPlayerMessage("{{W|An Eye For Value}} uninstall was cancelled.");
+			if (Popup.ShowYesNo("Are you sure you want to uninstall {{W|Zone Loot List}}?") == DialogResult.No) {
+				Messages.MessageQueue.AddPlayerMessage("{{W|Zone Loot List}} uninstall was cancelled.");
 				return;
 			}
 
@@ -95,7 +95,7 @@ namespace XRL.World.Parts {
 
 			ParentObject.RemovePart<AEFV_ItemKnowledge>();
 
-			Popup.Show("Finished removing {{W|An Eye For Value}}. Please save and quit, then you can remove this mod.");
+			Popup.Show("Finished removing {{W|Zone Loot List}}. Please save and quit, then you can remove this mod.");
 		}
 
 		public override bool HandleEvent(CommandEvent e) {

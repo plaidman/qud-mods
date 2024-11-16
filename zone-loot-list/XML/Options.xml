@@ -1,32 +1,32 @@
 <options>
-	<option ID="Plaidman_AnEyeForValue_Option_ZoneTrash" DisplayText="Trash in Zone Loot" Category="Mod: An Eye For Value" Type="Checkbox" Default="No"></option>
-	<option ID="Plaidman_AnEyeForValue_Option_ZoneStones" DisplayText="Stones/Boulders in Zone Loot" Category="Mod: An Eye For Value" Type="Checkbox" Default="No"></option>
-	<option ID="Plaidman_AnEyeForValue_Option_ZoneCorpses" DisplayText="Corpses in Zone Loot" Category="Mod: An Eye For Value" Type="Checkbox" Default="No"></option>
-	<option ID="Plaidman_AnEyeForValue_Option_ZoneChests" DisplayText="Chests in Zone Loot" Category="Mod: An Eye For Value" Type="Checkbox" Default="Yes">
+	<option ID="Plaidman_AnEyeForValue_Option_ZoneTrash" DisplayText="Trash in Zone Loot" Category="Mod: Zone Loot List" Type="Checkbox" Default="No"></option>
+	<option ID="Plaidman_AnEyeForValue_Option_ZoneStones" DisplayText="Stones/Boulders in Zone Loot" Category="Mod: Zone Loot List" Type="Checkbox" Default="No"></option>
+	<option ID="Plaidman_AnEyeForValue_Option_ZoneCorpses" DisplayText="Corpses in Zone Loot" Category="Mod: Zone Loot List" Type="Checkbox" Default="No"></option>
+	<option ID="Plaidman_AnEyeForValue_Option_ZoneChests" DisplayText="Chests in Zone Loot" Category="Mod: Zone Loot List" Type="Checkbox" Default="Yes">
 		<helptext>
 			Show all chest contents in the popup. If you select an item in a chest, that chest will be auto-opened the next time you auto-explore.
 		</helptext>
 	</option>
-	<option ID="Plaidman_AnEyeForValue_Option_ZoneLiquids" DisplayText="Liquids in Zone Loot" Category="Mod: An Eye For Value" Type="Checkbox" Default="Yes">
+	<option ID="Plaidman_AnEyeForValue_Option_ZoneLiquids" DisplayText="Liquids in Zone Loot" Category="Mod: Zone Loot List" Type="Checkbox" Default="Yes">
 		<helptext>
 			If you select a liquid in the list, your character will travel to that liquid.
 		</helptext>
 	</option>
-	<option ID="Plaidman_AnEyeForValue_Option_ZonePureLiquids" Requires="Plaidman_AnEyeForValue_Option_ZoneLiquids==Yes" DisplayText="Hide Impure Liquids" Category="Mod: An Eye For Value" Type="Checkbox" Default="Yes"></option>
-	<option ID="Plaidman_AnEyeForValue_Option_UseAbilities" DisplayText="Use Activated Abilities" Category="Mod: An Eye For Value" Type="Checkbox" Default="No"></option>
-	<option ID="Plaidman_AnEyeForValue_Option_PreferredSort" DisplayText="Preferred Sort Mode" Category="Mod: An Eye For Value" Type="Combo" Values="Value,Weight" Default="Value">
+	<option ID="Plaidman_AnEyeForValue_Option_ZonePureLiquids" Requires="Plaidman_AnEyeForValue_Option_ZoneLiquids==Yes" DisplayText="Hide Impure Liquids" Category="Mod: Zone Loot List" Type="Checkbox" Default="Yes"></option>
+	<option ID="Plaidman_AnEyeForValue_Option_UseAbilities" DisplayText="Use Activated Abilities" Category="Mod: Zone Loot List" Type="Checkbox" Default="No"></option>
+	<option ID="Plaidman_AnEyeForValue_Option_PreferredSort" DisplayText="Preferred Sort Mode" Category="Mod: Zone Loot List" Type="Combo" Values="Value,Weight" Default="Value">
 		<helptext>
 			Value: Shows an icon that represents the relative value of an item. If the value is not known, then it will show weight instead.
 			Weight: Only shows the item weights, which are always known.
 		</helptext>
 	</option>
-	<option ID="Plaidman_AnEyeForValue_Option_PreferredPickup" DisplayText="Preferred Pickup Mode" Category="Mod: An Eye For Value" Type="Combo" Values="Single,Multi" Default="Multi">
+	<option ID="Plaidman_AnEyeForValue_Option_PreferredPickup" DisplayText="Preferred Pickup Mode" Category="Mod: Zone Loot List" Type="Combo" Values="Single,Multi" Default="Multi">
 		<helptext>
 			Single: When you select an item, the popup will close and you will travel to an adjacent tile.
 			Multi: When you select items, they will be collected the next time you autoexplore.
 		</helptext>
 	</option>
-	<option ID="Plaidman_AnEyeForValue_Option_Omnicient" DisplayText="Omnicient (cheat)" Category="Mod: An Eye For Value" Type="Checkbox" Default="No">
+	<option ID="Plaidman_AnEyeForValue_Option_Omnicient" DisplayText="Omnicient (cheat)" Category="Mod: Zone Loot List" Type="Checkbox" Default="No">
 		<helptext>
 			Makes your character know all item values by default.
 		</helptext>

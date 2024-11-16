@@ -1,30 +1,30 @@
 <commands>
-	<command ID="Plaidman_AnEyeForValue_Command_LightenMyLoad" DisplayText="Show Inventory" Category="Mod: An Eye For Value" Layer="Adventure" Auto="Down">
+	<command ID="Plaidman_AnEyeForValue_Command_LightenMyLoad" DisplayText="Show Inventory" Category="Mod: Zone Loot List" Layer="Adventure" Auto="Down">
 		<keyboardBind Modifier="ctrl" Key="d"/>
 	</command>
-	<command ID="Plaidman_AnEyeForValue_Command_ZoneLootList" DisplayText="Show Zone Loot" Category="Mod: An Eye For Value" Layer="Adventure" Auto="Down">
+	<command ID="Plaidman_AnEyeForValue_Command_ZoneLootList" DisplayText="Show Zone Loot" Category="Mod: Zone Loot List" Layer="Adventure" Auto="Down">
 		<keyboardBind Modifier="ctrl" Key="f"/>
 	</command>
-	<command ID="Plaidman_AnEyeForValue_Command_Uninstall" DisplayText="Uninstall Mod" Category="Mod: An Eye For Value" Layer="Adventure" Auto="Down"></command>
-	<command ID="Plaidman_AnEyeForValue_Popup_InvSort" DisplayText="Inv: Sort Items" Category="Mod: An Eye For Value" Layer="Menus" Auto="DownPass">
+	<command ID="Plaidman_AnEyeForValue_Command_Uninstall" DisplayText="Uninstall Mod" Category="Mod: Zone Loot List" Layer="Adventure" Auto="Down"></command>
+	<command ID="Plaidman_AnEyeForValue_Popup_InvSort" DisplayText="Inv: Sort Items" Category="Mod: Zone Loot List" Layer="Menus" Auto="DownPass">
 		<keyboardBind Modifier="ctrl" Key="tab"/>
 		<gamepadBind Button="select"/>
 	</command>
-	<command ID="Plaidman_AnEyeForValue_Popup_Drop" DisplayText="Inv: Drop Items" Category="Mod: An Eye For Value" Layer="Menus" Auto="DownPass">
+	<command ID="Plaidman_AnEyeForValue_Popup_Drop" DisplayText="Inv: Drop Items" Category="Mod: Zone Loot List" Layer="Menus" Auto="DownPass">
 		<keyboardBind Key="delete"/>
 		<keyboardBind Key="backspace"/>
 		<gamepadBind Alt="true" Button="buttonWest"/>
 		<keyboardBind Key="[" Set="hjkl"/>
 	</command>
-	<command ID="Plaidman_AnEyeForValue_Popup_ZoneSort" DisplayText="Zone: Sort Items" Category="Mod: An Eye For Value" Layer="Menus" Auto="DownPass">
+	<command ID="Plaidman_AnEyeForValue_Popup_ZoneSort" DisplayText="Zone: Sort Items" Category="Mod: Zone Loot List" Layer="Menus" Auto="DownPass">
 		<keyboardBind Modifier="ctrl" Key="tab"/>
 		<gamepadBind Button="select"/>
 	</command>
-	<command ID="Plaidman_AnEyeForValue_Popup_Toggle" DisplayText="Zone: Select All" Category="Mod: An Eye For Value" Layer="Menus" Auto="DownPass">
+	<command ID="Plaidman_AnEyeForValue_Popup_Toggle" DisplayText="Zone: Select All" Category="Mod: Zone Loot List" Layer="Menus" Auto="DownPass">
 		<keyboardBind Key="tab"/>
 		<gamepadBind Button="rightTrigger"/>
 	</command>
-	<command ID="Plaidman_AnEyeForValue_Popup_PickupMode" DisplayText="Zone: Pickup Mode" Category="Mod: An Eye For Value" Layer="Menus" Auto="DownPass">
+	<command ID="Plaidman_AnEyeForValue_Popup_PickupMode" DisplayText="Zone: Pickup Mode" Category="Mod: Zone Loot List" Layer="Menus" Auto="DownPass">
 		<keyboardBind Key="w"/>
 	</command>
 </commands>

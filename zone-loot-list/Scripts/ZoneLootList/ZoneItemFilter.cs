@@ -87,6 +87,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 			}
 
 			return go.Physics.Takeable
+				&& go.Physics.IsReal
 				&& !go.HasPropertyOrTag("NoAutoget")
 				&& !go.IsOwned()
 				&& !armedMine
