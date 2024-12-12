@@ -1,9 +1,9 @@
 <commands>
 	<command ID="Plaidman_AnEyeForValue_Command_LightenMyLoad" DisplayText="Show Inventory" Category="Mod: Zone Loot List" Layer="Adventure" Auto="Down">
-		<keyboardBind Modifier="ctrl" Key="d"/>
+		<keyboardBind Modifier="shift" Key="d"/>
 	</command>
 	<command ID="Plaidman_AnEyeForValue_Command_ZoneLootList" DisplayText="Show Zone Loot" Category="Mod: Zone Loot List" Layer="Adventure" Auto="Down">
-		<keyboardBind Modifier="ctrl" Key="f"/>
+		<keyboardBind Modifier="shift" Key="f"/>
 	</command>
 	<command ID="Plaidman_AnEyeForValue_Command_Uninstall" DisplayText="Uninstall Mod" Category="Mod: Zone Loot List" Layer="Adventure" Auto="Down"></command>
 	<command ID="Plaidman_AnEyeForValue_Popup_InvSort" DisplayText="Inv: Sort Items" Category="Mod: Zone Loot List" Layer="Menus" Auto="DownPass">
