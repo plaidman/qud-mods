@@ -50,18 +50,30 @@ namespace Plaidman.AnEyeForValue.Menus {
 					+ "[Selected Weight: {{w|" + (int)weightSelected + "#}}]\xff\xff\xff"
 					+ sortModeString + "\n\n";
 
-				s_OverridePopup = true;
-				int selectedIndex = Popup.PickOption(
-					Title: "Inventory Items",
-					Intro: intro,
-					// IntroIcon: Renderable.UITile("an_eye_for_value.png", 'y', 'm'),
-					Options: itemLabels,
-					RespectOptionNewlines: false,
-					Icons: itemIcons,
-					DefaultSelected: defaultSelected,
-					Buttons: menuCommands,
-					AllowEscape: true
-				);
+				int selectedIndex;
+				if (!Check_UIViewsLoaded())
+				{
+					// Show error message if our custom UIViews aren't loaded for some reason.
+					// Otherwise the game would fall back to using a generic UIView that doesn't work
+					// with our custom keybind NavCategory
+					Popup.Show("ZoneLootList's UIViews aren't loaded! Please restart the game.");
+					selectedIndex = -1;
+				}
+                else
+                {
+					s_OverridePopup = true;
+					selectedIndex = Popup.PickOption(
+						Title: "Inventory Items",
+						Intro: intro,
+						// IntroIcon: Renderable.UITile("an_eye_for_value.png", 'y', 'm'),
+						Options: itemLabels,
+						RespectOptionNewlines: false,
+						Icons: itemIcons,
+						DefaultSelected: defaultSelected,
+						Buttons: menuCommands,
+						AllowEscape: true
+					);
+				}
 
 				switch (selectedIndex) {
 					case -1:  // cancel
