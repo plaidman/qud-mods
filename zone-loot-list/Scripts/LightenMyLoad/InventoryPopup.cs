@@ -61,7 +61,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 				}
                 else
                 {
-					s_OverridePopup = true;
+					s_OverridePopup = true; // Use our custom UIView for Popup.PickOption()
 					selectedIndex = Popup.PickOption(
 						Title: "Inventory Items",
 						Intro: intro,

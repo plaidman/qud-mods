@@ -1,8 +1,6 @@
-using ConsoleLib.Console;
 using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using XRL.UI;
 
 namespace Plaidman.AnEyeForValue.Menus {
@@ -18,7 +16,6 @@ namespace Plaidman.AnEyeForValue.Menus {
 	// UICanvas - The name of the UI Canvas (Unity) GameObject which should be displayed when this view is active
 	[UIView("DynamicZonePopupMessage", false, false, false, "ZoneLootNav", null, false, 0, false, IgnoreForceFullscreen = true)]
 	[UIView("PopupZoneMessage", false, false, false, "ZoneLootNav", "PopupMessage", false, 0, false, IgnoreForceFullscreen = true, UICanvasHost = 1)]
-	[HarmonyPatch]
 	public class BasePopup {
 		public SortType CurrentSortType;
 		private Dictionary<SortType, List<InventoryItem>> ItemListCache;
@@ -31,37 +28,25 @@ namespace Plaidman.AnEyeForValue.Menus {
         {
 			if (s_UIViewsLoaded)
             {
-				return true; // Unloading UIViews isn't possible AFAIK, so we don't have to check again after confirming this once
+				// Unloading UIViews isn't possible AFAIK, so we don't have to check again after successfully confirming this once
+				return true;
 			}
-			// If our custom UIViews aren't loaded, this will return a default View with NavCategory "Menu"
-			string nav_zlp = GameManager.Instance.GetViewData("ZoneLootPopup").NavCategory;
-			string nav_dzpm = GameManager.Instance.GetViewData("DynamicZonePopupMessage").NavCategory;
-			string nav_pzm = GameManager.Instance.GetViewData("PopupZoneMessage").NavCategory;
-
-			StringBuilder sb = new StringBuilder();
-			sb.AppendLine("nav_zlp:  " + nav_zlp);
-			sb.AppendLine("nav_dzpm: " + nav_dzpm);
-			sb.AppendLine("nav_pzm:  " + nav_pzm);
-			UnityEngine.Debug.LogError(sb.ToString());
+			bool nav_zlp = GameManager.Instance.HasViewData("ZoneLootPopup");
+			bool nav_dzpm = GameManager.Instance.HasViewData("DynamicZonePopupMessage");
+			bool nav_pzm = GameManager.Instance.HasViewData("PopupZoneMessage");
 
 			// Try to register our custom UIViews if any of them aren't loaded yet
-			if (nav_zlp != "ZoneLootNav" || nav_dzpm != "ZoneLootNav" || nav_pzm != "ZoneLootNav")
+			if (!nav_zlp || !nav_dzpm || !nav_pzm)
             {
 				GameManager.Instance.RegisterViews();
-
-				nav_zlp = GameManager.Instance.GetViewData("ZoneLootPopup").NavCategory;
-				nav_dzpm = GameManager.Instance.GetViewData("DynamicZonePopupMessage").NavCategory;
-				nav_pzm = GameManager.Instance.GetViewData("PopupZoneMessage").NavCategory;
-
-				sb = new StringBuilder();
-				sb.AppendLine("nav_zlp:  " + nav_zlp);
-				sb.AppendLine("nav_dzpm: " + nav_dzpm);
-				sb.AppendLine("nav_pzm:  " + nav_pzm);
-				UnityEngine.Debug.LogError(sb.ToString());
+				nav_zlp = GameManager.Instance.HasViewData("ZoneLootPopup");
+				nav_dzpm = GameManager.Instance.HasViewData("DynamicZonePopupMessage");
+				nav_pzm = GameManager.Instance.HasViewData("PopupZoneMessage");
 
 				// If our custom UIViews still aren't loaded for some reason, return false
-				if (nav_zlp != "ZoneLootNav" || nav_dzpm != "ZoneLootNav" || nav_pzm != "ZoneLootNav")
-                {
+				if (!nav_zlp || !nav_dzpm || !nav_pzm)
+				{
+					UnityEngine.Debug.LogError("ZoneLootList - Failed to register custom UIViews!");
 					return false;
                 }
 			}
@@ -70,42 +55,36 @@ namespace Plaidman.AnEyeForValue.Menus {
 		}
 
 		[HarmonyPatch(typeof(GameManager), nameof(GameManager.PushGameView))]
-		[HarmonyPrefix]
-		static bool PushGameView_Prefix(ref string NewView, bool bHard)
+		private class PushGameViewPatch
         {
-			// Override NewView with our custom UIView once (only when called for by ZonePopup/InventoryPopup), otherwise use original
-			if (s_OverridePopup)
-            {
-				s_OverridePopup = false;
-				// ref: XRL.UI.Popup.WaitNewPopupMessage(...)
-				if (NewView == "PopupMessage" && bHard)
+			static bool Prefix(ref string NewView, bool bHard)
+			{
+				// Override NewView with our custom UIView once (only when called for by ZonePopup/InventoryPopup), otherwise use original
+				if (s_OverridePopup)
 				{
-					NewView = "PopupZoneMessage";
-
+					s_OverridePopup = false;
+					// ref: XRL.UI.Popup.WaitNewPopupMessage(...)
+					if (NewView == "PopupMessage" && bHard)
+					{
+						NewView = "PopupZoneMessage";
+					}
+					else if (NewView == "DynamicPopupMessage" && bHard)
+					{
+						NewView = "DynamicZonePopupMessage";
+					}
+					// ref: XRL.UI.Popup.PickOption(...)
+					else if (NewView == "Popup:Choice" && bHard)
+					{
+						NewView = "ZoneLootPopup";
+					}
+                    else
+                    {
+						UnityEngine.Debug.LogError("ZoneLootList - Unexpected UIView: " + NewView);
+					}
 				}
-				else if (NewView == "DynamicPopupMessage" && bHard)
-				{
-					NewView = "DynamicZonePopupMessage";
-				}
-				// ref: XRL.UI.Popup.PickOption(...)
-				else if (NewView == "Popup:Choice" && bHard)
-				{
-					NewView = "ZoneLootPopup";
-				}
+				return true; // return control to the original function
 			}
-			return true; // return control to the original function
-        }
-
-		[HarmonyPatch(typeof(GameManager), nameof(GameManager.PushGameView))]
-		[HarmonyPostfix]
-		static void PushGV_Postfix(string NewView, bool bHard)
-        {
-			if (NewView.Contains("Zone") && bHard)
-            {
-				GameManager.ViewInfo check = GameManager.Instance.GetViewData(NewView);
-				UnityEngine.Debug.LogError("PushGameView - NavCategory: " + check.NavCategory);
-			}
-        }
+		}
 
 		protected void ResetCache() {
 			ItemListCache = new() {

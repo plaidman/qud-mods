@@ -74,7 +74,6 @@ namespace Plaidman.AnEyeForValue.Menus {
 					+ sortModeString + "\xff\xff\xff" + pickupModeString + "\n"
 					+ "[Selected weight: {{w|" + (int)weightSelected + "#}}]\n\n";
 
-
 				int selectedIndex;
 				if (!Check_UIViewsLoaded())
 				{
@@ -86,7 +85,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 				}
                 else
                 {
-					s_OverridePopup = true;
+					s_OverridePopup = true; // Use our custom UIView for Popup.PickOption()
 					selectedIndex = Popup.PickOption(
 						Title: "Lootable Items",
 						Intro: intro,
