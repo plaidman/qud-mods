@@ -50,6 +50,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 					+ "[Selected Weight: {{w|" + (int)weightSelected + "#}}]\xff\xff\xff"
 					+ sortModeString + "\n\n";
 
+				s_OverridePopup = true;
 				int selectedIndex = Popup.PickOption(
 					Title: "Inventory Items",
 					Intro: intro,

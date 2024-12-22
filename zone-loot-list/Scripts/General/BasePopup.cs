@@ -13,64 +13,56 @@ namespace Plaidman.AnEyeForValue.Menus {
 	[UIView("ZoneLootPopup", false, false, false, "ZoneLootNav", null, false, 0, false)]
 	// used for modern UI popups
 	// ref: Qud.UI.PopupMessage
+	// using "PopupMessage" for the UICanvas parameter is intentional! Quote from the documentation (found on CoQ Discord):
+	// The name of the UI Canvas (Unity) GameObject which should be displayed when this view is active
 	[UIView("DynamicZonePopupMessage", false, false, false, "ZoneLootNav", null, false, 0, false, IgnoreForceFullscreen = true)]
 	[UIView("PopupZoneMessage", false, false, false, "ZoneLootNav", "PopupMessage", false, 0, false, IgnoreForceFullscreen = true, UICanvasHost = 1)]
 	[HarmonyPatch]
-	public class BasePopup : IWantsTextConsoleInit {
+	// Classic UI popups seem to be working fine without implementing Interface IWantsTextConsoleInit (Probably since the original Popup class handles the rendering)
+	public class BasePopup {
 		public SortType CurrentSortType;
 		private Dictionary<SortType, List<InventoryItem>> ItemListCache;
 		protected Dictionary<SortType, IComparer<InventoryItem>> Comparers;
 
-		internal static bool callRealFunc = false;
+		internal static bool s_OverridePopup = false;
 
 		[HarmonyPatch(typeof(GameManager), nameof(GameManager.PushGameView))]
 		[HarmonyPrefix]
-		static bool PushGV_Prefix(ref GameManager __instance, string NewView, bool bHard)
+		static bool PushGV_Prefix(ref string NewView, bool bHard)
         {
-			if (callRealFunc)
+			// Override NewView with our custom UIView once (only when called for by ZonePopup/InventoryPopup), otherwise use original
+			if (s_OverridePopup)
             {
-				return true;
-            }
-			UnityEngine.Debug.LogError("PushGameView - Prefix - NewView: " + NewView);
-			if (NewView == "PopupMessage" && bHard)
-            {
-				callRealFunc = true;
-				GameManager.Instance.PushGameView("PopupZoneMessage", bHard);
-				return false;
-            }
-			else if (NewView == "DynamicPopupMessage" && bHard)
-            {
-				callRealFunc = true;
-				GameManager.Instance.PushGameView("DynamicZonePopupMessage", bHard);
-				return false;
-			}
-			else if (NewView == "Popup:Choice" && bHard)
-            {
-				callRealFunc = true;
-				GameManager.Instance.PushGameView("ZoneLootPopup", bHard);
-				return false;
+				s_OverridePopup = false;
+				// ref: XRL.UI.Popup.WaitNewPopupMessage(...)
+				if (NewView == "PopupMessage" && bHard)
+				{
+					NewView = "PopupZoneMessage";
+
+				}
+				else if (NewView == "DynamicPopupMessage" && bHard)
+				{
+					NewView = "DynamicZonePopupMessage";
+				}
+				// ref: XRL.UI.Popup.PickOption(...)
+				else if (NewView == "Popup:Choice" && bHard)
+				{
+					NewView = "ZoneLootPopup";
+				}
 			}
 			return true;
         }
 
 		[HarmonyPatch(typeof(GameManager), nameof(GameManager.PushGameView))]
 		[HarmonyPostfix]
-		static void PushGV_Postfix(ref GameManager __instance, string NewView, bool bHard)
+		static void PushGV_Postfix(string NewView, bool bHard)
         {
-			if (callRealFunc)
+			if (NewView.Contains("Zone") && bHard)
             {
-				callRealFunc = false;
 				GameManager.ViewInfo check = GameManager.Instance.GetViewData(NewView);
 				UnityEngine.Debug.LogError("PushGameView - NavCategory: " + check.NavCategory);
 			}
         }
-
-		// copied from XRL.UI.Popup
-		public void Init(TextConsole TextConsole_, ScreenBuffer ScreenBuffer_)
-		{
-			Popup._TextConsole = TextConsole_;
-			Popup._ScreenBuffer = ScreenBuffer_;
-		}
 
 		protected void ResetCache() {
 			ItemListCache = new() {
