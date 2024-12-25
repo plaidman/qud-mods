@@ -75,17 +75,11 @@ namespace Plaidman.AnEyeForValue.Menus {
 					+ "[Selected weight: {{w|" + (int)weightSelected + "#}}]\n\n";
 
 				int selectedIndex;
-				if (!Check_UIViewsLoaded())
-				{
-					// Show error message if our custom UIViews aren't loaded for some reason.
-					// Otherwise the game would fall back to using a generic UIView that doesn't work
-					// with our custom keybind NavCategory
-					Popup.Show("ZoneLootList's UIViews aren't loaded! Please restart the game.");
+				if (!Check_UIViewsLoaded()) {
 					selectedIndex = -1;
 				}
-                else
-                {
-					s_OverridePopup = true; // Use our custom UIView for Popup.PickOption()
+                else {
+					s_OverridePopup = true; // Use our custom UIViews for Popup::PickOption()
 					selectedIndex = Popup.PickOption(
 						Title: "Lootable Items",
 						Intro: intro,
@@ -97,6 +91,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 						Buttons: menuCommands,
 						AllowEscape: true
 					);
+					s_OverridePopup = false; // Should already be false after PickOption(), just adding this here as a backup
 				}
 
 				switch (selectedIndex) {
