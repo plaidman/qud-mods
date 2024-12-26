@@ -51,7 +51,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 					+ sortModeString + "\n\n";
 
 				int selectedIndex;
-				if (!Check_UIViewsLoaded()) {
+				if (!CheckUIViewsLoaded()) {
 					selectedIndex = -1;
 				}
                 else {

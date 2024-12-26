@@ -75,7 +75,7 @@ namespace Plaidman.AnEyeForValue.Menus {
 					+ "[Selected weight: {{w|" + (int)weightSelected + "#}}]\n\n";
 
 				int selectedIndex;
-				if (!Check_UIViewsLoaded()) {
+				if (!CheckUIViewsLoaded()) {
 					selectedIndex = -1;
 				}
                 else {
