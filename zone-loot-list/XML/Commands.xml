@@ -1,7 +1,7 @@
 <commands>
-	<!-- Menus layer is required for Classic UI Escape key -->
-	<!-- UINav layer is required for Modern UI Escape key  -->
-	<!-- ZoneLootLayer is our custom keybind layer -->
+	<!-- Menus layer is required for Classic UI navigation commands (Accept, Cancel, Scrolling, etc.) -->
+	<!-- UINav layer is required for Modern UI navigation commands -->
+	<!-- ZoneLootLayer is our own command/keybind layer -->
 	<navcategory ID="ZoneLootNav">
 		<layer ID="Menus"/>
 		<layer ID="UINav"/>

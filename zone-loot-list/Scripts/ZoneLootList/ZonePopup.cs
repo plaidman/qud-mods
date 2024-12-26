@@ -74,25 +74,17 @@ namespace Plaidman.AnEyeForValue.Menus {
 					+ sortModeString + "\xff\xff\xff" + pickupModeString + "\n"
 					+ "[Selected weight: {{w|" + (int)weightSelected + "#}}]\n\n";
 
-				int selectedIndex;
-				if (!CheckUIViewsLoaded()) {
-					selectedIndex = -1;
-				}
-                else {
-					s_OverridePopup = true; // Use our custom UIViews for Popup::PickOption()
-					selectedIndex = Popup.PickOption(
-						Title: "Lootable Items",
-						Intro: intro,
-						// IntroIcon: Renderable.UITile("an_eye_for_value.png", 'y', 'r'),
-						Options: itemLabels,
-						RespectOptionNewlines: false,
-						Icons: itemIcons,
-						DefaultSelected: defaultSelected,
-						Buttons: menuCommands,
-						AllowEscape: true
-					);
-					s_OverridePopup = false; // Should already be false after PickOption(), just adding this here as a backup
-				}
+				int selectedIndex = PickOption(
+					Title: "Lootable Items",
+					Intro: intro,
+					// IntroIcon: Renderable.UITile("an_eye_for_value.png", 'y', 'r'),
+					Options: itemLabels,
+					RespectOptionNewlines: false,
+					Icons: itemIcons,
+					DefaultSelected: defaultSelected,
+					Buttons: menuCommands,
+					AllowEscape: true
+				);
 
 				switch (selectedIndex) {
 					case -1:  // cancel
