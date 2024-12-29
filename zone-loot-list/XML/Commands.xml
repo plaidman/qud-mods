@@ -1,4 +1,12 @@
 <commands>
+	<!-- Menus layer is required for Classic UI navigation commands (Accept, Cancel, Scrolling, etc.) -->
+	<!-- UINav layer is required for Modern UI navigation commands -->
+	<!-- ZoneLootLayer is our own command/keybind layer -->
+	<navcategory ID="ZoneLootNav">
+		<layer ID="Menus"/>
+		<layer ID="UINav"/>
+		<layer ID="ZoneLootLayer"/>
+	</navcategory>
 	<command ID="Plaidman_AnEyeForValue_Command_LightenMyLoad" DisplayText="Show Inventory" Category="Mod: Zone Loot List" Layer="Adventure" Auto="Down">
 		<keyboardBind Modifier="shift" Key="d"/>
 	</command>
@@ -6,25 +14,25 @@
 		<keyboardBind Modifier="shift" Key="f"/>
 	</command>
 	<command ID="Plaidman_AnEyeForValue_Command_Uninstall" DisplayText="Uninstall Mod" Category="Mod: Zone Loot List" Layer="Adventure" Auto="Down"></command>
-	<command ID="Plaidman_AnEyeForValue_Popup_InvSort" DisplayText="Inv: Sort Items" Category="Mod: Zone Loot List" Layer="Menus" Auto="DownPass">
-		<keyboardBind Modifier="ctrl" Key="tab"/>
+	<command ID="Plaidman_AnEyeForValue_Popup_InvSort" DisplayText="Inv: Sort Items" Category="Mod: Zone Loot List" Layer="ZoneLootLayer">
+		<keyboardBind Key="s"/>
 		<gamepadBind Button="select"/>
 	</command>
-	<command ID="Plaidman_AnEyeForValue_Popup_Drop" DisplayText="Inv: Drop Items" Category="Mod: Zone Loot List" Layer="Menus" Auto="DownPass">
+	<command ID="Plaidman_AnEyeForValue_Popup_Drop" DisplayText="Inv: Drop Items" Category="Mod: Zone Loot List" Layer="ZoneLootLayer">
 		<keyboardBind Key="delete"/>
 		<keyboardBind Key="backspace"/>
 		<gamepadBind Alt="true" Button="buttonWest"/>
 		<keyboardBind Key="[" Set="hjkl"/>
 	</command>
-	<command ID="Plaidman_AnEyeForValue_Popup_ZoneSort" DisplayText="Zone: Sort Items" Category="Mod: Zone Loot List" Layer="Menus" Auto="DownPass">
-		<keyboardBind Modifier="ctrl" Key="tab"/>
+	<command ID="Plaidman_AnEyeForValue_Popup_ZoneSort" DisplayText="Zone: Sort Items" Category="Mod: Zone Loot List" Layer="ZoneLootLayer" CanShareBindsWith="Plaidman_AnEyeForValue_Popup_InvSort,Plaidman_AnEyeForValue_Popup_Drop">
+		<keyboardBind Key="s"/>
 		<gamepadBind Button="select"/>
 	</command>
-	<command ID="Plaidman_AnEyeForValue_Popup_Toggle" DisplayText="Zone: Select All" Category="Mod: Zone Loot List" Layer="Menus" Auto="DownPass">
+	<command ID="Plaidman_AnEyeForValue_Popup_Toggle" DisplayText="Zone: Select All" Category="Mod: Zone Loot List" Layer="ZoneLootLayer" CanShareBindsWith="Plaidman_AnEyeForValue_Popup_InvSort,Plaidman_AnEyeForValue_Popup_Drop">
 		<keyboardBind Key="tab"/>
 		<gamepadBind Button="rightTrigger"/>
 	</command>
-	<command ID="Plaidman_AnEyeForValue_Popup_PickupMode" DisplayText="Zone: Pickup Mode" Category="Mod: Zone Loot List" Layer="Menus" Auto="DownPass">
+	<command ID="Plaidman_AnEyeForValue_Popup_PickupMode" DisplayText="Zone: Pickup Mode" Category="Mod: Zone Loot List" Layer="ZoneLootLayer" CanShareBindsWith="Plaidman_AnEyeForValue_Popup_InvSort,Plaidman_AnEyeForValue_Popup_Drop">
 		<keyboardBind Key="w"/>
 	</command>
 </commands>

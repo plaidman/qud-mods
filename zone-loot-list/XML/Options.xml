@@ -31,4 +31,9 @@
 			Makes your character know all item values by default.
 		</helptext>
 	</option>
+	<option ID="Plaidman_AnEyeForValue_Option_ClassicUIZoom" DisplayText="Zoom effect in Classic UI" Category="Mod: Zone Loot List" Type="Checkbox" Default="No">
+		<helptext>
+			Enable/Disable the zoom effect when opening/closing ZLL's windows in Qud's classic UI mode. Has no effect in the modern UI. (Default = Disabled)
+		</helptext>
+	</option>
 </options>
