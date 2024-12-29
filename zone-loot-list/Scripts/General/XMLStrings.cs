@@ -19,8 +19,12 @@ namespace Plaidman.AnEyeForValue.Utils {
 		public static readonly string ChestsOption = "Plaidman_AnEyeForValue_Option_ZoneChests";
 		public static readonly string LiquidsOption = "Plaidman_AnEyeForValue_Option_ZoneLiquids";
 		public static readonly string PureLiquidsOption = "Plaidman_AnEyeForValue_Option_ZonePureLiquids";
+		public static readonly string ClassicUIZoomOption = "Plaidman_AnEyeForValue_Option_ClassicUIZoom";
 
 		public static readonly string PKAppraisalSkill = "PKAPP_Price";
 		public static readonly string AnEyeForValueSkill = "AEFV_AnEyeForValue";
+
+		public const string ZLLCommandLayer = "ZoneLootLayer";
+		public const string ZLLNavCategory = "ZoneLootNav";
 	}
 }

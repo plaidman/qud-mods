@@ -1,5 +1,6 @@
 using ConsoleLib.Console;
 using HarmonyLib;
+using Plaidman.AnEyeForValue.Utils;
 using Qud.UI;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,22 +9,31 @@ using XRL.UI;
 namespace Plaidman.AnEyeForValue.Menus {
 	public enum SortType { Weight, Value };
 	public enum PickupType { Single, Multi };
+	
+	class UIStrings {
+		public const string ClassicView = "ZoneLootPopup";
+		public const string ClassicViewZoom = "ZoneLootPopupZoom";
+		public const string ModernView = "ZoneLootPopupMessage";
+		public const string ModernViewDyn = "ZoneLootDynamicPopupMessage";
+	}
 
-	/* This UIView is used for classic UI popups, ref: GameManager::_ViewData["*Default"]
+	/* First 2 Views are used for classic UI popups, ref: GameManager::_ViewData["*Default"]
 	 * Note that most popups (including the one in Popup::PickOption()) do NOT use the Popup class' own UIView (the one with ID = "Popup")!
 	 * Don't get confused by one of the "NewView" parameters to PushGameView() ("Popup:Choice")!
-	 * Behind the scenes that will resolve to the "*Default" View and as such that is the reference I used for this UIView.
-	 * Although I decided to change "ForceFullscreen" from true to false to get rid of the zoom effect on open/close. */
-	[UIView(ID: "ZoneLootPopup", WantsTileOver: false, ForceFullscreen: false, IgnoreForceFullscreen: false, 
-		NavCategory: "ZoneLootNav", UICanvas: null, TakesScroll: false, UICanvasHost: 0, ForceFullscreenInLegacy: false)]
+	 * Behind the scenes that will resolve to the "*Default" UIView and as such that is the reference I used here.
+	 * Both of these are exactly the same, except for the zoom effect on open/close (controlled by the ForceFullscreen parameter). */
+	[UIView(ID: UIStrings.ClassicView, WantsTileOver: false, ForceFullscreen: false, IgnoreForceFullscreen: false, 
+		NavCategory: XMLStrings.ZLLNavCategory, UICanvas: null, TakesScroll: false, UICanvasHost: 0, ForceFullscreenInLegacy: false)]
+	[UIView(ID: UIStrings.ClassicViewZoom, WantsTileOver: false, ForceFullscreen: true, IgnoreForceFullscreen: false,
+		NavCategory: XMLStrings.ZLLNavCategory, UICanvas: null, TakesScroll: false, UICanvasHost: 0, ForceFullscreenInLegacy: false)]
 	/* Next 2 Views are used for modern UI popups, ref: Qud.UI.PopupMessage
 	 * Using "PopupMessage" for the UICanvas parameter of ZoneLootPopupMessage is intentional! Quote from the documentation (found on CoQ Discord):
 	 * "UICanvas - The name of the UI Canvas (Unity) GameObject which should be displayed when this view is active"
 	 * Changing the UICanvas parameter to e.g. "ZoneLootPopupMessage" would lead to errors since that is not a valid Unity object name */
-	[UIView(ID: "ZoneLootDynamicPopupMessage", WantsTileOver: false, ForceFullscreen: false, IgnoreForceFullscreen: true, 
-		NavCategory: "ZoneLootNav", UICanvas: null, TakesScroll: false, UICanvasHost: 0, ForceFullscreenInLegacy: false)]
-	[UIView(ID: "ZoneLootPopupMessage", WantsTileOver: false, ForceFullscreen: false, IgnoreForceFullscreen: true, 
-		NavCategory: "ZoneLootNav", UICanvas: "PopupMessage", TakesScroll: false, UICanvasHost: 1, ForceFullscreenInLegacy: false)]
+	[UIView(ID: UIStrings.ModernView, WantsTileOver: false, ForceFullscreen: false, IgnoreForceFullscreen: true, 
+		NavCategory: XMLStrings.ZLLNavCategory, UICanvas: "PopupMessage", TakesScroll: false, UICanvasHost: 1, ForceFullscreenInLegacy: false)]
+	[UIView(ID: UIStrings.ModernViewDyn, WantsTileOver: false, ForceFullscreen: false, IgnoreForceFullscreen: true, 
+		NavCategory: XMLStrings.ZLLNavCategory, UICanvas: null, TakesScroll: false, UICanvasHost: 0, ForceFullscreenInLegacy: false)]
 	public class BasePopup {
 		public SortType CurrentSortType;
 		private Dictionary<SortType, List<InventoryItem>> ItemListCache;
@@ -35,14 +45,14 @@ namespace Plaidman.AnEyeForValue.Menus {
 		private static bool s_OverridePopup = false;
 
 		private static void SwitchToFallBackCommands() {
-			string oldLayer = "ZoneLootLayer";
+			string oldLayer = XMLStrings.ZLLCommandLayer;
 			string newLayer = "UI";
 			if (!s_UseFallback && CommandBindingManager.CommandBindingLayers.ContainsKey(oldLayer) && CommandBindingManager.CommandBindingLayers.ContainsKey(newLayer)) {
 				UnityEngine.Debug.LogError("ZoneLootList - Using fallback command settings!");
-				s_UseFallback = true;
 				/* Change our commands' attributes to: Layer="UI" and Auto="DownPass"
-				 * While certainly suboptimal, this ensures that our commands still work
-				 * if our custom UIViews fail for some reason. */
+				 * While certainly suboptimal (game won't complain if we try to bind 2 actions to the same key), this ensures that our
+				 * commands still work if our custom UIViews fail for some reason. The "UI" command layer has very few commands on it by
+				 * default, so hopefully we shouldn't impact any of the game's menus like we did in the past when using the "Menus" layer. */
 				foreach (var entry in CommandBindingManager.CommandBindingLayers[oldLayer].actions) {
 					CommandBindingManager.CommandsByID[entry.name].Layer = newLayer;
 					CommandBindingManager.CommandsByID[entry.name].Auto = "DownPass";
@@ -51,6 +61,10 @@ namespace Plaidman.AnEyeForValue.Menus {
 				// ref: XRL.UI.CommandBindingManager::LoadCommands() / XRL.UI.CommandBindingManager::LoadCurrentKeymap(...)
 				CommandBindingManager.InitializeInputManager(!System.IO.File.Exists(CommandBindingManager.GetCurrentKeymapPath()), false, null);
 			}
+			else {
+				UnityEngine.Debug.LogError("ZoneLootList - Couldn't switch to fallback command settings!");
+			}
+			s_UseFallback = true; // Always set this flag to true. No matter how we got here, we won't be able to use the non-fallback commands anyway
 		}
 
 		private static bool CheckUIViewsLoaded() {
@@ -58,21 +72,23 @@ namespace Plaidman.AnEyeForValue.Menus {
 				// Unloading UIViews isn't possible AFAIK, so we don't have to check again after confirming this once
 				return s_UIViewsLoaded;
 			}
-			bool nav_zlp = GameManager.Instance.HasViewData("ZoneLootPopup");
-			bool nav_dzpm = GameManager.Instance.HasViewData("ZoneLootDynamicPopupMessage");
-			bool nav_pzm = GameManager.Instance.HasViewData("ZoneLootPopupMessage");
+			bool nav_zlp = GameManager.Instance.HasViewData(UIStrings.ClassicView);
+			bool nav_zlpz = GameManager.Instance.HasViewData(UIStrings.ClassicViewZoom);
+			bool nav_zlpm = GameManager.Instance.HasViewData(UIStrings.ModernView);
+			bool nav_zldpm = GameManager.Instance.HasViewData(UIStrings.ModernViewDyn);
 
 			// Try to register our custom UIViews if any of them aren't loaded yet.
 			// Should only happen when this mod requires user approval after an update.
-			if (!nav_zlp || !nav_dzpm || !nav_pzm) {
+			if (!nav_zlp || !nav_zlpz || !nav_zlpm || !nav_zldpm) {
 				GameManager.Instance.RegisterViews();
-				nav_zlp = GameManager.Instance.HasViewData("ZoneLootPopup");
-				nav_dzpm = GameManager.Instance.HasViewData("ZoneLootDynamicPopupMessage");
-				nav_pzm = GameManager.Instance.HasViewData("ZoneLootPopupMessage");
+				nav_zlp = GameManager.Instance.HasViewData(UIStrings.ClassicView);
+				nav_zlpz = GameManager.Instance.HasViewData(UIStrings.ClassicViewZoom);
+				nav_zlpm = GameManager.Instance.HasViewData(UIStrings.ModernView);
+				nav_zldpm = GameManager.Instance.HasViewData(UIStrings.ModernViewDyn);
 
 				// If our custom UIViews still aren't loaded for some reason, switch to fallback command settings.
 				// Note that this NEVER happened in my testing, this is just here as a backup.
-				if (!nav_zlp || !nav_dzpm || !nav_pzm) {
+				if (!nav_zlp || !nav_zlpz || !nav_zlpm || !nav_zldpm) {
 					UnityEngine.Debug.LogError("ZoneLootList - Failed to register custom UIViews!");
 					// Calling SwitchToFallBackCommands() from here lead to threading/access errors,
 					// so set a flag to call it during the next UpdateInput() iteration instead
@@ -93,19 +109,24 @@ namespace Plaidman.AnEyeForValue.Menus {
 		[HarmonyPatch(typeof(GameManager), nameof(GameManager.PushGameView))]
 		private sealed class PushGameViewPatch {
 			static bool Prefix(ref string NewView) {
-				// Override NewView with our custom UIView (only when called for by ZonePopup/InventoryPopup), otherwise use original
+				// Override NewView with our custom UIView (only when called for by ZonePopup/InventoryPopup, otherwise use original)
 				if (s_OverridePopup && !s_UseFallback) {
 					s_OverridePopup = false;
 					// used for modern UI popups, ref: XRL.UI.Popup.WaitNewPopupMessage(...)
 					if (NewView == "PopupMessage") {
-						NewView = "ZoneLootPopupMessage";
+						NewView = UIStrings.ModernView;
 					}
 					else if (NewView == "DynamicPopupMessage") {
-						NewView = "ZoneLootDynamicPopupMessage";
+						NewView = UIStrings.ModernViewDyn;
 					}
 					// used for classic UI popups, ref: XRL.UI.Popup.PickOption(...)
 					else if (NewView == "Popup:Choice") {
-						NewView = "ZoneLootPopup";
+						if (Options.GetOption(XMLStrings.ClassicUIZoomOption) == "No") {
+							NewView = UIStrings.ClassicView;
+						}
+						else {
+							NewView = UIStrings.ClassicViewZoom;
+						}
 					}
 					else {
 						// This should never happen unless the game's own UIViews get renamed in a future update.
@@ -124,16 +145,19 @@ namespace Plaidman.AnEyeForValue.Menus {
 		[HarmonyPatch(typeof(GameManager), nameof(GameManager.UpdateInput))]
 		private sealed class UpdateInputPatch {
 			static void Postfix () {
-				if (!s_UseFallback && s_SwitchToFallback) {
-					SwitchToFallBackCommands();
-				}
-				string layer = "ZoneLootLayer";
-				if (!s_UseFallback && ControlManager.IsLayerEnabled(layer) && CommandBindingManager.CommandBindingLayers.ContainsKey(layer)) {
-					foreach (var entry in CommandBindingManager.CommandBindingLayers[layer].actions) {
-						// All occurences of isCommandDown() inside UpdateInput() use true, false, false for the bool parameters
-						if (ControlManager.isCommandDown(entry.name, true, false, false)) {
-							// Add command to the command queue (all input devices use Keyboard.PushCommand())
-							Keyboard.PushCommand(entry.name, null);
+				if (!s_UseFallback) {
+					if (s_SwitchToFallback) {
+						SwitchToFallBackCommands();
+						return; // Fallback commands don't require any custom code, so there's no need to continue here after switching
+					}
+					string layer = XMLStrings.ZLLCommandLayer;
+					if (ControlManager.IsLayerEnabled(layer) && CommandBindingManager.CommandBindingLayers.ContainsKey(layer)) {
+						foreach (var entry in CommandBindingManager.CommandBindingLayers[layer].actions) {
+							// All occurences of isCommandDown() inside UpdateInput() use true, false, false for the bool parameters
+							if (ControlManager.isCommandDown(entry.name, true, false, false)) {
+								// Add command to the command queue (all input devices use Keyboard.PushCommand())
+								Keyboard.PushCommand(entry.name, null);
+							}
 						}
 					}
 				}
