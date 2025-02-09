@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using ConsoleLib.Console;
 using Plaidman.AnEyeForValue.Events;
@@ -109,7 +109,7 @@ namespace XRL.World.Parts {
 				out List<GameObject> autoLootItems
 			);
 
-			var itemCount = takeableItems.Count + liquids.Count + autoLootItems.Count;
+			var itemCount = takeableItems.Count + liquids.Count + chestItems.Count + autoLootItems.Count;
 			if (itemCount == 0) {
 				Popup.Show("You haven't seen any new loot in this area.");
 				return;
