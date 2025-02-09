@@ -150,7 +150,7 @@ namespace XRL.World.Parts {
 				var go = chestItems[i];
 				
 				foreach (var chestItem in go.Inventory.GetObjects()) {
-					var known = GetItemKnowledge().IsLiquidKnown(go.LiquidVolume);
+					var known = GetItemKnowledge().IsItemKnown(chestItem);
 					var inv = new InventoryItem(iAdj, chestItem, valueMult, known, ItemType.Chest);
 
 					invList.Add(inv);
