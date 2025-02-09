@@ -9,7 +9,8 @@ namespace Plaidman.AnEyeForValue.Utils {
 		public static readonly string ZoneSortCommand = "Plaidman_AnEyeForValue_Popup_ZoneSort";
 		public static readonly string PickupCommand = "Plaidman_AnEyeForValue_Popup_PickupMode";
 
-		public static readonly string OmnicientOption = "Plaidman_AnEyeForValue_Option_Omnicient";
+		public static readonly string OmnicientValueOption = "Plaidman_AnEyeForValue_Option_OmnicientValue";
+		public static readonly string OmnicientMapOption = "Plaidman_AnEyeForValue_Option_OmnicientMap";
 		public static readonly string AbilityOption = "Plaidman_AnEyeForValue_Option_UseAbilities";
 		public static readonly string PreferredSortOption = "Plaidman_AnEyeForValue_Option_PreferredSort";
 		public static readonly string PreferredPickupOption = "Plaidman_AnEyeForValue_Option_PreferredPickup";

@@ -2,7 +2,7 @@
 	"id": "Plaidman_AnEyeForValue",
 	"title": "Zone Loot List",
 	"description": "Keep track of which items are known to the player through experience or skill.",
-	"version": "3.1.0",
+	"version": "3.0.0",
 	"author": "Plaidman",
 	"tags": "UI/UX,Script,Skill",
 	"previewImage": "preview.png"

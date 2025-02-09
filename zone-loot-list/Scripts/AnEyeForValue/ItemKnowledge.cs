@@ -107,7 +107,7 @@ namespace XRL.World.Parts {
 		}
 
 		public bool IsItemKnown(GameObject go) {
-			if (Options.GetOption(XMLStrings.OmnicientOption) == "Yes") {
+			if (Options.GetOption(XMLStrings.OmnicientValueOption) == "Yes") {
 				return true;
 			}
 
@@ -129,7 +129,7 @@ namespace XRL.World.Parts {
 		}
 
 		public bool IsLiquidKnown(LiquidVolume liquids) {
-			if (Options.GetOption(XMLStrings.OmnicientOption) == "Yes") {
+			if (Options.GetOption(XMLStrings.OmnicientValueOption) == "Yes") {
 				return true;
 			}
 
