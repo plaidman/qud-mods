@@ -76,8 +76,6 @@ namespace Plaidman.AnEyeForValue.Utils {
 		private static bool IsTakeable(GameObject go) {
 			var autogetByDefault = go.ShouldAutoget()
 				&& !go.HasPart<AEFV_AutoGetBeacon>();
-			var isCorpse = go.GetInventoryCategory() == "Corpses"
-				|| go.HasTag("DynamicObjectsTable:Corpses");
 			var isTrash = go.HasPart<Garbage>();
 			var isStone = go.GetBlueprint().DescendsFrom("BaseStone");
 
@@ -85,6 +83,11 @@ namespace Plaidman.AnEyeForValue.Utils {
 			if (go.TryGetPart(out Tinkering_Mine minePart)) {
 				armedMine = minePart.Armed;
 			}
+
+			var isCorpse = go.GetInventoryCategory() == "Corpses"
+				|| go.HasTag("DynamicObjectsTable:Corpses");
+			var isMask = go.GetBlueprint().DescendsFrom("GenericFace");
+			isCorpse = isCorpse && !isMask;
 
 			return go.Physics.Takeable
 				&& go.Physics.IsReal
