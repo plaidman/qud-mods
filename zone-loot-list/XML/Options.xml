@@ -13,6 +13,11 @@
 		</helptext>
 	</option>
 	<option ID="Plaidman_AnEyeForValue_Option_ZonePureLiquids" Requires="Plaidman_AnEyeForValue_Option_ZoneLiquids==Yes" DisplayText="Hide Impure Liquids" Category="Mod: Zone Loot List" Type="Checkbox" Default="Yes"></option>
+	<option ID="Plaidman_AnEyeForValue_Option_ZoneAutoLoot" DisplayText="Autopickup items in Zone Loot (e.g. nuggets)" Category="Mod: Zone Loot List" Type="Checkbox" Default="No">
+		<helptext>
+			Show items that are normally auto-looted in the popup. This includes things like nuggets, scrap, and trade goods.
+		</helptext>
+	</option>
 	<option ID="Plaidman_AnEyeForValue_Option_UseAbilities" DisplayText="Use Activated Abilities" Category="Mod: Zone Loot List" Type="Checkbox" Default="No"></option>
 	<option ID="Plaidman_AnEyeForValue_Option_PreferredSort" DisplayText="Preferred Sort Mode" Category="Mod: Zone Loot List" Type="Combo" Values="Value,Weight" Default="Value">
 		<helptext>

@@ -18,6 +18,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 		public static readonly string StonesOption = "Plaidman_AnEyeForValue_Option_ZoneStones";
 		public static readonly string CorpsesOption = "Plaidman_AnEyeForValue_Option_ZoneCorpses";
 		public static readonly string ChestsOption = "Plaidman_AnEyeForValue_Option_ZoneChests";
+		public static readonly string AutoLootOption = "Plaidman_AnEyeForValue_Option_ZoneAutoLoot";
 		public static readonly string LiquidsOption = "Plaidman_AnEyeForValue_Option_ZoneLiquids";
 		public static readonly string PureLiquidsOption = "Plaidman_AnEyeForValue_Option_ZonePureLiquids";
 		public static readonly string ClassicUIZoomOption = "Plaidman_AnEyeForValue_Option_ClassicUIZoom";

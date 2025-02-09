@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using ConsoleLib.Console;
 using Plaidman.AnEyeForValue.Events;
@@ -105,10 +105,12 @@ namespace XRL.World.Parts {
 				ParentObject.CurrentZone.YieldObjects(),
 				out List<GameObject> takeableItems,
 				out List<GameObject> liquids,
-				out List<GameObject> chestItems
+				out List<GameObject> chestItems,
+				out List<GameObject> autoLootItems
 			);
 
-			if (liquids.Count == 0 && takeableItems.Count == 0) {
+			var itemCount = takeableItems.Count + liquids.Count + autoLootItems.Count;
+			if (itemCount == 0) {
 				Popup.Show("You haven't seen any new loot in this area.");
 				return;
 			}
@@ -120,7 +122,6 @@ namespace XRL.World.Parts {
 				}
 			}
 
-			var itemCount = takeableItems.Count + liquids.Count + chestItems.Count;
 			var invList = new List<InventoryItem>(itemCount);
 			var goList = new GameObject[itemCount];
 			var valueMult = ValueUtils.GetValueMultiplier();
@@ -156,6 +157,16 @@ namespace XRL.World.Parts {
 				}
 
 				goList[iAdj] = go;
+			}
+
+			for (var i = 0; i < autoLootItems.Count; i++) {
+				var iAdj = i + takeableItems.Count + liquids.Count + chestItems.Count;
+				var go = autoLootItems[i];
+				var known = GetItemKnowledge().IsItemKnown(go);
+				var inv = new InventoryItem(iAdj, go, valueMult, known, ItemType.AutoLoot);
+
+				goList[iAdj] = go;
+				invList.Add(inv);
 			}
 
 			ItemPopup.CurrentSortType = CurrentSortType;

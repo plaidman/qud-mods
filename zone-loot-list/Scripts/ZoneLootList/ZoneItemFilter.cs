@@ -11,10 +11,12 @@ namespace Plaidman.AnEyeForValue.Utils {
 			IEnumerable<GameObject> items,
 			out List<GameObject> takeableItems,
 			out List<GameObject> liquidItems,
-			out List<GameObject> chestItems
+			out List<GameObject> chestItems,
+			out List<GameObject> autoLootItems
 		) {
 			takeableItems = new();
 			chestItems = new();
+			autoLootItems = new();
 			Dictionary<string, GameObject> Liquids = new();
 
 			foreach (var item in items) {
@@ -36,7 +38,12 @@ namespace Plaidman.AnEyeForValue.Utils {
 					takeableItems.Add(item);
 					continue;
 				}
-				
+
+				if (IsAutoLooted(item) && Options.GetOption(XMLStrings.AutoLootOption) == "Yes") {
+					autoLootItems.Add(item);
+					continue;
+				}
+
 				if (IsLiquid(item)) {
 					var prevPool = Liquids.GetValue(item.ShortDisplayNameStripped);
 					var closest = ClosestToPlayer(item, prevPool);
@@ -73,9 +80,12 @@ namespace Plaidman.AnEyeForValue.Utils {
 			return true;
 		}
 
+		private static bool IsAutoLooted(GameObject go) {
+			return go.ShouldAutoget() && !go.HasPart<AEFV_AutoGetBeacon>();
+		}
+
 		private static bool IsTakeable(GameObject go) {
-			var autogetByDefault = go.ShouldAutoget()
-				&& !go.HasPart<AEFV_AutoGetBeacon>();
+			var autogetByDefault = IsAutoLooted(go);
 			var isTrash = go.HasPart<Garbage>();
 			var isStone = go.GetBlueprint().DescendsFrom("BaseStone");
 

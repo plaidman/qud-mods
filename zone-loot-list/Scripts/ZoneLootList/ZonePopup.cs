@@ -168,6 +168,9 @@ namespace Plaidman.AnEyeForValue.Menus {
 					}
 					yield return new ZonePopupAction(mappedItem.Index, ActionType.ResetChest);
 
+				} else if (mappedItem.Type == ItemType.AutoLoot) {
+					// do nothing
+
 				} else if (mappedItem.Type == ItemType.ChestReset) {
 					// do nothing
 

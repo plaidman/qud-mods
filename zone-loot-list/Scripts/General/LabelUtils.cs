@@ -69,6 +69,10 @@ namespace Plaidman.AnEyeForValue.Utils {
 				return "{{w|[\x04]}}";
 			}
 
+			if (type == ItemType.AutoLoot) {
+				return "{{W|[þ]}}";
+			}
+
 			if (selected) {
 				return "{{W|[þ]}}";
 			}
