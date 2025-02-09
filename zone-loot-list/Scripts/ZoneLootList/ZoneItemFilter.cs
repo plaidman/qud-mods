@@ -18,7 +18,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 			Dictionary<string, GameObject> Liquids = new();
 
 			foreach (var item in items) {
-				if (NotSeen(item)) {
+				if (NotSeen(item) && Options.GetOption(XMLStrings.OmnicientMapOption) != "Yes") {
 					// skip unseen items
 					continue;
 				}
