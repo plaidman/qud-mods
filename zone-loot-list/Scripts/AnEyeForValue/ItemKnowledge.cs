@@ -13,7 +13,7 @@ namespace XRL.World.Parts {
 			WriteStringHashSet(KnownItems, writer);
 			WriteStringHashSet(KnownLiquids, writer);
 		}
-		
+
 		private void WriteStringHashSet(HashSet<string> hs, SerializationWriter writer) {
 			writer.Write(hs.Count);
 

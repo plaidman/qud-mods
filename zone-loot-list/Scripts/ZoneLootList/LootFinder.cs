@@ -148,7 +148,7 @@ namespace XRL.World.Parts {
 			for (var i = 0; i < chestItems.Count; i++) {
 				var iAdj = i + takeableItems.Count + liquids.Count;
 				var go = chestItems[i];
-				
+
 				foreach (var chestItem in go.Inventory.GetObjects()) {
 					var known = GetItemKnowledge().IsItemKnown(chestItem);
 					var inv = new InventoryItem(iAdj, chestItem, valueMult, known, ItemType.Chest);
@@ -198,7 +198,7 @@ namespace XRL.World.Parts {
 					case ActionType.Travel:
 						var itemCell = goList[result.Index].CurrentCell;
 						var landingCell = FindPassableAdjacentCell(itemCell, ParentObject.CurrentCell);
-						
+
 						if (landingCell == null) {
 							Popup.Show("Unable to find a suitable path to this item");
 							break;
@@ -207,7 +207,7 @@ namespace XRL.World.Parts {
 						AutoAct.Setting = "M" + landingCell.X.ToString() + "," + landingCell.Y.ToString();
 						The.ActionManager.SkipPlayerTurn = true;
 						break;
-						
+
 					case ActionType.ResetChest:
 						item = goList[result.Index];
 						item.RemoveIntProperty("Autoexplored");
@@ -215,7 +215,7 @@ namespace XRL.World.Parts {
 				}
 			}
 		}
-		
+
 		private Cell FindPassableAdjacentCell(Cell start, Cell bias) {
 			Cell passable = null;
 
@@ -231,12 +231,12 @@ namespace XRL.World.Parts {
 
 			foreach (var direction in Cell.DirectionListCardinalFirst) {
 				if (direction == biasDir) continue;
-				
+
 				var adj = start.GetCellFromDirection(direction);
 				if (!adj.IsPassable()) continue;
 
 				passable ??= adj;
-				
+
 				if (!adj.HasOpenLiquidVolume()) {
 					return adj;
 				}

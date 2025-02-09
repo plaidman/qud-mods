@@ -65,10 +65,11 @@ namespace Plaidman.AnEyeForValue.Menus {
 				var sortModeString = PopupUtils.SortStrings.GetValue(CurrentSortType);
 				var pickupModeString = PopupUtils.PickupStrings.GetValue(CurrentPickupType);
 				var liquidNote = "";
+
 				if (Options.GetOption(XMLStrings.LiquidsOption) == "Yes") {
 					liquidNote = "Selecting a liquid item ({{c|[\xf7]}}) will auto-travel to that liquid.\n";
-					
 				}
+
 				var intro = "Mark items here, then autoexplore to pick them up.\n"
 					+ liquidNote
 					+ sortModeString + "\xff\xff\xff" + pickupModeString + "\n"

@@ -9,7 +9,7 @@ using XRL.UI;
 namespace Plaidman.AnEyeForValue.Menus {
 	public enum SortType { Weight, Value };
 	public enum PickupType { Single, Multi };
-	
+
 	class UIStrings {
 		public const string ClassicView = "ZoneLootPopup";
 		public const string ClassicViewZoom = "ZoneLootPopupZoom";

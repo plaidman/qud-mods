@@ -59,7 +59,7 @@ namespace Plaidman.AnEyeForValue.Utils {
 					Liquids.SetValue(item.ShortDisplayNameStripped, closest);
 				}
 			}
-			
+
 			liquidItems = new List<GameObject>(Liquids.Values);
 			return;
 		}
@@ -67,16 +67,16 @@ namespace Plaidman.AnEyeForValue.Utils {
 		private static bool NotSeen(GameObject go) {
 			return !go.CurrentCell.IsExplored() || go.IsHidden;
 		}
-		
+
 		private static bool IsLiquid(GameObject go) {
 			if (Options.GetOption(XMLStrings.LiquidsOption) != "Yes" || !go.HasPart<LiquidVolume>()) {
 				return false;
 			}
-			
+
 			if (Options.GetOption(XMLStrings.PureLiquidsOption) == "Yes" && !go.LiquidVolume.IsPure()) {
 				return false;
 			}
-			
+
 			return true;
 		}
 
