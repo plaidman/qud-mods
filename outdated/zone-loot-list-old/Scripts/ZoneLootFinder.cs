@@ -20,11 +20,11 @@ namespace Plaidman.ZoneLootList.Parts {
 		public static readonly string AbilityOption = "Plaidman_ZoneLootList_Option_UseAbility";
 		public Guid AbilityGuid;
 
-        public override void Register(GameObject go, IEventRegistrar registrar) {
+		public override void Register(GameObject go, IEventRegistrar registrar) {
 			registrar.Register(CommandEvent.ID);
 			registrar.Register(AfterPlayerBodyChangeEvent.ID);
-            base.Register(go, registrar);
-        }
+			base.Register(go, registrar);
+		}
 
 		public void ToggleAbility() {
 			if (Options.GetOption(AbilityOption) == "Yes") {
@@ -48,8 +48,8 @@ namespace Plaidman.ZoneLootList.Parts {
 
 		public override bool HandleEvent(AfterPlayerBodyChangeEvent e) {
 			ToggleAbility();
-            return base.HandleEvent(e);
-        }
+			return base.HandleEvent(e);
+		}
 	
 		public override bool HandleEvent(CommandEvent e) {
 			if (e.Command == ItemListCommand) {
