@@ -166,7 +166,7 @@ namespace Plaidman.SaltShuffleRevival {
 			return go.Brain.Allegiance
 				.Where(kvp => {
 					if (Brain.GetAllegianceLevel(kvp.Value) != Brain.AllegianceLevel.Member) return false;
-					return Factions.Get(kvp.Key).Visible;
+					return Factions.GetIfExists(kvp.Key)?.Visible is true;
 				})
 				.Select(kvp => kvp.Key)
 				.ToList();
