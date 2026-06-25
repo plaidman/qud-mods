@@ -72,17 +72,51 @@ namespace XRL.World.Parts {
 				return base.HandleEvent(e);
 			}
 
-			var tally = new StringBuilder("You unwrap the =pack= and get:\n");
+						var tally = new StringBuilder("You unwrap the =pack= and get:\n");
+            
+            var additionalCards = Event.NewGameObjectList();
+			var allCards = Event.NewGameObjectList();
 
+            GameObject firstCard = null;
 			var qty = Starter ? 12 : 5;
 			for (int i = 0; i < qty; i++) {
 				var card = Starter
 					? SSR_Card.CreateCard()
 					: SSR_Card.CreateCard(Faction);
+                
+                if (i > 0)
+                    firstCard = card;
+                else
+                    additionalCards.Add(card);
+                
+                allCards.Add(card);
 
-				The.Player.TakeObject(card, NoStack: true);
-				tally.Append("- {{|").Append(card.DisplayName).Append("}}\n");
+				e.Actor.TakeObject(card, NoStack: true);
 			}
+            
+            if (firstCard != null)
+            {
+                try
+                {
+                    WasDerivedFromEvent.Send(ParentObject, ParentObject, firstCard, additionalCards, allCards, "InvCommandUnwrap");
+                }
+                catch (Exception x)
+                {
+                    MetricsManager.LogError(x);
+                }
+                try
+                {
+                    foreach (var card in allCards)
+                        DerivationCreatedEvent.Send(card, ParentObject, ParentObject, "InvCommandUnwrap");
+                }
+                catch (Exception x)
+                {
+                    MetricsManager.LogError(x);
+                }
+            }
+            
+            foreach (var card in allCards)
+				tally.Append("- {{|").Append(card.DisplayName).Append("}}\n");
 
 			tally.StartReplace()
 				.AddReplacer("pack", ParentObject.DisplayName)
