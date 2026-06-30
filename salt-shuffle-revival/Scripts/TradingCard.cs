@@ -120,6 +120,11 @@ namespace XRL.World.Parts {
 			SetColors(fe);
 			SetDescription(fe);
 			SetDisplayName(fe);
+            
+            if (fe.IsLovely)
+                ParentObject.RequirePart<Lovely>();
+            else
+                ParentObject.RemovePart<Lovely>();
 		}
 
 		private void NonBlueprintVariance(FactionEntity fe) {
