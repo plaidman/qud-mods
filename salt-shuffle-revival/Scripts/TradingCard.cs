@@ -122,7 +122,7 @@ namespace XRL.World.Parts {
 			SetDisplayName(fe);
             
             if (!fe.Factions.IsNullOrEmpty() && (Foil || fe.IsHero))
-                AddsRep.AddModifier(ParentObject, fe.Factions.Aggregate("", (a, n) => a + (!a.IsNullOrEmpty() ? "," : null) + n), !fe.IsHero ? 100 : 200);
+                AddsRep.AddModifier(ParentObject, fe.Factions.Aggregate("", (a, n) => a + (!a.IsNullOrEmpty() ? "," : null) + n), !fe.IsHero || !Foil ? 100 : 200);
 		}
 
 		private void NonBlueprintVariance(FactionEntity fe) {
