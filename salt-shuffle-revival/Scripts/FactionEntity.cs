@@ -27,6 +27,8 @@ namespace Plaidman.SaltShuffleRevival {
 		public string DetailColor;
 		public string FgColor;
 		public string Desc;
+        
+        public bool IsHero;
 
 		public bool WantFieldReflection => false;
 		public void Write(SerializationWriter writer) { writer.WriteNamedFields(this, GetType()); }
@@ -43,6 +45,7 @@ namespace Plaidman.SaltShuffleRevival {
 			Blueprint = null;
 
 			Name = go.DisplayNameOnlyDirectAndStripped;
+            IsHero = go.IsHero();
 			Factions = FactionTracker.GetCreatureFactions(go);
 			Strength = go.GetStatValue("Strength");
 			Agility = go.GetStatValue("Agility");
