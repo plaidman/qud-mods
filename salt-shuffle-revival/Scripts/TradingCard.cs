@@ -104,7 +104,7 @@ namespace XRL.World.Parts {
 			int error = xpLevel - (SunScore + MoonScore + StarScore);
 			SunScore += error;
 
-			if (Stat.Rnd2.Next(10) == 0) Foil = true;
+			Foil = Stat.Random(0, 9) == 0;
 			NonBlueprintVariance(fe);
 			BoostLowLevel();
 			BoostFoil();
