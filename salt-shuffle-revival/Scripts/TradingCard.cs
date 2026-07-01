@@ -121,10 +121,13 @@ namespace XRL.World.Parts {
 			SetDescription(fe);
 			SetDisplayName(fe);
             
-            if (fe.IsLovely)
-                ParentObject.RequirePart<Lovely>();
-            else
-                ParentObject.RemovePart<Lovely>();
+      if (Foil)
+          ParentObject.RequirePart<UD_AnimatedMaterialFoil>();
+          
+      if (fe.IsLovely)
+          ParentObject.RequirePart<Lovely>();
+      else
+          ParentObject.RemovePart<Lovely>();
 		}
 
 		private void NonBlueprintVariance(FactionEntity fe) {
@@ -196,7 +199,7 @@ namespace XRL.World.Parts {
 			var builder = new StringBuilder();
 
 			if (Foil) {
-				builder.Append("A reflective trading card with an animated illustration of =a==name= plus various cryptic statistics. The card shimmers when viewed at different angles.\n\n");
+				builder.Append("A {{Y|reflective}} trading card with an animated illustration of =a==name= plus various cryptic statistics. The card {{Y|shimmers}} when viewed at different angles.\n\n");
 			} else {
 				builder.Append("A trading card with a stylized illustration of =a==name= plus various cryptic statistics.\n\n");
 			}
@@ -222,9 +225,10 @@ namespace XRL.World.Parts {
 		}
 
 		private void SetDisplayName(FactionEntity fe) {
-			var builder = new StringBuilder("=name= {{W|=sun=}}/{{C|=moon=}}/{{M|=star=}}");
+			var builder = new StringBuilder("=name==foil= {{W|=sun=}}/{{C|=moon=}}/{{M|=star=}}");
 			builder.StartReplace()
 				.AddReplacer("name", fe.Name)
+				.AddReplacer("foil", Foil ? " ({{Y|F}})" : null)
 				.AddReplacer("sun", SunScore.ToString())
 				.AddReplacer("moon", MoonScore.ToString())
 				.AddReplacer("star", StarScore.ToString())
