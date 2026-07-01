@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<options>
+  <!-- Plaidman_SaltShuffleRevival_ 
+  
+  General Options
+  
+  -->
+  <option
+        ID="Plaidman_SaltShuffleRevival_EnableCardLongNames"
+        DisplayText="Include titles in card names for creatures that have proper names"
+        Category="Mod: Salt Shuffle Revival"
+        Type="Checkbox"
+        Default="No">
+    <helptext>
+      When enabled, if a card depicts a creature whose name includes an honorific, title, epithet, or other non-transient name element, those elements will be included in the card name.
+      
+      &quot;Kokoo Koyokoko&quot; becomes &quot;Kokoo Koyokoko legendary albino ape&quot;
+
+      {{r|Please note}}: only affects cards created after this option is changed.
+
+      The default is {{w|Disabled}}.
+    </helptext>
+  </option>
+  <option
+        ID="Plaidman_SaltShuffleRevival_EnableCardNameColors"
+        DisplayText="Include name colors in card names for creatures that hame them"
+        Category="Mod: Salt Shuffle Revival"
+        Type="Checkbox"
+        Default="No">
+    <helptext>
+      When enabled, if a card depicts a creature whose name includes colors, those colors will be included in the card name.
+      
+      &quot;Kokoo Koyokoko legendary albino ape&quot; becomes &quot;{{M|Kokoo Koyokoko legendary albino ape}}&quot;
+      &quot;kaleidoslug&quot; becomes &quot;{{kaleidoslug|kaleidoslug}}&quot;
+
+      {{r|Please note}}: only affects cards created after this option is changed.
+
+      The default is {{w|Disabled}}.
+    </helptext>
+  </option>
+</options>

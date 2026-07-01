@@ -38,13 +38,23 @@ namespace Plaidman.SaltShuffleRevival {
 
 		public FactionEntity(string blueprint) {
 			Blueprint = blueprint;
-			Name = GameObjectFactory.Factory.GetBlueprint(blueprint).CachedDisplayNameStripped;
+			Name = GameObjectFactory.Factory.GetBlueprint(blueprint).DisplayName();
+            
+            if (!Options.EnableCardNameColors)
+                Name = Name.Strip();
 		}
 
 		public FactionEntity(GameObject go, bool fromBlueprint) {
 			Blueprint = null;
 
-			Name = go.DisplayNameOnlyDirectAndStripped;
+			if (Options.EnableCardLongNames)
+                Name = go.GetDisplayName(AsIfKnown: true, Single: true, NoConfusion: true, Short: true);
+            else
+                Name = go.DisplayNameOnlyDirect;
+            
+            if (!Options.EnableCardNameColors)
+                Name = Name.Strip();
+			
 			Factions = FactionTracker.GetCreatureFactions(go);
 			Strength = go.GetStatValue("Strength");
 			Agility = go.GetStatValue("Agility");
