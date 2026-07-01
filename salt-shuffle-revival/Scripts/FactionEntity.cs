@@ -27,6 +27,8 @@ namespace Plaidman.SaltShuffleRevival {
 		public string DetailColor;
 		public string FgColor;
 		public string Desc;
+		
+        public bool IsLovely;
 
 		public bool WantFieldReflection => false;
 		public void Write(SerializationWriter writer) { writer.WriteNamedFields(this, GetType()); }
@@ -53,6 +55,7 @@ namespace Plaidman.SaltShuffleRevival {
 			Level = go.GetStatValue("Level");
 			Tier = go.GetTier();
 			IsBaetyl = go.Brain?.GetPrimaryFaction() == "Baetyl";
+            IsLovely = go.HasPart<Lovely>();
 			a = go.a;
 			DetailColor = go.Render.DetailColor;
 			FgColor = ColorUtility.StripBackgroundFormatting(go.Render.ColorString);
