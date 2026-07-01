@@ -121,8 +121,13 @@ namespace XRL.World.Parts {
 			SetDescription(fe);
 			SetDisplayName(fe);
             
-            if (Foil)
-                ParentObject.RequirePart<UD_AnimatedMaterialFoil>();
+      if (Foil)
+          ParentObject.RequirePart<UD_AnimatedMaterialFoil>();
+          
+      if (fe.IsLovely)
+          ParentObject.RequirePart<Lovely>();
+      else
+          ParentObject.RemovePart<Lovely>();
 		}
 
 		private void NonBlueprintVariance(FactionEntity fe) {
