@@ -34,18 +34,29 @@ namespace XRL.World.Parts {
 			return base.HandleEvent(e);
 		}
 
-		public override bool HandleEvent(ObjectCreatedEvent e) {
-			if (Starter) {
-				Faction = null;
-				ParentObject.DisplayName = "Salt Shuffle starter deck";
-			} else {
-				OverrideFaction(FactionTracker.GetRandomFaction());
-			}
+        public override bool HandleEvent(ObjectCreatedEvent e) {
+            _ = ParentObject.BaseID; // forces the ID to be generated at the point of object creation.
+            if (Starter) {
+                Faction = null;
+                ParentObject.DisplayName = "Salt Shuffle starter deck";
+            } else {
+                // this allows for object blueprints that inherit from Plaidman_SSR_Booster to specify a faction
+                if (Faction.IsNullOrEmpty())
+                    Faction = FactionTracker.GetRandomFaction(ParentObject.GetSeededRandom("Plaidman.SaltShuffleRevival.Booster"));
+                else
+                    Faction = FactionTracker.ClosestFaction(Faction);
+                OverrideFaction(Faction);
+            }
 
-			return base.HandleEvent(e);
-		}
+            return base.HandleEvent(e);
+        }
 
-		public void OverrideFaction(string faction) {
+        // forces no stacking
+        public override bool SameAs(IPart p)
+            => false
+            ;
+
+        public void OverrideFaction(string faction) {
 			Faction = faction;
 			ParentObject.DisplayName = "pack of Salt Shuffle cards: " + Factions.Get(faction).DisplayName;
 		}
@@ -55,7 +66,7 @@ namespace XRL.World.Parts {
 				Name: "Unwrap",
 				Key: 'o',
 				FireOnActor: false,
-				Display: "{{W|o}}pen",
+				Display: "open",
 				Command: "InvCommandUnwrap",
 				Default: 2
 			);
@@ -77,12 +88,14 @@ namespace XRL.World.Parts {
 			var additionalCards = Event.NewGameObjectList();
 			var allCards = Event.NewGameObjectList();
 
-			GameObject firstCard = null;
+            var rnd = ParentObject.GetSeededRandom($"Plaidman.SaltShuffleRevival.InvCommandUnwrap");
+
+            GameObject firstCard = null;
 			var qty = Starter ? 12 : 5;
 			for (int i = 0; i < qty; i++) {
 				var card = Starter
-					? SSR_Card.CreateCard()
-					: SSR_Card.CreateCard(Faction);
+					? SSR_Card.CreateCard(rnd)
+					: SSR_Card.CreateCard(Faction, rnd);
 
 				if (i > 0)
 					firstCard = card;

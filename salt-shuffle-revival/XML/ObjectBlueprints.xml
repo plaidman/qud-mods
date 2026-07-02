@@ -1,54 +1,48 @@
 <objects>
-	<object Name="Plaidman_SSR_Booster" Inherits="Item">
-		<part Name="Render" Tile="items/SSR_Booster.png" DetailColor="O" ColorString="&amp;C" />
-		<part Name="Physics" Weight="1" Category="Trading Cards" />
-		<part Name="SSR_BoosterPack" />
-		<part Name="Description" Short="A pack of five Salt Shuffle cards, all belonging to one specific faction." />
-		<part Name="Commerce" Value="6" />
-		<part Name="NoRust" />
-	</object>
-	<object Name="Plaidman_SSR_Starter" Inherits="Item">
-		<part Name="Render" Tile="items/SSR_Booster.png" DetailColor="W" ColorString="&amp;y" />
-		<part Name="Physics" Weight="1" Category="Trading Cards" />
-		<part Name="SSR_BoosterPack" Starter="true" />
-		<part Name="Description" Short="A pack of twelve random Salt Shuffle cards, enough to get started playing the game." />
-		<part Name="Commerce" Value="0" />
-		<part Name="NoRust" />
-	</object>
-	<object Name="Plaidman_SSR_Card" Inherits="Item">
-		<part Name="Render" Tile="items/SSR_Card.png" DetailColor="M" ColorString="&amp;c" />
-		<part Name="SSR_Card" />
-		<part Name="Description" Short="A Salt Shuffle card. Fingerprint smudges make it hard to read." />
-		<part Name="Physics" Weight="0" Category="Trading Cards" />
-		<part Name="Commerce" Value="1" />
-		<tag Name="ExcludeFromDynamicEncounters" />
-		<tag Name="NoSparkingQuest" />
-		<part Name="NoRust" />
-	</object>
-	<object Name="Plaidman_SSR_CardPouch" Inherits="Chest">
-		<part Name="Description" Short="A small leather reusable pouch perfectly sized to store Salt Shuffle cards. There is a small spot of blood on the flap." />
-		<part Name="Render" Tile="items/SSR_Booster.png" DetailColor="o" ColorString="&amp;g" DisplayName="Salt Shuffle card pouch" />
-		<part Name="RandomColors" MainColor="r,o,w,g,b,c,m" DetailColor="R,O,W,G,B,C,M" />
-		<part Name="Physics" Weight="1" Category="Trading Cards" />
-		<tag Name="ExcludeFromDynamicEncounters" />
-		<tag Name="NoSparkingQuest" />
-	</object>
-	<object Name="Plaidman_SSR_BoosterBox" Inherits="Chest">
-		<part Name="Description" Short="A box of ten assorted Salt Shuffle card packs." />
-		<part Name="Render" DisplayName="Salt Shuffle booster box" />
-		<part Name="Physics" Weight="1" Category="Trading Cards" />
-		<!-- Number="10" generates 10x of the same faction -->
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<inventoryobject Blueprint="Plaidman_SSR_Booster" Number="1" />
-		<tag Name="ExcludeFromDynamicEncounters" />
-		<tag Name="NoSparkingQuest" />
-	</object>
+  <object Name="Plaidman_SSR_Booster" Inherits="Item">
+    <part Name="Render" Tile="items/SSR_Booster.png" DetailColor="O" ColorString="&amp;C" />
+    <part Name="Physics" Weight="1" Category="Trading Cards" />
+    <part Name="SSR_BoosterPack" />
+    <part Name="Description" Short="A pack of five Salt Shuffle cards, all belonging to one specific faction." />
+    <part Name="Commerce" Value="6" />
+    <part Name="NoRust" />
+    <intproperty Name="NeverStack" Value="1" />
+  </object>
+  <object Name="Plaidman_SSR_Starter" Inherits="Item">
+    <part Name="Render" Tile="items/SSR_Booster.png" DetailColor="W" ColorString="&amp;y" />
+    <part Name="Physics" Weight="1" Category="Trading Cards" />
+    <part Name="SSR_BoosterPack" Starter="true" />
+    <part Name="Description" Short="A pack of twelve random Salt Shuffle cards, enough to get started playing the game." />
+    <part Name="Commerce" Value="0" />
+    <part Name="NoRust" />
+    <intproperty Name="NeverStack" Value="1" />
+  </object>
+  <object Name="Plaidman_SSR_Card" Inherits="Item">
+    <part Name="Render" Tile="items/SSR_Card.png" DetailColor="M" ColorString="&amp;c" />
+    <part Name="SSR_Card" />
+    <part Name="Description" Short="A Salt Shuffle card. Fingerprint smudges make it hard to read." />
+    <part Name="Physics" Weight="0" Category="Trading Cards" />
+    <part Name="Commerce" Value="1" />
+    <tag Name="ExcludeFromDynamicEncounters" />
+    <tag Name="NoSparkingQuest" />
+    <part Name="NoRust" />
+    <intproperty Name="NeverStack" Value="1" />
+  </object>
+  <object Name="Plaidman_SSR_CardPouch" Inherits="Chest">
+    <part Name="Description" Short="A small leather reusable pouch perfectly sized to store Salt Shuffle cards. There is a small spot of blood on the flap." />
+    <part Name="Render" Tile="items/SSR_Booster.png" DetailColor="o" ColorString="&amp;g" DisplayName="Salt Shuffle card pouch" />
+    <part Name="RandomColors" MainColor="r,o,w,g,b,c,m" DetailColor="R,O,W,G,B,C,M" />
+    <part Name="Physics" Weight="1" Category="Trading Cards" />
+    <tag Name="ExcludeFromDynamicEncounters" />
+    <tag Name="NoSparkingQuest" />
+    <intproperty Name="NeverStack" Value="1" />
+  </object>
+  <object Name="Plaidman_SSR_BoosterBox" Inherits="Chest">
+    <part Name="Description" Short="A box of ten assorted Salt Shuffle card packs." />
+    <part Name="Render" DisplayName="Salt Shuffle booster box" />
+    <part Name="Physics" Weight="1" Category="Trading Cards" />
+    <inventoryobject Blueprint="Plaidman_SSR_Booster" Number="10" />
+    <tag Name="ExcludeFromDynamicEncounters" />
+    <tag Name="NoSparkingQuest" />
+  </object>
 </objects>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using XRL;
 using XRL.Language;
+using XRL.Rules;
 using XRL.UI;
 using XRL.World;
 using XRL.World.Parts;
@@ -15,9 +16,9 @@ namespace Plaidman.SaltShuffleRevival {
 		}
 	}
 
-	[Serializable]
+    [Serializable]
 	class FactionTracker : IPlayerSystem {
-		[NonSerialized]
+        [NonSerialized]
 		private static FactionTracker Instance;
 		[NonSerialized]
 		const string UninstallCommand = "Plaidman_SaltShuffleRevival_Command_Uninstall";
@@ -47,6 +48,25 @@ namespace Plaidman.SaltShuffleRevival {
 					.ToList();
 				FactionMemberCache.Add(faction.Name, factionMembers);
 			}
+
+            // check the zone object cache for entities to add
+            if (The.ZoneManager?.CachedObjects is Dictionary<string, GameObject> cachedObjects) {
+                foreach (var cachedObject in cachedObjects.Values) {
+                    if (GetCreatureFactions(cachedObject).Count > 0) {
+                        var entity = new FactionEntity(cachedObject, false);
+
+                        foreach (var faction in entity.Factions) {
+                            if (!FactionMemberCache.TryGetValue(faction, out List<FactionEntity> factionMembers)) {;
+                                FactionMemberCache.Add(faction, factionMembers = new());
+                            }
+
+                            if (factionMembers.Any(member => member.Equals(entity))) continue;
+
+                            factionMembers.Add(entity);
+                        }
+                    }
+                }
+            }
 		}
 
 		public override void Register(XRLGame game, IEventRegistrar registrar) {
@@ -151,16 +171,18 @@ namespace Plaidman.SaltShuffleRevival {
 			return closest;
 		}
 
-		public static string GetRandomFaction() {
-			return GetNonEmptyFactions().GetRandomElementCosmetic();
-		}
+        public static string GetRandomFaction(Random Rnd = null) {
+            Rnd ??= Stat.Rnd2;
+            return GetNonEmptyFactions().GetRandomElement(Rnd);
+        }
 
-		public static FactionEntity GetRandomCreature(string faction = null) {
-			faction ??= GetRandomFaction();
-			return GetFactionMembers(faction).GetRandomElementCosmetic().GetCreature();
-		}
+        public static FactionEntity GetRandomCreature(string faction = null, Random Rnd = null) {
+            Rnd ??= Stat.Rnd2;
+            faction ??= GetRandomFaction(Rnd);
+            return GetFactionMembers(faction).GetRandomElement(Rnd).GetCreature();
+        }
 
-		public static List<string> GetCreatureFactions(GameObject go) {
+        public static List<string> GetCreatureFactions(GameObject go) {
 			if (go.Brain == null) return new();
 
 			return go.Brain.Allegiance

@@ -47,39 +47,47 @@ namespace XRL.World.Parts {
 			return base.HandleEvent(e);
 		}
 
-		public override bool HandleEvent(ObjectCreatedEvent e) {
-			ParentObject.SetIntProperty("NeverStack", 1);
-			return base.HandleEvent(e);
-		}
+        public override bool HandleEvent(ObjectCreatedEvent e) {
+            _ = ParentObject.BaseID; // forces the ID to be generated at the point of object creation.
+            return base.HandleEvent(e);
+        }
 
-		// opening a starter deck
-		public static GameObject CreateCard() {
-			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
-			var part = card.GetPart<SSR_Card>();
-			part.SetCreature(FactionTracker.GetRandomCreature());
-			return card;
-		}
+        // forces no stacking
+        public override bool SameAs(IPart p)
+            => false
+            ;
 
-		// opening a booster and generate a deck for an opponent
-		public static GameObject CreateCard(string faction) {
-			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
-			var part = card.GetPart<SSR_Card>();
-			part.SetCreature(FactionTracker.GetRandomCreature(faction));
-			return card;
-		}
+        // opening a starter deck
+        public static GameObject CreateCard(Random Rnd = null) {
+            var card = GameObject.Create("Plaidman_SSR_Card", Context: "Plaidman.SaltShuffleRevival.StarterDeck");
+            var part = card.GetPart<SSR_Card>();
+            Rnd ??= card.GetSeededRandom($"Plaidman.SaltShuffleRevival.{nameof(CreateCard)}");
+            part.SetCreature(FactionTracker.GetRandomCreature(Rnd: Rnd));
+            return card;
+        }
 
-		// when the opponent is bested in card combat
-		public static GameObject CreateCard(GameObject go) {
-			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
-			var part = card.GetPart<SSR_Card>();
-			part.SetCreature(new FactionEntity(go, false));
-			return card;
-		}
+        // opening a booster and generate a deck for an opponent
+        public static GameObject CreateCard(string faction, Random Rnd = null) {
+            var card = GameObject.Create("Plaidman_SSR_Card", Context: $"Plaidman.SaltShuffleRevival.Booster::{faction}");
+            var part = card.GetPart<SSR_Card>();
+            Rnd ??= card.GetSeededRandom($"Plaidman.SaltShuffleRevival.{nameof(CreateCard)}.{faction}");
+            part.SetCreature(FactionTracker.GetRandomCreature(faction, Rnd: Rnd));
+            return card;
+        }
 
-		private void SetCreature(FactionEntity fe) {
-			fe ??= FactionTracker.GetRandomCreature();
+        // when the opponent is bested in card combat
+        public static GameObject CreateCard(GameObject go) {
+            var card = GameObject.Create("Plaidman_SSR_Card", Context: $"Plaidman.SaltShuffleRevival.Victory::{go.BaseID}");
+            var part = card.GetPart<SSR_Card>();
+            part.SetCreature(new FactionEntity(go, false));
+            return card;
+        }
 
-			float sunScore = 2;
+        private void SetCreature(FactionEntity fe) {
+            var rnd = ParentObject.GetSeededRandom($"Plaidman.SaltShuffleRevival.{nameof(SSR_Card)}.{nameof(SetCreature)}");
+            fe ??= FactionTracker.GetRandomCreature(Rnd: rnd);
+
+            float sunScore = 2;
 			float moonScore = 2;
 			float starScore = 2;
 
@@ -104,90 +112,97 @@ namespace XRL.World.Parts {
 			int error = xpLevel - (SunScore + MoonScore + StarScore);
 			SunScore += error;
 
-			if (Stat.Rnd2.Next(10) == 0) Foil = true;
-			NonBlueprintVariance(fe);
-			BoostLowLevel();
-			BoostFoil();
+            Foil = rnd.Next(10) == 0;
 
-			if (fe.IsBaetyl) {
-				SunScore = -5;
-				MoonScore = -5;
-				StarScore = -5;
-			}
+            NonBlueprintVariance(fe, rnd);
+            BoostLowLevel(rnd);
+            BoostFoil(rnd);
 
-			PointValue = SunScore + MoonScore + StarScore;
+            if (fe.IsBaetyl) {
+                SunScore = -5;
+                MoonScore = -5;
+                StarScore = -5;
+            }
 
-			SetColors(fe);
-			SetDescription(fe);
-			SetDisplayName(fe);
-            
+            PointValue = SunScore + MoonScore + StarScore;
+
+            SetColors(fe);
+            SetDescription(fe);
+            SetDisplayName(fe);
+
             if (fe.IsLovely)
                 ParentObject.RequirePart<Lovely>();
             else
                 ParentObject.RemovePart<Lovely>();
-		}
+        }
 
-		private void NonBlueprintVariance(FactionEntity fe) {
-			if (fe.FromBlueprint) return;
+        private void NonBlueprintVariance(FactionEntity fe, Random Rnd = null) {
+            if (fe.FromBlueprint) return;
 
-			// blueprint entities have some natural variance in their dice rolls
-			// FEs that are generated from GOs are set in stone, so we artificially add some variance
-			// adjust each stat by 2d3 - 2 => -2,-1,-1,0,0,0,1,1,2
-			// if that would reduce the stat to zero or less, just use the old stat
+            // blueprint entities have some natural variance in their dice rolls
+            // FEs that are generated from GOs are set in stone, so we artificially add some variance
+            // adjust each stat by 2d3 - 2 => -2,-1,-1,0,0,0,1,1,2
+            // if that would reduce the stat to zero or less, just use the old stat
 
-			var oldMoon = MoonScore;
-			MoonScore += Stat.Rnd2.Next(3) + Stat.Rnd2.Next(3) - 2;
-			if (MoonScore < 1) MoonScore = oldMoon;
+            Rnd ??= Stat.Rnd2;
 
-			var oldStar = StarScore;
-			StarScore += Stat.Rnd2.Next(3) + Stat.Rnd2.Next(3) - 2;
-			if (StarScore < 1) StarScore = oldStar;
+            var oldMoon = MoonScore;
+            MoonScore += Rnd.Next(3) + Rnd.Next(3) - 2;
+            if (MoonScore < 1) MoonScore = oldMoon;
 
-			var oldSun = SunScore;
-			SunScore += Stat.Rnd2.Next(3) + Stat.Rnd2.Next(3) - 2;
-			if (SunScore < 1) SunScore = oldSun;
-		}
+            var oldStar = StarScore;
+            StarScore += Rnd.Next(3) + Rnd.Next(3) - 2;
+            if (StarScore < 1) StarScore = oldStar;
 
-		// make low level cards more interesting by boosting a couple stats
-		// some get 3 or 4 points in a single stat
-		// some get 4 then 2, and some get 3 then 2
-		private void BoostLowLevel() {
-			const int LowLevel = 8;
-			if (MoonScore + StarScore + SunScore >= LowLevel) return;
+            var oldSun = SunScore;
+            SunScore += Rnd.Next(3) + Rnd.Next(3) - 2;
+            if (SunScore < 1) SunScore = oldSun;
+        }
 
-			var times = Stat.Rnd2.Next(2) + Stat.Rnd2.Next(2); // 2d2-2 = distribution 0,1,1,2
-			var boost = Stat.Rnd2.Next(2) + 3; // start with 3 or 4 point boost
-			for (int i = 0; i < times; i++) {
-				var stat = Stat.Rnd2.Next(3);
-				BoostStat(stat, boost);
+        // make low level cards more interesting by boosting a couple stats
+        // some get 3 or 4 points in a single stat
+        // some get 4 then 2, and some get 3 then 2
+        private void BoostLowLevel(Random Rnd = null) {
+            const int LowLevel = 8;
+            if (MoonScore + StarScore + SunScore >= LowLevel) return;
 
-				// second loop will always boost a stat by 2
-				boost = 2;
-			}
-		}
+            Rnd ??= Stat.Rnd2;
 
-		private void BoostFoil() {
-			if (!Foil) return;
+            var times = Rnd.Next(2) + Rnd.Next(2); // 2d2-2 = distribution 0,1,1,2
+            var boost = Rnd.Next(2) + 3; // start with 3 or 4 point boost
+            for (int i = 0; i < times; i++) {
+                var stat = Rnd.Next(3);
+                BoostStat(stat, boost);
 
-			var first = Stat.Rnd2.Next(3);
-			var second = Stat.Rnd2.Next(2);
-			if (second == first) {
-				second = 2; // 0 => 2/1, 1 => 0/2, 2 => 0/1
-			}
+                // second loop will always boost a stat by 2
+                boost = 2;
+            }
+        }
 
-			BoostStat(first, 2);
-			BoostStat(second, 1);
-		}
+        private void BoostFoil(Random Rnd = null) {
+            if (!Foil) return;
 
-		private void BoostStat(int stat, int boost) {
-			switch (stat) {
-				case 0: MoonScore += boost; break;
-				case 1: SunScore += boost; break;
-				case 2: StarScore += boost; break;
-			}
-		}
+            Rnd ??= Stat.Rnd2;
 
-		private void SetColors(FactionEntity fe) {
+            var first = Rnd.Next(3);
+            var second = Rnd.Next(2);
+            if (second == first) {
+                second = 2; // 0 => 2/1, 1 => 0/2, 2 => 0/1
+            }
+
+            BoostStat(first, 2);
+            BoostStat(second, 1);
+        }
+
+        private void BoostStat(int stat, int boost) {
+            switch (stat) {
+                case 0: MoonScore += boost; break;
+                case 1: SunScore += boost; break;
+                case 2: StarScore += boost; break;
+            }
+        }
+
+        private void SetColors(FactionEntity fe) {
 			ParentObject.Render.ColorString = fe.FgColor;
 			ParentObject.Render.DetailColor = fe.DetailColor;
 		}
