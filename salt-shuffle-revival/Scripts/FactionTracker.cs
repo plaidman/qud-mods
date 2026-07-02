@@ -16,9 +16,9 @@ namespace Plaidman.SaltShuffleRevival {
 		}
 	}
 
-	[Serializable]
+    [Serializable]
 	class FactionTracker : IPlayerSystem {
-		[NonSerialized]
+        [NonSerialized]
 		private static FactionTracker Instance;
 		[NonSerialized]
 		const string UninstallCommand = "Plaidman_SaltShuffleRevival_Command_Uninstall";
@@ -53,11 +53,21 @@ namespace Plaidman.SaltShuffleRevival {
             if (The.ZoneManager?.CachedObjects is Dictionary<string, GameObject> cachedObjects) {
                 foreach (var cachedObject in cachedObjects.Values) {
                     if (GetCreatureFactions(cachedObject).Count > 0) {
-                        AddFactionMember(cachedObject);
+                        var entity = new FactionEntity(cachedObject, false);
+
+                        foreach (var faction in entity.Factions) {
+                            if (!FactionMemberCache.TryGetValue(faction, out List<FactionEntity> factionMembers)) {;
+                                FactionMemberCache.Add(faction, factionMembers = new());
+                            }
+
+                            if (factionMembers.Any(member => member.Equals(entity))) continue;
+
+                            factionMembers.Add(entity);
+                        }
                     }
                 }
             }
-        }
+		}
 
 		public override void Register(XRLGame game, IEventRegistrar registrar) {
 			registrar.Register(AfterZoneBuiltEvent.ID);
