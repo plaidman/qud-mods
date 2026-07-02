@@ -89,12 +89,14 @@ namespace XRL.World.Parts {
 			var additionalCards = Event.NewGameObjectList();
 			var allCards = Event.NewGameObjectList();
 
-			GameObject firstCard = null;
+            var rnd = ParentObject.GetSeededRandom($"Plaidman.SaltShuffleRevival.InvCommandUnwrap");
+
+            GameObject firstCard = null;
 			var qty = Starter ? 12 : 5;
 			for (int i = 0; i < qty; i++) {
 				var card = Starter
-					? SSR_Card.CreateCard()
-					: SSR_Card.CreateCard(Faction);
+					? SSR_Card.CreateCard(rnd)
+					: SSR_Card.CreateCard(Faction, rnd);
 
 				if (i > 0)
 					firstCard = card;
