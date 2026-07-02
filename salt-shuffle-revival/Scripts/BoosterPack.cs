@@ -55,7 +55,7 @@ namespace XRL.World.Parts {
 				Name: "Unwrap",
 				Key: 'o',
 				FireOnActor: false,
-				Display: "{{W|o}}pen",
+				Display: "open",
 				Command: "InvCommandUnwrap",
 				Default: 2
 			);
