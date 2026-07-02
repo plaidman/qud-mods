@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using XRL;
 using XRL.Language;
+using XRL.Rules;
 using XRL.UI;
 using XRL.World;
 using XRL.World.Parts;
@@ -151,16 +152,18 @@ namespace Plaidman.SaltShuffleRevival {
 			return closest;
 		}
 
-		public static string GetRandomFaction() {
-			return GetNonEmptyFactions().GetRandomElementCosmetic();
-		}
+        public static string GetRandomFaction(Random Rnd = null) {
+            Rnd ??= Stat.Rnd2;
+            return GetNonEmptyFactions().GetRandomElement(Rnd);
+        }
 
-		public static FactionEntity GetRandomCreature(string faction = null) {
-			faction ??= GetRandomFaction();
-			return GetFactionMembers(faction).GetRandomElementCosmetic().GetCreature();
-		}
+        public static FactionEntity GetRandomCreature(string faction = null, Random Rnd = null) {
+            Rnd ??= Stat.Rnd2;
+            faction ??= GetRandomFaction(Rnd);
+            return GetFactionMembers(faction).GetRandomElement(Rnd).GetCreature();
+        }
 
-		public static List<string> GetCreatureFactions(GameObject go) {
+        public static List<string> GetCreatureFactions(GameObject go) {
 			if (go.Brain == null) return new();
 
 			return go.Brain.Allegiance
