@@ -6,6 +6,7 @@
 		<part Name="Description" Short="A pack of five Salt Shuffle cards, all belonging to one specific faction." />
 		<part Name="Commerce" Value="6" />
 		<part Name="NoRust" />
+    <intproperty Name="NeverStack" Value="1" />
 	</object>
 	<object Name="Plaidman_SSR_Starter" Inherits="Item">
 		<part Name="Render" Tile="items/SSR_Booster.png" DetailColor="W" ColorString="&amp;y" />
@@ -14,6 +15,7 @@
 		<part Name="Description" Short="A pack of twelve random Salt Shuffle cards, enough to get started playing the game." />
 		<part Name="Commerce" Value="0" />
 		<part Name="NoRust" />
+    <intproperty Name="NeverStack" Value="1" />
 	</object>
 	<object Name="Plaidman_SSR_Card" Inherits="Item">
 		<part Name="Render" Tile="items/SSR_Card.png" DetailColor="M" ColorString="&amp;c" />
@@ -24,6 +26,7 @@
 		<tag Name="ExcludeFromDynamicEncounters" />
 		<tag Name="NoSparkingQuest" />
 		<part Name="NoRust" />
+    <intproperty Name="NeverStack" Value="1" />
 	</object>
 	<object Name="Plaidman_SSR_CardPouch" Inherits="Chest">
 		<part Name="Description" Short="A small leather reusable pouch perfectly sized to store Salt Shuffle cards. There is a small spot of blood on the flap." />
@@ -32,6 +35,7 @@
 		<part Name="Physics" Weight="1" Category="Trading Cards" />
 		<tag Name="ExcludeFromDynamicEncounters" />
 		<tag Name="NoSparkingQuest" />
+    <intproperty Name="NeverStack" Value="1" />
 	</object>
 	<object Name="Plaidman_SSR_BoosterBox" Inherits="Chest">
 		<part Name="Description" Short="A box of ten assorted Salt Shuffle card packs." />

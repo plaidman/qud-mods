@@ -35,6 +35,7 @@ namespace XRL.World.Parts {
 		}
 
 		public override bool HandleEvent(ObjectCreatedEvent e) {
+            // ParentObject.SetIntProperty("NeverStack", 1);
 			if (Starter) {
 				Faction = null;
 				ParentObject.DisplayName = "Salt Shuffle starter deck";
@@ -44,6 +45,11 @@ namespace XRL.World.Parts {
 
 			return base.HandleEvent(e);
 		}
+
+        // forces no stacking
+        public override bool SameAs(IPart p)
+            => false
+            ;
 
 		public void OverrideFaction(string faction) {
 			Faction = faction;

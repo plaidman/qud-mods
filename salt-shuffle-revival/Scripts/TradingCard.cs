@@ -49,8 +49,14 @@ namespace XRL.World.Parts {
 
 		public override bool HandleEvent(ObjectCreatedEvent e) {
 			ParentObject.SetIntProperty("NeverStack", 1);
+            // ParentObject.SetIntProperty("NeverStack", 1); // trying this in the object blueprint
 			return base.HandleEvent(e);
 		}
+
+        // forces no stacking
+        public override bool SameAs(IPart p)
+            => false
+            ;
 
 		// opening a starter deck
 		public static GameObject CreateCard() {
