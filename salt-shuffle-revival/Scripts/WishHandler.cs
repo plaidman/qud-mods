@@ -18,11 +18,11 @@ namespace XRL.Wish {
 					break;
 
 				case "starter":
-					The.Player.TakeObject(GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Starter"));
+					The.Player.TakeObject(GameObject.Create("Plaidman_SSR_Starter", Context: "Wish"));
 					break;
 
 				case "box":
-					The.Player.TakeObject(GameObjectFactory.Factory.CreateObject("Plaidman_SSR_BoosterBox"));
+					The.Player.TakeObject(GameObject.Create("Plaidman_SSR_BoosterBox", Context: "Wish"));
 					break;
 
 				default:
@@ -33,13 +33,12 @@ namespace XRL.Wish {
 
 		private void ParseFaction(string faction) {
 			if (faction.ToLower() == "box") {
-				The.Player.TakeObject(GameObjectFactory.Factory.CreateObject("Plaidman_SSR_BoosterBox"));
+				The.Player.TakeObject(GameObject.Create("Plaidman_SSR_BoosterBox", Context: "Wish"));
 				return;
 			}
 
-			var closest = FactionTracker.ClosestFaction(faction);
-			var go = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Booster");
-			go.GetPart<SSR_BoosterPack>().OverrideFaction(closest);
+			var go = GameObject.Create("Plaidman_SSR_Booster", Context: "Wish");
+			go.GetPart<SSR_BoosterPack>().OverrideFaction(FactionTracker.ClosestFaction(faction));
 			The.Player.TakeObject(go);
 		}
 	}

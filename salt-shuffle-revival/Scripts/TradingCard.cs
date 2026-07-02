@@ -48,7 +48,7 @@ namespace XRL.World.Parts {
 		}
 
 		public override bool HandleEvent(ObjectCreatedEvent e) {
-			ParentObject.SetIntProperty("NeverStack", 1);
+            _ = ParentObject.BaseID; // forces the ID to be generated at the point of object creation.
             // ParentObject.SetIntProperty("NeverStack", 1); // trying this in the object blueprint
 			return base.HandleEvent(e);
 		}
@@ -60,7 +60,7 @@ namespace XRL.World.Parts {
 
 		// opening a starter deck
 		public static GameObject CreateCard() {
-			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
+            var card = GameObject.Create("Plaidman_SSR_Card", Context: "Plaidman.SaltShuffleRevival.StarterDeck");
 			var part = card.GetPart<SSR_Card>();
 			part.SetCreature(FactionTracker.GetRandomCreature());
 			return card;
@@ -68,7 +68,7 @@ namespace XRL.World.Parts {
 
 		// opening a booster and generate a deck for an opponent
 		public static GameObject CreateCard(string faction) {
-			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
+            var card = GameObject.Create("Plaidman_SSR_Card", Context: $"Plaidman.SaltShuffleRevival.Booster::{faction}");
 			var part = card.GetPart<SSR_Card>();
 			part.SetCreature(FactionTracker.GetRandomCreature(faction));
 			return card;
@@ -76,7 +76,7 @@ namespace XRL.World.Parts {
 
 		// when the opponent is bested in card combat
 		public static GameObject CreateCard(GameObject go) {
-			var card = GameObjectFactory.Factory.CreateObject("Plaidman_SSR_Card");
+            var card = GameObject.Create("Plaidman_SSR_Card", Context: $"Plaidman.SaltShuffleRevival.Victory::{go.BaseID}");
 			var part = card.GetPart<SSR_Card>();
 			part.SetCreature(new FactionEntity(go, false));
 			return card;

@@ -67,12 +67,15 @@ namespace Plaidman.SaltShuffleRevival {
 				// traipsing mortar was having issues getting description in game init, so we just default to the non-minevented short description
 				Desc = ColorUtility.StripFormatting(go.GetPart<Description>()._Short);
 			}
+
+            // if the game object was created explicitly to create this FE, it should be tidied up
+            if (FromBlueprint) go.Obliterate();
 		}
 
 		public FactionEntity GetCreature() {
 			if (Blueprint != null) {
 				// create a new FE based on a GO so we can take advantage of BP dice rolls for stats
-				return new(GameObjectFactory.Factory.CreateSampleObject(Blueprint), true);
+                return new(GameObject.Create(Blueprint, Context: $"Plaidman.SaltShuffleRevival.{nameof(FactionEntity)}"), true);
 			}
 
 			return this;
