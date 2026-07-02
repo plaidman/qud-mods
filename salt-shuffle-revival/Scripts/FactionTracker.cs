@@ -48,7 +48,16 @@ namespace Plaidman.SaltShuffleRevival {
 					.ToList();
 				FactionMemberCache.Add(faction.Name, factionMembers);
 			}
-		}
+
+            // check the zone object cache for entities to add
+            if (The.ZoneManager?.CachedObjects is Dictionary<string, GameObject> cachedObjects) {
+                foreach (var cachedObject in cachedObjects.Values) {
+                    if (GetCreatureFactions(cachedObject).Count > 0) {
+                        AddFactionMember(cachedObject);
+                    }
+                }
+            }
+        }
 
 		public override void Register(XRLGame game, IEventRegistrar registrar) {
 			registrar.Register(AfterZoneBuiltEvent.ID);
