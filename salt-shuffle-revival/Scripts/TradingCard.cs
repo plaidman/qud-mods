@@ -85,7 +85,7 @@ namespace XRL.World.Parts {
         }
 
         private void SetCreature(FactionEntity fe) {
-            var rnd = ParentObject.GetSeededRandom($"Plaidman.SaltShuffleRevival.{nameof(FactionEntity)}");
+            var rnd = ParentObject.GetSeededRandom($"Plaidman.SaltShuffleRevival.{nameof(SSR_Card)}.{nameof(SetCreature)}");
             fe ??= FactionTracker.GetRandomCreature(Rnd: rnd);
 
             float sunScore = 2;
