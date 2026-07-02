@@ -54,10 +54,8 @@ namespace Plaidman.SaltShuffleRevival {
             
 			var part = creature.AddPart<SSR_CardPouch>();
 			part.Cards = new(12);
-			for(int i = 0; i < 12; i++) {
+			for(int i = 0; i < part.Cards.Capacity; i++) {
 				part.Cards.Add(SSR_Card.CreateCard(factions.GetRandomElement(rnd), rnd));
-				var card = SSR_Card.CreateCard(faction);
-				part.Cards.Add(card);
 			}
 		}
 	}
