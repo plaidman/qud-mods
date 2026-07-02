@@ -34,25 +34,30 @@ namespace XRL.World.Parts {
 			return base.HandleEvent(e);
 		}
 
-		public override bool HandleEvent(ObjectCreatedEvent e) {
+        public override bool HandleEvent(ObjectCreatedEvent e) {
             _ = ParentObject.BaseID; // forces the ID to be generated at the point of object creation.
             // ParentObject.SetIntProperty("NeverStack", 1);
-			if (Starter) {
-				Faction = null;
-				ParentObject.DisplayName = "Salt Shuffle starter deck";
-			} else {
-				OverrideFaction(FactionTracker.GetRandomFaction());
-			}
+            if (Starter) {
+                Faction = null;
+                ParentObject.DisplayName = "Salt Shuffle starter deck";
+            } else {
+                // this allows for object blueprints that inherit from Plaidman_SSR_Booster to specify a faction
+                if (Faction.IsNullOrEmpty())
+                    Faction = FactionTracker.GetRandomFaction(ParentObject.GetSeededRandom("Plaidman.SaltShuffleRevival.Booster"));
+                else
+                    Faction = FactionTracker.ClosestFaction(Faction);
+                OverrideFaction(Faction);
+            }
 
-			return base.HandleEvent(e);
-		}
+            return base.HandleEvent(e);
+        }
 
         // forces no stacking
         public override bool SameAs(IPart p)
             => false
             ;
 
-		public void OverrideFaction(string faction) {
+        public void OverrideFaction(string faction) {
 			Faction = faction;
 			ParentObject.DisplayName = "pack of Salt Shuffle cards: " + Factions.Get(faction).DisplayName;
 		}
