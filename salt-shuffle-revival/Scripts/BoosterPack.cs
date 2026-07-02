@@ -36,7 +36,6 @@ namespace XRL.World.Parts {
 
         public override bool HandleEvent(ObjectCreatedEvent e) {
             _ = ParentObject.BaseID; // forces the ID to be generated at the point of object creation.
-            // ParentObject.SetIntProperty("NeverStack", 1);
             if (Starter) {
                 Faction = null;
                 ParentObject.DisplayName = "Salt Shuffle starter deck";
